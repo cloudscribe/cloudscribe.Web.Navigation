@@ -1,7 +1,7 @@
 {
   "version": "1.0.0-beta1",
   "title": "cloudscribe.Web.Navigation",
-  "description": "an ASP.NET 5 library of navigation components for menus, breadcrumbs, and bootstrap modal dialogs",
+  "description": "an ASP.NET 5 viewcomponent for menus and breadcrumbs",
   "authors": [ "Joe Audette" ],
   "owners": [ "Source Tree Solutions" ],
   "tags": [ "cloudscribe","mvc6","mvcsitemapprovider","navigation","menus","breadcrumbs" ],

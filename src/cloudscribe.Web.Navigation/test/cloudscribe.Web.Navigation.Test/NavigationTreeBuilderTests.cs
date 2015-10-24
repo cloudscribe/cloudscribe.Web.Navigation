@@ -28,12 +28,7 @@ namespace cloudscribe.Web.Navigation.Test
             this.output = output;
         }
 
-        [Fact]
-        public void Can_Serialize_To_Json()
-        {
-            Assert.True(!string.IsNullOrEmpty("foo"));
-        }
-
+        
         //[Fact]
         //public async Task Can_Serialize_To_Json()
         //{
