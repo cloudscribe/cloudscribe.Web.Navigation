@@ -4,13 +4,17 @@
   "description": "an ASP.NET 5 viewcomponent for menus and breadcrumbs",
   "authors": [ "Joe Audette" ],
   "owners": [ "Source Tree Solutions" ],
-  "tags": [ "cloudscribe","mvc6","mvcsitemapprovider","navigation","menus","breadcrumbs" ],
-  "projectUrl": "https://github.com/joeaudette/cloudscribe",
+  "tags": [ "cloudscribe","mvc6","mvcsitemapprovider","navigation","menus","breadcrumbs","bootstrap" ],
+  "projectUrl": "https://github.com/joeaudette/cloudscribe.Web.Navigation",
   "licenseUrl": "http://www.apache.org/licenses/LICENSE-2.0",
   "copyright": "2015 Source Tree Solutions",
-  "iconUrl": "http://download.mojoportal.com/images/cloudscribe-rocket-32.png",
+  "iconUrl": "https://raw.githubusercontent.com/joeaudette/cloudscribe.Web.Navigation/master/cloudscribe-icon-32.png",
   "requireLicenseAcceptance": false,
   "releaseNotes": "",
+  "packInclude": {
+    "content/": "content/**"
+  },
+  "content": [ "Views/Shared/*.cshtml", "Views/Shared/Components/Navigation/*.cshtml" ],
 
   "dependencies": {
     "Microsoft.AspNet.Mvc": "6.0.0-beta8",
