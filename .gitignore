@@ -195,3 +195,8 @@ FakesAssemblies/
 # Visual Studio 6 workspace options file
 *.opt
 src/cloudscribe.Web.Navigation/project.lock.json
+src/cloudscribe.Web.Navigation/src/cloudscribe.Web.Navigation/project.lock.json
+
+src/cloudscribe.Web.Navigation/src/NavigationDemo.Web/wwwroot/lib*
+src/cloudscribe.Web.Navigation/src/NavigationDemo.Web/wwwroot/js/*
+src/cloudscribe.Web.Navigation/src/NavigationDemo.Web/wwwroot/css/site.min.css
