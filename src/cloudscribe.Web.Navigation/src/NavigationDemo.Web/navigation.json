@@ -1,0 +1,33 @@
+{
+  "Value": {
+    "Key": "Home",
+    "ParentKey": "RootNode",
+    "Text": "Home",
+    "Controller": "Home",
+    "Action": "Index",
+    "IsRootNode": true
+  },
+  "Children": [
+    {
+      "Value": {
+        "Key": "About",
+        "ParentKey": "RootNode",
+        "Text": "About",
+        "Controller": "Home",
+        "Action": "About"
+      },
+      "Children": []
+    },
+    {
+      "Value": {
+        "Key": "Contact",
+        "ParentKey": "RootNode",
+        "Text": "Contact",
+        "Controller": "Home",
+        "Action": "Contact"
+      },
+      "Children": []
+    }
+    
+  ]
+}

@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Threading.Tasks;
 
-namespace NavigationDemo.Web.Services
-{
-    public interface IEmailSender
-    {
-        Task SendEmailAsync(string email, string subject, string message);
-    }
-}
+//namespace NavigationDemo.Web.Services
+//{
+//    public interface IEmailSender
+//    {
+//        Task SendEmailAsync(string email, string subject, string message);
+//    }
+//}

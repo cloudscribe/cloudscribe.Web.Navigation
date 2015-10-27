@@ -14,9 +14,11 @@ using Microsoft.Data.Entity;
 using Microsoft.Dnx.Runtime;
 using Microsoft.Framework.Configuration;
 using Microsoft.Framework.DependencyInjection;
+using Microsoft.Framework.DependencyInjection.Extensions;
 using Microsoft.Framework.Logging;
 using NavigationDemo.Web.Models;
-using NavigationDemo.Web.Services;
+using cloudscribe.Web.Navigation;
+//using NavigationDemo.Web.Services;
 
 namespace NavigationDemo.Web
 {
@@ -47,15 +49,34 @@ namespace NavigationDemo.Web
         public void ConfigureServices(IServiceCollection services)
         {
             // Add Entity Framework services to the services container.
-            services.AddEntityFramework()
-                .AddSqlServer()
-                .AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
+            //services.AddEntityFramework()
+            //    .AddSqlServer()
+            //    .AddDbContext<ApplicationDbContext>(options =>
+            //        options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
 
-            // Add Identity services to the services container.
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+            //// Add Identity services to the services container.
+            //services.AddIdentity<ApplicationUser, IdentityRole>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>()
+            //    .AddDefaultTokenProviders();
+
+
+            // you can use either json or xml to maintain your navigation map we provide examples of each navigation.xml and 
+            // navigation.json in the root of this project
+            // you can override the name of the file used with AppSettings:NavigationXmlFileName or AppSettings:NavigationJsonFileName in config.json
+            // the file must live in the root of the web project code not in wwwroot
+
+            // it is arguable which is easier for humans to read and maintain, myself I think for something like a navigation tree
+            // that could get large xml is easier to work with and not make mistakes. in json one missing or extra comma can break it
+            // granted xml can be broken by typos too but the end tags make it easier to keep track of where you are imho (JA)
+            //services.TryAddScoped<INavigationTreeBuilder, JsonNavigationTreeBuilder>();
+            //services.TryAddScoped<INavigationTreeBuilder, HardCodedNavigationTreeBuilder>();
+            services.TryAddScoped<INavigationTreeBuilder, XmlNavigationTreeBuilder>();
+            services.TryAddScoped<INodeUrlPrefixProvider, DefaultNodeUrlPrefixProvider>();
+            services.TryAddScoped<INavigationNodePermissionResolver, NavigationNodePermissionResolver>();
+            services.Configure<NavigationOptions>(Configuration.GetSection("NavigationOptions"));
+            services.Configure<DistributedCacheNavigationTreeBuilderOptions>(Configuration.GetSection("DistributedCacheNavigationTreeBuilderOptions"));
+            services.Configure<MemoryCacheNavigationTreeBuilderOptions>(Configuration.GetSection("MemoryCacheNavigationTreeBuilderOptions"));
+            services.TryAddScoped<INavigationCacheKeyResolver, DefaultNavigationCacheKeyResolver>();
 
             // Add MVC services to the services container.
             services.AddMvc();
@@ -65,8 +86,8 @@ namespace NavigationDemo.Web
             // services.AddWebApiConventions();
 
             // Register application services.
-            services.AddTransient<IEmailSender, AuthMessageSender>();
-            services.AddTransient<ISmsSender, AuthMessageSender>();
+            //services.AddTransient<IEmailSender, AuthMessageSender>();
+            //services.AddTransient<ISmsSender, AuthMessageSender>();
         }
 
         // Configure is called after ConfigureServices is called.
@@ -99,32 +120,8 @@ namespace NavigationDemo.Web
             app.UseStaticFiles();
 
             // Add cookie-based authentication to the request pipeline.
-            app.UseIdentity();
-
-            // Add and configure the options for authentication middleware to the request pipeline.
-            // You can add options for middleware as shown below.
-            // For more information see http://go.microsoft.com/fwlink/?LinkID=532715
-            //app.UseFacebookAuthentication(options =>
-            //{
-            //    options.AppId = Configuration["Authentication:Facebook:AppId"];
-            //    options.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-            //});
-            //app.UseGoogleAuthentication(options =>
-            //{
-            //    options.ClientId = Configuration["Authentication:Google:ClientId"];
-            //    options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
-            //});
-            //app.UseMicrosoftAccountAuthentication(options =>
-            //{
-            //    options.ClientId = Configuration["Authentication:MicrosoftAccount:ClientId"];
-            //    options.ClientSecret = Configuration["Authentication:MicrosoftAccount:ClientSecret"];
-            //});
-            //app.UseTwitterAuthentication(options =>
-            //{
-            //    options.ConsumerKey = Configuration["Authentication:Twitter:ConsumerKey"];
-            //    options.ConsumerSecret = Configuration["Authentication:Twitter:ConsumerSecret"];
-            //});
-
+           // app.UseIdentity();
+           
             // Add MVC to the request pipeline.
             app.UseMvc(routes =>
             {
