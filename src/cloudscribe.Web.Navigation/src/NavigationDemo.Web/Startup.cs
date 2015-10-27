@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Authentication.Facebook;
+using Microsoft.AspNet.Authentication.Cookies;
 using Microsoft.AspNet.Authentication.Google;
 using Microsoft.AspNet.Authentication.MicrosoftAccount;
 using Microsoft.AspNet.Authentication.Twitter;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Diagnostics.Entity;
 using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity;
 using Microsoft.Data.Entity;
 using Microsoft.Dnx.Runtime;
 using Microsoft.Framework.Configuration;
@@ -18,6 +18,7 @@ using Microsoft.Framework.DependencyInjection.Extensions;
 using Microsoft.Framework.Logging;
 using NavigationDemo.Web.Models;
 using cloudscribe.Web.Navigation;
+using Microsoft.AspNet.Http;
 //using NavigationDemo.Web.Services;
 
 namespace NavigationDemo.Web
@@ -120,8 +121,23 @@ namespace NavigationDemo.Web
             app.UseStaticFiles();
 
             // Add cookie-based authentication to the request pipeline.
-           // app.UseIdentity();
-           
+            // app.UseIdentity();
+
+            var ApplicationCookie = new CookieAuthenticationOptions
+            {
+                AuthenticationScheme = "application",
+                CookieName = "application",
+                AutomaticAuthentication = true,
+                LoginPath = new PathString("/FakeAccount/Index"),
+                Events = new CookieAuthenticationEvents
+                {
+                    //OnValidatePrincipal = SecurityStampValidator.ValidatePrincipalAsync
+                }
+            };
+
+            
+            app.UseCookieAuthentication(ApplicationCookie);
+
             // Add MVC to the request pipeline.
             app.UseMvc(routes =>
             {
