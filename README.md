@@ -88,10 +88,12 @@ For example if you started with the standard ASP.NET 5 project template, you wil
           @await Html.PartialAsync("_LoginPartial")
       </div>
   
-  That makes the top bootstrap naviation, now to add breadcrumbs put this in at the indicated spot:
+  That makes the top bootstrap navigation, now to add breadcrumbs put this in at the indicated spot:
   
       <div class="container body-content">
             @await Component.InvokeAsync("Navigation", "BootstrapBreadcrumbs", NamedNavigationFilters.Breadcrumbs)
             @RenderBody()
 
 The div and the @RenderBody() should already be there, you just add the middle part that invokes the breadcrumbs.
+
+The NavigationDemo.Web project will be updated to show more examples such as nodes filtered by roles, and a way to adjust breadcrumbs from a controller action. For now if you want to see a more advanced/detailed use of cloudscribe.Web.Navigation, you can study how it is being used in [cloudscribe.Core](https://github.com/joeaudette/cloudscribe).
