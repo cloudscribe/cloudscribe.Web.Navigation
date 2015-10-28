@@ -54,7 +54,7 @@ In your _ViewImports.cshtml file add:
 
     @using cloudscribe.Web.Navigation
 
-You also need an xml file to define the navigation nodes. This can go in the root folder of your web app (not in wwwroot)
+You also need an navigation.xml file to define the navigation nodes. This can go in the root folder of your web app (not in wwwroot)
 
     <?xml version="1.0" encoding="utf-16"?>
     <NavNode key="Home" parentKey="RootNode" controller="Home" action="Index" text="Home" isRootNode="true">
