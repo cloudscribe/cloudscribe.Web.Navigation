@@ -32,9 +32,7 @@
                     <a asp-controller="Home" asp-action="Index" class="navbar-brand">NavigationDemo.Web</a>
                 </div>
                 <div class="navbar-collapse collapse">
-                    
-                    @await Component.InvokeAsync("Navigation", "BootstrapTopNav", NamedNavigationFilters.TopNav)
-                    
+                    @await Component.InvokeAsync("Navigation", "BootstrapTopNav", NamedNavigationFilters.TopNav) 
                     @await Html.PartialAsync("_LoginPartial")
                 </div>
             </div>

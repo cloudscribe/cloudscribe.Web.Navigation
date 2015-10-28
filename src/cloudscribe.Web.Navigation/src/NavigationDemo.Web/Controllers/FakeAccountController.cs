@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Http.Authentication;
+using Microsoft.AspNet.Http.Features.Authentication;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
@@ -33,12 +35,73 @@ namespace NavigationDemo.Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public IActionResult Login(string userName = null)
+        public async Task<IActionResult> Login(string userName = null)
         {
-            //TODO: fake login with roles to demonstrate role based menu filtering
+            //fake login with roles to demonstrate role based menu filtering
+            AuthenticationProperties authProperties = new AuthenticationProperties();
+            ClaimsPrincipal user;
+            switch(userName)
+            {
+                case "Administrator":
+                    user = GetAdminClaimsPrincipal();
+                    break;
+
+                case "Member":
+                default:
+                    user = GetMemberClaimsPrincipal();
+                    break;
+            }
+            await HttpContext.Authentication.SignInAsync("application", user, authProperties);
+
+            return RedirectToAction(nameof(HomeController.Index), "Home");
 
 
-            return View("Index");
+            //return View("Index");
+        }
+
+        private ClaimsPrincipal GetAdminClaimsPrincipal()
+        {
+            var identity = new ClaimsIdentity("application");
+            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, "1"));
+            identity.AddClaim(new Claim(ClaimTypes.Name, "Administrator"));
+            identity.AddClaim(new Claim(ClaimTypes.Role, "Admins"));
+
+
+            return new ClaimsPrincipal(identity);
+        }
+
+        private ClaimsPrincipal GetMemberClaimsPrincipal()
+        {
+            var identity = new ClaimsIdentity("application");
+            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, "1"));
+            identity.AddClaim(new Claim(ClaimTypes.Name, "Member"));
+            identity.AddClaim(new Claim(ClaimTypes.Role, "Members"));
+
+
+            return new ClaimsPrincipal(identity);
+        }
+
+        // POST: /Account/LogOff
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LogOff()
+        {
+            //await _signInManager.SignOutAsync();
+            await HttpContext.Authentication.SignOutAsync("application");
+
+            return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
+
+        private IActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
         }
 
     }

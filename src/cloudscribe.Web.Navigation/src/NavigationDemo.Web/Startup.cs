@@ -16,7 +16,6 @@ using Microsoft.Framework.Configuration;
 using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.DependencyInjection.Extensions;
 using Microsoft.Framework.Logging;
-using NavigationDemo.Web.Models;
 using cloudscribe.Web.Navigation;
 using Microsoft.AspNet.Http;
 //using NavigationDemo.Web.Services;
@@ -49,18 +48,7 @@ namespace NavigationDemo.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add Entity Framework services to the services container.
-            //services.AddEntityFramework()
-            //    .AddSqlServer()
-            //    .AddDbContext<ApplicationDbContext>(options =>
-            //        options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
-
-            //// Add Identity services to the services container.
-            //services.AddIdentity<ApplicationUser, IdentityRole>()
-            //    .AddEntityFrameworkStores<ApplicationDbContext>()
-            //    .AddDefaultTokenProviders();
-
-
+            
             // you can use either json or xml to maintain your navigation map we provide examples of each navigation.xml and 
             // navigation.json in the root of this project
             // you can override the name of the file used with AppSettings:NavigationXmlFileName or AppSettings:NavigationJsonFileName in config.json
@@ -82,13 +70,7 @@ namespace NavigationDemo.Web
             // Add MVC services to the services container.
             services.AddMvc();
 
-            // Uncomment the following line to add Web API services which makes it easier to port Web API 2 controllers.
-            // You will also need to add the Microsoft.AspNet.Mvc.WebApiCompatShim package to the 'dependencies' section of project.json.
-            // services.AddWebApiConventions();
-
-            // Register application services.
-            //services.AddTransient<IEmailSender, AuthMessageSender>();
-            //services.AddTransient<ISmsSender, AuthMessageSender>();
+            
         }
 
         // Configure is called after ConfigureServices is called.
@@ -121,8 +103,7 @@ namespace NavigationDemo.Web
             app.UseStaticFiles();
 
             // Add cookie-based authentication to the request pipeline.
-            // app.UseIdentity();
-
+            
             var ApplicationCookie = new CookieAuthenticationOptions
             {
                 AuthenticationScheme = "application",
@@ -134,7 +115,6 @@ namespace NavigationDemo.Web
                     //OnValidatePrincipal = SecurityStampValidator.ValidatePrincipalAsync
                 }
             };
-
             
             app.UseCookieAuthentication(ApplicationCookie);
 
@@ -144,9 +124,6 @@ namespace NavigationDemo.Web
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-
-                // Uncomment the following line to add a route for porting Web API 2 controllers.
-                // routes.MapWebApiRoute("DefaultApi", "api/{controller}/{id?}");
             });
         }
     }

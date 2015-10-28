@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
+using Microsoft.AspNet.Authorization;
 
 namespace NavigationDemo.Web.Controllers
 {
@@ -30,6 +31,22 @@ namespace NavigationDemo.Web.Controllers
         public IActionResult Error()
         {
             return View("~/Views/Shared/Error.cshtml");
+        }
+
+        [Authorize(Roles = "Admins")]
+        public IActionResult Administration()
+        {
+            ViewData["Message"] = "Administrators only.";
+
+            return View();
+        }
+
+        [Authorize(Roles = "Admins,Members")]
+        public IActionResult Members()
+        {
+            ViewData["Message"] = "Members only.";
+
+            return View();
         }
     }
 }
