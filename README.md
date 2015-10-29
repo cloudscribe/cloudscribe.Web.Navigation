@@ -66,6 +66,12 @@ You also need an navigation.xml file to define the navigation nodes. This can go
         <NavNode key="Contact" parentKey="RootNode" controller="Home" action="Contact" text="Contact">
           <Children />
         </NavNode>
+        <NavNode key="Members" parentKey="RootNode" controller="Home" action="Members" text="Members" viewRoles="Admins,Members">
+          <Children />
+        </NavNode>
+        <NavNode key="Administration" parentKey="RootNode" controller="Home" action="Administration" text="Administration" viewRoles="Admins">
+          <Children />
+        </NavNode>
       </Children>
     </NavNode>
     
@@ -97,4 +103,4 @@ For example if you started with the standard ASP.NET 5 project template, you wil
 
 The div and the @RenderBody() should already be there, you just add the middle part that invokes the breadcrumbs.
 
-The NavigationDemo.Web project will be updated to show more examples such as nodes filtered by roles, and a way to adjust breadcrumbs from a controller action. For now if you want to see a more advanced/detailed use of cloudscribe.Web.Navigation, you can study how it is being used in [cloudscribe.Core](https://github.com/joeaudette/cloudscribe).
+The NavigationDemo.Web project has examples such as nodes filtered by roles, and a way to adjust breadcrumbs from a controller action. For now if you want to see a more advanced/detailed use of cloudscribe.Web.Navigation, you can study how it is being used in [cloudscribe.Core](https://github.com/joeaudette/cloudscribe).
