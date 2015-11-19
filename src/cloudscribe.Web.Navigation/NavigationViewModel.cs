@@ -2,14 +2,14 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-10
-// Last Modified:			2015-09-16
+// Last Modified:			2015-11-19
 // 
 
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Http.Extensions;
 using Microsoft.AspNet.WebUtilities;
-using Microsoft.Framework.Logging;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using cloudscribe.Web.Navigation.Helpers;

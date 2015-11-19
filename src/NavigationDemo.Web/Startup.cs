@@ -11,11 +11,11 @@ using Microsoft.AspNet.Diagnostics.Entity;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Identity;
 using Microsoft.Data.Entity;
-using Microsoft.Dnx.Runtime;
-using Microsoft.Framework.Configuration;
-using Microsoft.Framework.DependencyInjection;
-using Microsoft.Framework.DependencyInjection.Extensions;
-using Microsoft.Framework.Logging;
+using Microsoft.Extensions.PlatformAbstractions;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
 using cloudscribe.Web.Navigation;
 using Microsoft.AspNet.Http;
 //using NavigationDemo.Web.Services;
@@ -87,7 +87,7 @@ namespace NavigationDemo.Web
             {
                 app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage(DatabaseErrorPageOptions.ShowAll);
+                //app.UseDatabaseErrorPage();
             }
             else
             {
@@ -108,7 +108,8 @@ namespace NavigationDemo.Web
             {
                 AuthenticationScheme = "application",
                 CookieName = "application",
-                AutomaticAuthentication = true,
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
                 LoginPath = new PathString("/FakeAccount/Index"),
                 Events = new CookieAuthenticationEvents
                 {

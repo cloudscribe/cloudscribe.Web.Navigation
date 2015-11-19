@@ -2,14 +2,14 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-14
-// Last Modified:			2015-10-17
+// Last Modified:			2015-11-19
 // 
 
 using cloudscribe.Web.Navigation.Helpers;
-using Microsoft.Framework.Caching.Distributed;
-using Microsoft.Framework.OptionsModel;
-using Microsoft.Framework.Logging;
-using Microsoft.Dnx.Runtime;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.OptionsModel;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.PlatformAbstractions;
 using Newtonsoft.Json;
 using System;
 using System.IO;
