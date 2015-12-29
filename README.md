@@ -32,7 +32,7 @@ To install from nuget.org open the project.json file of your web application and
     
 Visual Studio 2015 should restore the package automatically, you could also open a command prompt and use dnu restore in your project folder.
 
-Unfortunatley it is not yet possible for us to install the needed views from nuget. So for the moment you need to manually [copy the views folder and views from here](https://github.com/joeaudette/cloudscribe.Web.Navigation/tree/master/src/cloudscribe.Web.Navigation/src/cloudscribe.Web.Navigation/content)
+Unfortunately it is not yet possible for us to install the needed views from nuget. So for the moment you need to manually [copy the views folder and views from here](https://github.com/joeaudette/cloudscribe.Web.Navigation/tree/master/src/cloudscribe.Web.Navigation/content)
 
 In your Startup.cs you will need this at the top: 
 
