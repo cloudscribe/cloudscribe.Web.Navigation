@@ -29,7 +29,6 @@ namespace NavigationDemo.Web
             // Setup configuration sources.
 
             var builder = new ConfigurationBuilder()
-                .SetBasePath(appEnv.ApplicationBasePath)
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
@@ -76,8 +75,7 @@ namespace NavigationDemo.Web
         // Configure is called after ConfigureServices is called.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.MinimumLevel = LogLevel.Information;
-            loggerFactory.AddConsole();
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
             // Configure the HTTP request pipeline.
@@ -97,7 +95,7 @@ namespace NavigationDemo.Web
             }
 
             // Add the platform handler to the request pipeline.
-            app.UseIISPlatformHandler();
+            app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
 
             // Add static files to the request pipeline.
             app.UseStaticFiles();
@@ -127,5 +125,7 @@ namespace NavigationDemo.Web
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
+
+        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
     }
 }
