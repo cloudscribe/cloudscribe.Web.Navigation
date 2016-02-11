@@ -64,8 +64,6 @@ namespace cloudscribe.Web.Navigation
                 child.Traverse(action);
         }
         
-
-        // added by Joe Audette 2015-07-11
         public TreeNode<T> Find(Func<TreeNode<T>, bool> predicate)
         {
             if(predicate(this)) { return this; }

@@ -35,6 +35,9 @@ namespace cloudscribe.Web.Navigation
         [DefaultValue("")]
         public string Action { get; set; } = string.Empty;
 
+        [DefaultValue("")]
+        public string NamedRoute { get; set; } = string.Empty;
+
         /// <summary>
         /// this property can lie, it is not enforced in creating a tree
         /// a node could start out as a root node and then be added as a sub node of another node

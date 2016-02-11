@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-14
-// Last Modified:			2015-07-15
+// Last Modified:			2016-02-11
 // 
 
 using System;
@@ -54,6 +54,11 @@ namespace cloudscribe.Web.Navigation
             if (node.Value.Action.Length > 0)
             {
                 writer.WriteAttributeString("action", node.Value.Action);
+            }
+
+            if (node.Value.NamedRoute.Length > 0)
+            {
+                writer.WriteAttributeString("named-route", node.Value.NamedRoute);
             }
 
             if (node.Value.Text.Length > 0)
@@ -175,6 +180,9 @@ namespace cloudscribe.Web.Navigation
 
             a = xmlNode.Attribute("action");
             if (a != null) { navNode.Action = a.Value; }
+
+            a = xmlNode.Attribute("named-route");
+            if (a != null) { navNode.NamedRoute = a.Value; }
 
             a = xmlNode.Attribute("text");
             if (a != null) { navNode.Text = a.Value; }

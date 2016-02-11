@@ -183,6 +183,10 @@ namespace cloudscribe.Web.Navigation
                 }
                 
             }
+            else if(node.Value.NamedRoute.Length > 0)
+            {
+                urlToUse = urlHelper.RouteUrl(node.Value.NamedRoute);
+            }
 
             string key = NavigationNodeAdjuster.KeyPrefix + node.Value.Key;
 
