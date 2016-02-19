@@ -2,9 +2,10 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-09
-// Last Modified:			2015-09-16
+// Last Modified:			2016-02-11
 // 
 
+using Microsoft.AspNet.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -19,15 +20,26 @@ namespace cloudscribe.Web.Navigation
         /// <param name="currentNode"></param>
         /// <param name="urlToMatch"></param>
         /// <returns></returns>
-        public static TreeNode<NavigationNode> FindByUrl(this TreeNode<NavigationNode> currentNode, string urlToMatch, string urlPrefix = "")
+        public static TreeNode<NavigationNode> FindByUrl(
+            this TreeNode<NavigationNode> currentNode,
+            IUrlHelper urlHelper,
+            string urlToMatch, 
+            string urlPrefix = "")
         {
             Func<TreeNode<NavigationNode>, bool> match = delegate (TreeNode<NavigationNode> n)
             {
                 if( n.Value.Url.Contains(urlToMatch)) { return true; }
-                if(urlPrefix.Length > 0)
+                string targetUrl = string.Empty;
+                if (n.Value.NamedRoute.Length > 0)
                 {
-                    string targetUrl = n.Value.Url.Replace("~/", "~/" + urlPrefix + "/");
-                    if(targetUrl.Contains(urlToMatch)) { return true; }
+                    targetUrl = urlHelper.RouteUrl(n.Value.NamedRoute);
+                    if (targetUrl.Contains(urlToMatch)) { return true; }
+                }
+
+                if ((urlPrefix.Length > 0)&&(n.Value.Url.Length > 0))
+                {
+                    targetUrl = n.Value.Url.Replace("~/", "~/" + urlPrefix + "/");
+                    if(targetUrl.Contains(urlToMatch)) { return true; }      
                 }
 
                 return false;
@@ -120,6 +132,10 @@ namespace cloudscribe.Web.Navigation
                 }
                     
             }
+            if((nodeToMatch.Value.NamedRoute.Length > 0)
+                &&(nodeToMatch.Value.NamedRoute == currentNode.Value.NamedRoute)) { return true; }
+
+
             if (currentNode.Value.Url == nodeToMatch.Value.Url) { return true; }
 
             return false;

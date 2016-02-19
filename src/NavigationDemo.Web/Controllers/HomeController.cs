@@ -21,6 +21,27 @@ namespace NavigationDemo.Web.Controllers
             return View();
         }
 
+        public IActionResult AboutMe()
+        {
+            ViewData["Message"] = "about me page.";
+
+            return View("About");
+        }
+
+        public IActionResult AboutCompany()
+        {
+            ViewData["Message"] = "about company page.";
+
+            return View("About");
+        }
+
+        public IActionResult AboutProject()
+        {
+            ViewData["Message"] = "about project page.";
+
+            return View("About");
+        }
+
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";

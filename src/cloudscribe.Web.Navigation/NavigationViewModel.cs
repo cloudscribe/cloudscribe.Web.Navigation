@@ -103,7 +103,7 @@ namespace cloudscribe.Web.Navigation
                     
                     if (currentNode == null)
                     {
-                        currentNode = RootNode.FindByUrl(context.Request.Path, nodeSearchUrlPrefix);
+                        currentNode = RootNode.FindByUrl(urlHelper, context.Request.Path, nodeSearchUrlPrefix);
                     }
                         
                     
