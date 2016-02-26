@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0-beta5",
+  "version": "1.0.0-beta7",
   "title": "cloudscribe.Web.Navigation",
   "description": "an ASP.NET 5 viewcomponent for menus and breadcrumbs",
   "authors": [ "Joe Audette" ],

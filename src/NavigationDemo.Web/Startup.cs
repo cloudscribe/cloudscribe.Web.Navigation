@@ -17,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using cloudscribe.Web.Navigation;
+using cloudscribe.Web.Navigation.Caching;
 using Microsoft.AspNet.Http;
 //using NavigationDemo.Web.Services;
 
@@ -47,7 +48,7 @@ namespace NavigationDemo.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+
             // you can use either json or xml to maintain your navigation map we provide examples of each navigation.xml and 
             // navigation.json in the root of this project
             // you can override the name of the file used with AppSettings:NavigationXmlFileName or AppSettings:NavigationJsonFileName in config.json
@@ -58,14 +59,16 @@ namespace NavigationDemo.Web
             // granted xml can be broken by typos too but the end tags make it easier to keep track of where you are imho (JA)
             //services.TryAddScoped<INavigationTreeBuilder, JsonNavigationTreeBuilder>();
             //services.TryAddScoped<INavigationTreeBuilder, HardCodedNavigationTreeBuilder>();
+
+            // XmlNavigationTreeBuilder is the most tested implementation since it is the one I use
+
+            services.TryAddScoped<ITreeCache, MemoryTreeCache>();
             services.TryAddScoped<INavigationTreeBuilder, XmlNavigationTreeBuilder>();
+            services.AddScoped<NavigationTreeBuilderService, NavigationTreeBuilderService>();
             services.TryAddScoped<INodeUrlPrefixProvider, DefaultNodeUrlPrefixProvider>();
             services.TryAddScoped<INavigationNodePermissionResolver, NavigationNodePermissionResolver>();
             services.Configure<NavigationOptions>(Configuration.GetSection("NavigationOptions"));
-            services.Configure<DistributedCacheNavigationTreeBuilderOptions>(Configuration.GetSection("DistributedCacheNavigationTreeBuilderOptions"));
-            services.Configure<MemoryCacheNavigationTreeBuilderOptions>(Configuration.GetSection("MemoryCacheNavigationTreeBuilderOptions"));
-            services.TryAddScoped<INavigationCacheKeyResolver, DefaultNavigationCacheKeyResolver>();
-
+            
             // Add MVC services to the services container.
             services.AddMvc();
 

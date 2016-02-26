@@ -130,7 +130,11 @@ namespace cloudscribe.Web.Navigation
         {
             // lazy load
             get {
-                if (parentChain == null) { parentChain = CurrentNode.GetParentNodeChain(true, true); }
+                if (parentChain == null)
+                {
+                    var includeCurrentNode = ShouldAllowView(CurrentNode);
+                    parentChain = CurrentNode.GetParentNodeChain(includeCurrentNode, true);
+                }
                 return parentChain;
             }
         } 
@@ -208,7 +212,10 @@ namespace cloudscribe.Web.Navigation
         
         public bool ShouldAllowView(TreeNode<NavigationNode> node)
         {
-            foreach(var filter in removalFilters)
+            if (node.Value.HideFromAnonymous && !context.User.Identity.IsAuthenticated) { return false; }
+            if (node.Value.HideFromAuthenticated && context.User.Identity.IsAuthenticated) { return false; }
+
+            foreach (var filter in removalFilters)
             {
                 if (!filter.Invoke(node)) { return false; }
             }

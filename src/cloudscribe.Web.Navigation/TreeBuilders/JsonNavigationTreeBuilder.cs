@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-14
-// Last Modified:			2015-11-19
+// Last Modified:			2016-02-26
 // 
 
 using cloudscribe.Web.Navigation.Helpers;
@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.PlatformAbstractions;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,7 +46,13 @@ namespace cloudscribe.Web.Navigation
         private ILogger log;
         private TreeNode<NavigationNode> rootNode = null;
 
-        public async Task<TreeNode<NavigationNode>> GetTree()
+        public string Name
+        { 
+            get { return "JsonNavigationTreeBuilder"; }
+        }
+
+        public async Task<TreeNode<NavigationNode>> BuildTree(
+            NavigationTreeBuilderService service)
         {
             // ultimately we will need to cache sitemap per site
 

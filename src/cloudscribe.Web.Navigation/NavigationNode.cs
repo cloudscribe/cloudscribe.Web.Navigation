@@ -45,6 +45,17 @@ namespace cloudscribe.Web.Navigation
         /// </summary>
         [DefaultValue(false)]
         public bool IsRootNode { get; set; } = false;
+        /// <summary>
+        /// set to true if the root node itself is not intended to be rendered
+        /// false is for the root page to be the "home" page and everything else hangs off it
+        /// though the menu templates can make it look like home page is on
+        /// the same level as first level child pages
+        /// </summary>
+        public bool ChildContainerOnly { get; set; } = false;
+
+        public bool HideFromAuthenticated { get; set; } = false;
+
+        public bool HideFromAnonymous { get; set; } = false;
 
         #endregion
 

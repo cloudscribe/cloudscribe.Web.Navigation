@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-10
-// Last Modified:			2015-11-19
+// Last Modified:			2016-02-26
 // 
 
 using Microsoft.AspNet.Mvc;
@@ -14,7 +14,7 @@ namespace cloudscribe.Web.Navigation
     public class NavigationViewComponent : ViewComponent
     {
         public NavigationViewComponent(
-            INavigationTreeBuilder siteMapTreeBuilder,
+            NavigationTreeBuilderService siteMapTreeBuilder,
             INavigationNodePermissionResolver permissionResolver,
             IUrlHelper urlHelper,
             INodeUrlPrefixProvider prefixProvider,
@@ -35,7 +35,7 @@ namespace cloudscribe.Web.Navigation
         }
 
         private ILogger log;
-        private INavigationTreeBuilder builder;
+        private NavigationTreeBuilderService builder;
         private INavigationNodePermissionResolver permissionResolver;
         private IUrlHelper urlHelper;
         private INodeUrlPrefixProvider prefixProvider;

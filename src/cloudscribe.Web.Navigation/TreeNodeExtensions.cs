@@ -28,6 +28,9 @@ namespace cloudscribe.Web.Navigation
         {
             Func<TreeNode<NavigationNode>, bool> match = delegate (TreeNode<NavigationNode> n)
             {
+                if(n == null) { return false; }
+                if(string.IsNullOrEmpty(n.Value.Url)) { return false; }
+
                 if( n.Value.Url.Contains(urlToMatch)) { return true; }
                 string targetUrl = string.Empty;
                 if (n.Value.NamedRoute.Length > 0)

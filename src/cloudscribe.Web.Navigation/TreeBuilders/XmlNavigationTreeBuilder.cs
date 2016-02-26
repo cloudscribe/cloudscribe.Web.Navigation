@@ -2,13 +2,14 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-14
-// Last Modified:			2015-11-19
+// Last Modified:			2016-02-26
 // 
 
 using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.OptionsModel;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -36,13 +37,19 @@ namespace cloudscribe.Web.Navigation
         private NavigationOptions navOptions;
         private ILogger log;
         private TreeNode<NavigationNode> rootNode = null;
-        
-        public async Task<TreeNode<NavigationNode>> GetTree()
+
+        public string Name
+        {
+            get { return "cloudscribe.Web.Navigation.XmlNavigationTreeBuilder"; }
+        }
+
+        public async Task<TreeNode<NavigationNode>> BuildTree(
+            NavigationTreeBuilderService service)
         {
            
             if (rootNode == null)
             { 
-                rootNode = await BuildTree();  
+                rootNode = await BuildTreeInternal(service);  
             }
 
             return rootNode;
@@ -56,7 +63,7 @@ namespace cloudscribe.Web.Navigation
             return filePath;
         }
 
-        private async Task<TreeNode<NavigationNode>> BuildTree()
+        private async Task<TreeNode<NavigationNode>> BuildTreeInternal(NavigationTreeBuilderService service)
         {
             string filePath = ResolveFilePath();
 
@@ -80,7 +87,7 @@ namespace cloudscribe.Web.Navigation
 
             NavigationTreeXmlConverter converter = new NavigationTreeXmlConverter();
 
-            TreeNode<NavigationNode> result = converter.FromXml(doc);
+            TreeNode<NavigationNode> result = await converter.FromXml(doc, service).ConfigureAwait(false);
 
             return result;
 

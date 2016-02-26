@@ -47,6 +47,13 @@ namespace cloudscribe.Web.Navigation
             return node;
         }
 
+        public TreeNode<T> AddChild(TreeNode<T> node)
+        {
+            //var node = new TreeNode<T>(value) { Parent = this };
+            _children.Add(node);
+            return node;
+        }
+
         public TreeNode<T>[] AddChildren(params T[] values)
         {
             return values.Select(AddChild).ToArray();

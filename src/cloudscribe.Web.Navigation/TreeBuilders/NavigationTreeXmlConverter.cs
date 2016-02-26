@@ -2,12 +2,14 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-14
-// Last Modified:			2016-02-11
+// Last Modified:			2016-02-26
 // 
 
 using System;
 using System.IO;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -131,19 +133,69 @@ namespace cloudscribe.Web.Navigation
             }
         }
 
-        public TreeNode<NavigationNode> FromXml(XDocument xml)
+        public async Task<TreeNode<NavigationNode>> FromXml(
+            XDocument xml,
+            NavigationTreeBuilderService service
+            )
         { 
             if(xml.Root.Name != "NavNode") { throw new ArgumentException("Expected NavNode"); }
 
-            NavigationNode rootNav = BuildNavNode(xml.Root);
+            TreeNode<NavigationNode> treeRoot;
+            var builderName = GetNodeBuilderName(xml.Root);
+            if (string.IsNullOrEmpty(builderName))
+            {
+                NavigationNode rootNav = BuildNavNode(xml.Root, service);
+                treeRoot = new TreeNode<NavigationNode>(rootNav);
+               
+            }
+            else
+            {
+                var otherBuilderRoot = await service.GetTree(builderName).ConfigureAwait(false);
+                if(otherBuilderRoot.Value.ChildContainerOnly)
+                {
+                    NavigationNode rootNav = BuildNavNode(xml.Root, service);
+                    treeRoot = new TreeNode<NavigationNode>(rootNav);
+                    foreach(var firstChild in otherBuilderRoot.Children)
+                    {
+                        treeRoot.AddChild(firstChild);
+                    }
 
-            TreeNode<NavigationNode> treeRoot = new TreeNode<NavigationNode>(rootNav);
+                }
+                else
+                {
+                    treeRoot = otherBuilderRoot;
+                }
+            }
+
+            
 
             foreach (XElement childrenNode in xml.Root.Elements(XName.Get("Children")))
             {
                 foreach (XElement childNode in childrenNode.Elements(XName.Get("NavNode")))
                 {
-                    AddChildNode(treeRoot, childNode);
+                    var childBuilder = GetNodeBuilderName(childNode);
+                    if(string.IsNullOrEmpty(childBuilder))
+                    {
+                        await AddChildNode(treeRoot, childNode, service).ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        var child = await service.GetTree(childBuilder).ConfigureAwait(false);
+                        if(child.Value.ChildContainerOnly)
+                        {
+                            foreach(var subChild in child.Children)
+                            {
+                                treeRoot.AddChild(subChild);
+                            }
+                        }
+                        else
+                        {
+                            treeRoot.AddChild(child);
+                        }
+                        
+                    }
+
+                    
                 }
                     
             }
@@ -151,23 +203,67 @@ namespace cloudscribe.Web.Navigation
             return treeRoot;
         }
 
-        private void AddChildNode(TreeNode<NavigationNode> node, XElement xmlNode)
+        private async Task AddChildNode(
+            TreeNode<NavigationNode> node, 
+            XElement xmlNode,
+            NavigationTreeBuilderService service
+            )
         {
-            NavigationNode navNode = BuildNavNode(xmlNode);
+            NavigationNode navNode = BuildNavNode(xmlNode, service);
             TreeNode<NavigationNode> navNodeT = node.AddChild(navNode);
 
             foreach (XElement childrenNode in xmlNode.Elements(XName.Get("Children")))
             {
                 foreach (XElement childNode in childrenNode.Elements(XName.Get("NavNode")))
                 {
-                    AddChildNode(navNodeT, childNode); //recursion   
+                    var childBuilder = GetNodeBuilderName(childNode);
+                    if (string.IsNullOrEmpty(childBuilder))
+                    {
+                        await AddChildNode(navNodeT, childNode, service).ConfigureAwait(false); //recursion
+                    }
+                    else
+                    {
+                        var child = await service.GetTree(childBuilder).ConfigureAwait(false);
+                        if (child.Value.ChildContainerOnly)
+                        {
+                            foreach (var subChild in child.Children)
+                            {
+                                navNodeT.AddChild(subChild);
+                            }
+                        }
+                        else
+                        {
+                            navNodeT.AddChild(child);
+                        }
+
+                        
+                    }
+
+                       
                 }
             }
         }
 
-        private NavigationNode BuildNavNode(XElement xmlNode)
+        private string GetNodeBuilderName(XElement xmlNode)
+        {
+            var tb = xmlNode.Attribute("treeBuilderName");
+            if (tb != null) { return tb.Value; }
+
+            return string.Empty;
+        }
+
+        private NavigationNode BuildNavNode(
+            XElement xmlNode,
+            NavigationTreeBuilderService service
+            )
         {
             NavigationNode navNode = new NavigationNode();
+
+            //var tb = xmlNode.Attribute("TreeBuilderName");
+            //if (tb != null)
+            //{
+            //   return await service.GetTree(tb.Value).ConfigureAwait(false)
+            //}
 
             var a = xmlNode.Attribute("key");
             if(a != null) {  navNode.Key = a.Value; }
@@ -194,11 +290,17 @@ namespace cloudscribe.Web.Navigation
             if (a != null) { navNode.Url = a.Value; }
             else
             {
-                navNode.Url = navNode.ResolveUrl();
+                navNode.Url = navNode.ResolveUrl(); // this smells bad
             }
 
             a = xmlNode.Attribute("isRootNode");
             if (a != null) { navNode.IsRootNode = Convert.ToBoolean(a.Value); }
+
+            a = xmlNode.Attribute("hideFromAuthenticated");
+            if (a != null) { navNode.HideFromAuthenticated = Convert.ToBoolean(a.Value); }
+
+            a = xmlNode.Attribute("hideFromAnonymous");
+            if (a != null) { navNode.HideFromAnonymous = Convert.ToBoolean(a.Value); }
 
             a = xmlNode.Attribute("includeAmbientValuesInUrl");
             if (a != null) { navNode.IncludeAmbientValuesInUrl = Convert.ToBoolean(a.Value); }
