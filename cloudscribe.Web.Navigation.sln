@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B9262517-D78C-49B6-A573-508021F9C5B1}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C06A9CD6-63C9-4C4E-BFD0-672BD688FF04}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "cloudscribe.Web.Navigation.Test", "test\cloudscribe.Web.Navigation.Test\cloudscribe.Web.Navigation.Test.xproj", "{1D1E3AD6-8975-4F63-98E4-1A159B5A47F4}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "cloudscribe.Web.SiteMap", "src\cloudscribe.Web.SiteMap\cloudscribe.Web.SiteMap.xproj", "{10F4C09E-C2A3-4DCB-AFDF-5AD0D09DC661}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +39,10 @@ Global
 		{1D1E3AD6-8975-4F63-98E4-1A159B5A47F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D1E3AD6-8975-4F63-98E4-1A159B5A47F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D1E3AD6-8975-4F63-98E4-1A159B5A47F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10F4C09E-C2A3-4DCB-AFDF-5AD0D09DC661}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10F4C09E-C2A3-4DCB-AFDF-5AD0D09DC661}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10F4C09E-C2A3-4DCB-AFDF-5AD0D09DC661}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10F4C09E-C2A3-4DCB-AFDF-5AD0D09DC661}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -45,5 +51,6 @@ Global
 		{89E82551-B299-4372-A942-5C69E39E5061} = {B9262517-D78C-49B6-A573-508021F9C5B1}
 		{00194005-44D2-4B9B-9128-0AA4570B6D73} = {B9262517-D78C-49B6-A573-508021F9C5B1}
 		{1D1E3AD6-8975-4F63-98E4-1A159B5A47F4} = {C06A9CD6-63C9-4C4E-BFD0-672BD688FF04}
+		{10F4C09E-C2A3-4DCB-AFDF-5AD0D09DC661} = {B9262517-D78C-49B6-A573-508021F9C5B1}
 	EndGlobalSection
 EndGlobal

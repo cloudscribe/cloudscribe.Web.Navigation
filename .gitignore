@@ -201,3 +201,4 @@ src/NavigationDemo.Web/wwwroot/js/*
 src/NavigationDemo.Web/wwwroot/css/site.min.css
 src/NavigationDemo.Web/project.lock.json
 test/cloudscribe.Web.Navigation.Test/project.lock.json
+src/cloudscribe.Web.SiteMap/project.lock.json

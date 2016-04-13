@@ -37,11 +37,11 @@ namespace cloudscribe.Web.Navigation
         string ViewRoles { get; set; }
     }
 
-    public interface INavigationNodeSeoSettings
-    {
-        PageChangeFrequency ChangeFrequency { get; set; } 
-        string SiteMapPriority { get; set; }
-    }
+    //public interface INavigationNodeSeoSettings
+    //{
+    //    PageChangeFrequency ChangeFrequency { get; set; } 
+    //    string SiteMapPriority { get; set; }
+    //}
 
     public interface INavigationNodeEditPermissionMeta
     {
