@@ -1,12 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace cloudscribe.Web.SiteMap
 {
-    public interface ISiteMapNode
+    /// <summary>
+    /// default implementation of ISiteMapNode in case you need it
+    /// myself I see SiteMap as very related to navigation in terms of the data needed
+    /// so I want to implement a class in my projects that implements both ISiteMapNode and INavigationNode
+    /// and perhaps other interfaces for other purposes
+    /// </summary>
+    public class SiteMapNode : ISiteMapNode
     {
+        public SiteMapNode()
+        {
+
+        }
+
         /// <summary>
         /// Gets or sets the URL of the page. This URL must begin with the protocol (such as http). 
         /// This value must be less than 2,048 characters.
@@ -14,7 +22,7 @@ namespace cloudscribe.Web.SiteMap
         /// <value>
         /// The URL of the page.
         /// </value>
-        string Url { get; set; }
+        public string Url { get; set; }
 
         /// <summary>
         /// Gets or sets how frequently the page is likely to change. This value provides general information to search
@@ -27,7 +35,7 @@ namespace cloudscribe.Web.SiteMap
         /// <value>
         /// The frequency the page is likely to change.
         /// </value>
-        PageChangeFrequency? ChangeFrequency { get; set; }
+        public PageChangeFrequency? ChangeFrequency { get; set; }
 
         /// <summary>
         /// Gets or sets the priority of this URL relative to other URLs on your site. Valid values range from 0.0 to 1.0.
@@ -42,7 +50,7 @@ namespace cloudscribe.Web.SiteMap
         /// Since the priority is relative, it is only used to select between URLs on your site.
         /// </summary>
         /// <value>The priority.</value>
-        double? Priority { get; set; }
+        public double? Priority { get; set; }
 
         /// <summary>
         /// Gets or sets the date of last modification of the file. This is an optional field.
@@ -53,6 +61,7 @@ namespace cloudscribe.Web.SiteMap
         /// <value>
         /// The date of last modification of the file.
         /// </value>
-        DateTime? LastModified { get; set; }
+        public DateTime? LastModified { get; set; }
+
     }
 }
