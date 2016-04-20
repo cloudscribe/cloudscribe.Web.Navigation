@@ -1,9 +1,9 @@
 ﻿{
-    "version": "1.0.0-beta1",
+    "version": "1.0.0-beta2",
     "description": "cloudscribe.Web.SiteMap.FromNavigation a library that implements ISiteMapNodeService using existing tree of nodes from cloudscribe.Web.Navigation.NavigationTreeBuilderService",
     "authors": [ "Joe Audette" ],
     "owners": [ "Source Tree Solutions" ],
-    "tags": [ "cloudscribe", "mvc6", "sitemap" ],
+    "tags": [ "cloudscribe", "mvc", "sitemap" ],
     "projectUrl": "https://github.com/joeaudette/cloudscribe.Web.Navigation",
     "licenseUrl": "http://www.apache.org/licenses/LICENSE-2.0",
     "copyright": "2015 Source Tree Solutions",

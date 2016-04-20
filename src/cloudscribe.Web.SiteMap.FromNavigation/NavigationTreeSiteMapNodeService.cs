@@ -129,7 +129,7 @@ namespace cloudscribe.Web.SiteMap
                 urlToUse = urlHelper.RouteUrl(node.NamedRoute);
             }
             
-            if (string.IsNullOrEmpty(urlToUse)) return node.Url; 
+            if (string.IsNullOrEmpty(urlToUse)) urlToUse = node.Url; 
 
             if (urlToUse.StartsWith("http")) return urlToUse;
 
