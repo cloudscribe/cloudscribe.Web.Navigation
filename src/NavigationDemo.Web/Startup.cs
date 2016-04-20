@@ -7,6 +7,7 @@ using Microsoft.AspNet.Authentication.Google;
 using Microsoft.AspNet.Authentication.MicrosoftAccount;
 using Microsoft.AspNet.Authentication.Twitter;
 using Microsoft.AspNet.Builder;
+using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Diagnostics.Entity;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Identity;
@@ -18,6 +19,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using cloudscribe.Web.Navigation;
 using cloudscribe.Web.Navigation.Caching;
+using cloudscribe.Web.SiteMap;
 using Microsoft.AspNet.Http;
 //using NavigationDemo.Web.Services;
 
@@ -68,7 +70,21 @@ namespace NavigationDemo.Web
             services.TryAddScoped<INodeUrlPrefixProvider, DefaultNodeUrlPrefixProvider>();
             services.TryAddScoped<INavigationNodePermissionResolver, NavigationNodePermissionResolver>();
             services.Configure<NavigationOptions>(Configuration.GetSection("NavigationOptions"));
-            
+            services.AddScoped<ISiteMapNodeService, NavigationTreeSiteMapNodeService>();
+
+            services.Configure<MvcOptions>(options =>
+            {
+                // options.InputFormatters.Add(new Xm)
+                options.CacheProfiles.Add("SiteMapCacheProfile",
+                     new CacheProfile
+                     {
+                         Duration = 100
+                     });
+
+               
+
+            });
+
             // Add MVC services to the services container.
             services.AddMvc();
 

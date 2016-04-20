@@ -10,10 +10,16 @@ namespace cloudscribe.Web.SiteMap
     /// </summary>
     public class SiteMapNode : ISiteMapNode
     {
-        public SiteMapNode()
+        public SiteMapNode(string url)
         {
+            if (url == null)
+            {
+                throw new ArgumentNullException(nameof(url));
+            }
 
+            Url = url;
         }
+
 
         /// <summary>
         /// Gets or sets the URL of the page. This URL must begin with the protocol (such as http). 
