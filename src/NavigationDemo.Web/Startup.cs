@@ -8,18 +8,12 @@ using Microsoft.AspNet.Authentication.MicrosoftAccount;
 using Microsoft.AspNet.Authentication.Twitter;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Mvc;
-using Microsoft.AspNet.Diagnostics.Entity;
 using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Identity;
-using Microsoft.Data.Entity;
 using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
-using cloudscribe.Web.Navigation;
-using cloudscribe.Web.Navigation.Caching;
-using cloudscribe.Web.SiteMap;
+
 using Microsoft.AspNet.Http;
 //using NavigationDemo.Web.Services;
 
@@ -64,13 +58,14 @@ namespace NavigationDemo.Web
 
             // XmlNavigationTreeBuilder is the most tested implementation since it is the one I use
 
-            services.TryAddScoped<ITreeCache, MemoryTreeCache>();
-            services.TryAddScoped<INavigationTreeBuilder, XmlNavigationTreeBuilder>();
-            services.AddScoped<NavigationTreeBuilderService, NavigationTreeBuilderService>();
-            services.TryAddScoped<INodeUrlPrefixProvider, DefaultNodeUrlPrefixProvider>();
-            services.TryAddScoped<INavigationNodePermissionResolver, NavigationNodePermissionResolver>();
-            services.Configure<NavigationOptions>(Configuration.GetSection("NavigationOptions"));
-            services.AddScoped<ISiteMapNodeService, NavigationTreeSiteMapNodeService>();
+            services.AddCloudscribeNavigation(Configuration);
+            //services.TryAddScoped<ITreeCache, MemoryTreeCache>();
+            //services.TryAddScoped<INavigationTreeBuilder, XmlNavigationTreeBuilder>();
+            //services.AddScoped<NavigationTreeBuilderService, NavigationTreeBuilderService>();
+            //services.TryAddScoped<INodeUrlPrefixProvider, DefaultNodeUrlPrefixProvider>();
+            //services.TryAddScoped<INavigationNodePermissionResolver, NavigationNodePermissionResolver>();
+            //services.Configure<NavigationOptions>(Configuration.GetSection("NavigationOptions"));
+            //services.AddScoped<ISiteMapNodeService, NavigationTreeSiteMapNodeService>();
 
             services.Configure<MvcOptions>(options =>
             {

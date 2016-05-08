@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0-beta8",
+  "version": "1.0.1-beta2",
   "title": "cloudscribe.Web.Navigation",
   "description": "an ASP.NET 5 viewcomponent for menus and breadcrumbs",
   "authors": [ "Joe Audette" ],
@@ -10,7 +10,7 @@
   "copyright": "2015 Source Tree Solutions",
   "iconUrl": "https://raw.githubusercontent.com/joeaudette/cloudscribe.Web.Navigation/master/cloudscribe-icon-32.png",
   "requireLicenseAcceptance": false,
-  "releaseNotes": "updated for aspnet5 rc1",
+  "releaseNotes": "added ServiceCollectionExtensions",
   "packInclude": {
     "content/": "content/**"
   },

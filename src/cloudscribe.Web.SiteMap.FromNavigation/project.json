@@ -13,7 +13,7 @@
 
     "dependencies": {
         "cloudscribe.Web.SiteMap": "1.0.0-*",
-        "cloudscribe.Web.Navigation": "1.0.0-*"
+        "cloudscribe.Web.Navigation": "1.0.1-*"
     },
 
     "frameworks": {

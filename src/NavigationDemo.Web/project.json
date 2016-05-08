@@ -4,7 +4,7 @@
   "version": "1.0.0-*",
 
   "dependencies": {
-    "cloudscribe.Web.Navigation": "1.0.0-*",
+    "cloudscribe.Web.Navigation": "1.0.1-*",
     "cloudscribe.Web.SiteMap": "1.0.0-*",
     "cloudscribe.Web.SiteMap.FromNavigation": "1.0.0-*",
     "EntityFramework.Commands": "7.0.0-rc1-final",
