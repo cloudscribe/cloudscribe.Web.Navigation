@@ -14,7 +14,9 @@ It is currently possible to have nested TreeBuilders, for example in the [clouds
 
 There is also support for memory caching, but support for distributed cache has not been implemented yet.
 
-You can download/clone this repo and run the NavigationDemo.Web project to see a working example.
+Also in this code repository is a related project, [cloudscribe.Web.SiteMap](https://github.com/joeaudette/cloudscribe.Web.Navigation/tree/master/src/cloudscribe.Web.SiteMap) which can be used to generate a [sitemap](http://www.sitemaps.org/) that you can submit to search engines. 
+
+You can download/clone this repo and run the NavigationDemo.Web project to see a working example or install it in your own project via nuget.
 
 ## Installation
 
