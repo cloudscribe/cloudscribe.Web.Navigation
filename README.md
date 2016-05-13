@@ -27,7 +27,7 @@ Prerequisites:
 
 To install from nuget.org open the project.json file of your web application and in the dependencies section add:
 
-    "cloudscribe.Web.Navigation": "1.0.0-*"
+    "cloudscribe.Web.Navigation": "1.0.1-*"
     
 Visual Studio 2015 should restore the package automatically, you could also open a command prompt and use dnu restore in your project folder.
 
@@ -40,15 +40,7 @@ In your Startup.cs you will need this at the top:
 
 and in ConfigureServices you will need this:
 
-    services.TryAddScoped<INavigationTreeBuilder, XmlNavigationTreeBuilder>();
-    services.TryAddScoped<INodeUrlPrefixProvider, DefaultNodeUrlPrefixProvider>();
-    services.TryAddScoped<INavigationNodePermissionResolver, NavigationNodePermissionResolver>();
-    services.Configure<NavigationOptions>(Configuration.GetSection("NavigationOptions"));
-    services.Configure<DistributedCacheNavigationTreeBuilderOptions>(Configuration.GetSection("DistributedCacheNavigationTreeBuilderOptions"));
-    services.Configure<MemoryCacheNavigationTreeBuilderOptions>(Configuration.GetSection("MemoryCacheNavigationTreeBuilderOptions"));
-    services.TryAddScoped<INavigationCacheKeyResolver, DefaultNavigationCacheKeyResolver>();
-
-actually those last 3 items related to caching are not fully implemented yet
+    services.AddCloudscribeNavigation(configuration);
 
 In your _ViewImports.cshtml file add:
 

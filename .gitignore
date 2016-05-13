@@ -204,3 +204,4 @@ test/cloudscribe.Web.Navigation.Test/project.lock.json
 src/cloudscribe.Web.SiteMap/project.lock.json
 src/cloudscribe.Web.SiteMap.FromNavigation/project.lock.json
 *.json
+src/cloudscribe.Web.SiteMap.FromNavigation/project.lock.json
