@@ -2,12 +2,13 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:                  Joe Audette
 // Created:                 2016-04-20
-// Last Modified:           2016-04-20
+// Last Modified:           2016-05-17
 // 
 
 using cloudscribe.Web.Navigation;
-using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading;
@@ -28,7 +29,7 @@ namespace cloudscribe.Web.SiteMap
     {
         public NavigationTreeSiteMapNodeService(
             NavigationTreeBuilderService siteMapTreeBuilder,
-            IUrlHelper urlHelper,
+            UrlHelper urlHelper,
             IHttpContextAccessor contextAccessor,
             ILogger<NavigationTreeSiteMapNodeService> logger)
         {
@@ -39,7 +40,7 @@ namespace cloudscribe.Web.SiteMap
         }
 
         private NavigationTreeBuilderService siteMapTreeBuilder;
-        private IUrlHelper urlHelper;
+        private UrlHelper urlHelper;
         private ILogger log;
         private IHttpContextAccessor contextAccessor;
         private string baseUrl = string.Empty;

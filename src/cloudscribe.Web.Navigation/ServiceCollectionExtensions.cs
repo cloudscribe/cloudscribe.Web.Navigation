@@ -2,6 +2,9 @@
 using cloudscribe.Web.Navigation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 //namespace cloudscribe.Web.Navigation
 namespace Microsoft.Extensions.DependencyInjection
@@ -10,17 +13,21 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddCloudscribeNavigation(
             this IServiceCollection services,
-            IConfigurationRoot configuration = null)
+            IConfiguration configuration = null)
         {
             if(configuration != null)
             {
-                services.Configure<NavigationOptions>(configuration.GetSection("NavigationOptions"));
+                //services.Configure<NavigationOptions>(configuration.GetSection("NavigationOptions"));
+                services.Configure<NavigationOptions>(configuration);
+                //services.AddSingleton<IConfigureOptions<NavigationOptions>>(new ConfigureFromConfigurationOptions<NavigationOptions>(configuration));
             }
             else
             {
                 services.TryAddSingleton<NavigationOptions, NavigationOptions>();
             }
 
+            services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.TryAddScoped<ITreeCache, MemoryTreeCache>();
             services.TryAddScoped<INavigationTreeBuilder, XmlNavigationTreeBuilder>();
             services.TryAddScoped<NavigationTreeBuilderService, NavigationTreeBuilderService>();
