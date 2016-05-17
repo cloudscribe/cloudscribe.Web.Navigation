@@ -2,24 +2,25 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-14
-// Last Modified:			2016-02-26
+// Last Modified:			2016-05-17
 // 
 
 using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.OptionsModel;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Microsoft.AspNetCore.Hosting;
 
 namespace cloudscribe.Web.Navigation
 {
     public class XmlNavigationTreeBuilder : INavigationTreeBuilder
     {
         public XmlNavigationTreeBuilder(
-            IApplicationEnvironment appEnv,
+            IHostingEnvironment appEnv,
             IOptions<NavigationOptions> navigationOptionsAccessor,
             ILogger<XmlNavigationTreeBuilder> logger)
         {
@@ -33,7 +34,7 @@ namespace cloudscribe.Web.Navigation
             
         }
 
-        private IApplicationEnvironment appEnv;
+        private IHostingEnvironment appEnv;
         private NavigationOptions navOptions;
         private ILogger log;
         private TreeNode<NavigationNode> rootNode = null;
@@ -57,7 +58,7 @@ namespace cloudscribe.Web.Navigation
 
         private string ResolveFilePath()
         {
-            string filePath = appEnv.ApplicationBasePath + Path.DirectorySeparatorChar
+            string filePath = appEnv.ContentRootPath + Path.DirectorySeparatorChar
                 + navOptions.NavigationMapXmlFileName;
 
             return filePath;

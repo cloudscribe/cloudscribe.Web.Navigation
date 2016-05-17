@@ -2,12 +2,12 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-14
-// Last Modified:			2016-02-26
+// Last Modified:			2016-05-17
 // 
 
 using cloudscribe.Web.Navigation.Helpers;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.OptionsModel;
+using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.PlatformAbstractions;
 using Newtonsoft.Json;
@@ -16,13 +16,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 
 namespace cloudscribe.Web.Navigation
 {
     public class JsonNavigationTreeBuilder : INavigationTreeBuilder
     {
         public JsonNavigationTreeBuilder(
-            IApplicationEnvironment appEnv,
+            IHostingEnvironment appEnv,
             IOptions<NavigationOptions> navigationOptionsAccessor,
             ILoggerFactory loggerFactory,
             IDistributedCache cache)
@@ -40,7 +41,7 @@ namespace cloudscribe.Web.Navigation
 
         private IDistributedCache cache;
         private const string cacheKey = "navjsonbuild";
-        private IApplicationEnvironment appEnv;
+        private IHostingEnvironment appEnv;
         private NavigationOptions navOptions;
         private ILoggerFactory logFactory;
         private ILogger log;
@@ -59,7 +60,7 @@ namespace cloudscribe.Web.Navigation
             if (rootNode == null)
             {
                 
-                await cache.ConnectAsync();
+                //await cache.ConnectAsync();
                 byte[] bytes = await cache.GetAsync(cacheKey);
                 if (bytes != null)
                 {
@@ -111,7 +112,7 @@ namespace cloudscribe.Web.Navigation
 
         private string ResolveFilePath()
         {
-            string filePath = appEnv.ApplicationBasePath + Path.DirectorySeparatorChar
+            string filePath = appEnv.ContentRootPath + Path.DirectorySeparatorChar
                 + navOptions.NavigationMapJsonFileName;
 
             return filePath;

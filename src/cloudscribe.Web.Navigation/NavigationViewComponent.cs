@@ -2,10 +2,12 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-10
-// Last Modified:			2016-02-26
+// Last Modified:			2016-05-17
 // 
 
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
@@ -16,14 +18,16 @@ namespace cloudscribe.Web.Navigation
         public NavigationViewComponent(
             NavigationTreeBuilderService siteMapTreeBuilder,
             INavigationNodePermissionResolver permissionResolver,
-            IUrlHelper urlHelper,
+            IUrlHelperFactory urlHelperFactory,
+            IActionContextAccessor actionContextAccesor,
             INodeUrlPrefixProvider prefixProvider,
             ILogger<NavigationViewComponent> logger)
         {
             builder = siteMapTreeBuilder;
             this.permissionResolver = permissionResolver;
-            this.urlHelper = urlHelper;
-            if(prefixProvider == null)
+            this.urlHelperFactory = urlHelperFactory;
+            this.actionContextAccesor = actionContextAccesor;
+            if (prefixProvider == null)
             {
                 this.prefixProvider = new DefaultNodeUrlPrefixProvider();
             }
@@ -37,19 +41,16 @@ namespace cloudscribe.Web.Navigation
         private ILogger log;
         private NavigationTreeBuilderService builder;
         private INavigationNodePermissionResolver permissionResolver;
-        private IUrlHelper urlHelper;
+        private IUrlHelperFactory urlHelperFactory;
+        private IActionContextAccessor actionContextAccesor;
         private INodeUrlPrefixProvider prefixProvider;
 
-        public async Task<IViewComponentResult> InvokeAsync(string viewName, string filterName)
-        {
-            return await InvokeAsync(viewName, filterName, string.Empty);
-            
-        }
+        
 
         public async Task<IViewComponentResult> InvokeAsync(string viewName, string filterName, string startingNodeKey)
         {
             var rootNode = await builder.GetTree();
-
+            var urlHelper = urlHelperFactory.GetUrlHelper(actionContextAccesor.ActionContext);
             NavigationViewModel model = new NavigationViewModel(
                 startingNodeKey,
                 filterName,

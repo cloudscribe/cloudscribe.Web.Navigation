@@ -5,7 +5,7 @@
     <form asp-controller="FakeAccount" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a asp-controller="Account" asp-action="Index">Hello @User.GetUserName()!</a>
+                <a asp-controller="Account" asp-action="Index">Hello @User.FindFirstValue(ClaimsIdentity.DefaultNameClaimType)!</a>
             </li>
             <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
         </ul>

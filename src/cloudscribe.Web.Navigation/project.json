@@ -1,44 +1,33 @@
-{
-  "version": "1.0.1-beta2",
-  "title": "cloudscribe.Web.Navigation",
-  "description": "an ASP.NET 5 viewcomponent for menus and breadcrumbs",
-  "authors": [ "Joe Audette" ],
-  "owners": [ "Source Tree Solutions" ],
-  "tags": [ "cloudscribe","mvc6","mvcsitemapprovider","navigation","menus","breadcrumbs","bootstrap" ],
-  "projectUrl": "https://github.com/joeaudette/cloudscribe.Web.Navigation",
-  "licenseUrl": "http://www.apache.org/licenses/LICENSE-2.0",
-  "copyright": "2015 Source Tree Solutions",
-  "iconUrl": "https://raw.githubusercontent.com/joeaudette/cloudscribe.Web.Navigation/master/cloudscribe-icon-32.png",
-  "requireLicenseAcceptance": false,
-  "releaseNotes": "added ServiceCollectionExtensions",
-  "packInclude": {
-    "content/": "content/**"
-  },
-  "content": [ "Views/Shared/*.cshtml", "Views/Shared/Components/Navigation/*.cshtml" ],
-
-  "dependencies": {
-    "Microsoft.AspNet.Mvc": "6.0.0-rc1-final",
-    "Microsoft.AspNet.Mvc.TagHelpers": "6.0.0-rc1-final",
-    "Microsoft.Extensions.Caching.Abstractions": "1.0.0-rc1-final",
-    "Microsoft.Extensions.Configuration.Abstractions": "1.0.0-rc1-final",
-    "Microsoft.Extensions.Logging.Abstractions": "1.0.0-rc1-final",
-    "Newtonsoft.Json": "7.0.1"
-  },
-
-  "frameworks": {
-    "net451": {
-      "frameworkAssemblies": {
-        "System.Xml": ""
-      }
+﻿{
+    "version": "1.0.1-beta3",
+    "description": "an ASP.NET 5 viewcomponent for menus and breadcrumbs",
+    "authors": [ "Joe Audette" ],
+    "packOptions": {
+        "owners": [ "Source Tree Solutions" ],
+        "tags": [ "cloudscribe", "mvc6", "mvcsitemapprovider", "navigation", "menus", "breadcrumbs", "bootstrap" ],
+        "projectUrl": "https://github.com/joeaudette/cloudscribe.Web.Navigation",
+        "licenseUrl": "http://www.apache.org/licenses/LICENSE-2.0",
+        "copyright": "2015 Source Tree Solutions",
+        "iconUrl": "https://raw.githubusercontent.com/joeaudette/cloudscribe.Web.Navigation/master/cloudscribe-icon-32.png",
+        "requireLicenseAcceptance": false,
+        "releaseNotes": "added ServiceCollectionExtensions"
     },
-    "dnxcore50": {
-      "dependencies": {
-        "System.Collections": "4.0.11-beta-23516",
-        "Microsoft.CSharp": "4.0.1-beta-23516",
-        "System.Linq": "4.0.1-beta-23516",
-        "System.Runtime": "4.0.21-beta-23516",
-        "System.Xml.XDocument": "4.0.11-beta-23516"
-      }
+
+
+    "dependencies": {
+        "NETStandard.Library": "1.5.0-rc2-24027",
+        "Microsoft.AspNetCore.Mvc": "1.0.0-rc2-final",
+        "Microsoft.Extensions.Caching.Abstractions": "1.0.0-rc2-final",
+        "Microsoft.Extensions.Configuration.Abstractions": "1.0.0-rc2-final",
+        "Microsoft.Extensions.Logging.Abstractions": "1.0.0-rc2-final",
+        "Microsoft.Extensions.Options": "1.0.0-rc2-final",
+        "Newtonsoft.Json": "8.0.3",
+        "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0-rc2-final"
+    },
+
+    "frameworks": {
+        "netstandard1.5": {
+            "imports": "dnxcore50"
+        }
     }
-  }
 }
