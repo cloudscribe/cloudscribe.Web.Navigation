@@ -53,6 +53,10 @@ namespace NavigationDemo.Web
 
             services.Configure<RazorViewEngineOptions>(options =>
             {
+                // if you download the cloudscribe.Web.Navigation Views and put them in your views folder
+                // then you don't need this line and can customize the views
+                // you can find them here:
+                // https://github.com/joeaudette/cloudscribe.Web.Navigation/tree/master/src/cloudscribe.Web.Navigation/Views
                 options.AddEmbeddedViewsForNavigation();
 
             });
