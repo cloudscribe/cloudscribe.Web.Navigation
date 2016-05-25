@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc.Razor;
 
 namespace NavigationDemo.Web
 {
@@ -47,8 +48,12 @@ namespace NavigationDemo.Web
                      {
                          Duration = 100
                      });
+                
+            });
 
-
+            services.Configure<RazorViewEngineOptions>(options =>
+            {
+                options.AddEmbeddedViewsForNavigation();
 
             });
 

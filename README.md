@@ -23,7 +23,7 @@ You can download/clone this repo and run the NavigationDemo.Web project to see a
 Prerequisites:
 
 *  [Visual Studio 2015](https://www.visualstudio.com/en-us/downloads) 
-*  [ASP.NET 5 RC1 Tooling](https://get.asp.net/) 
+*  [ASP.NET Core RC2 and related Tooling](http://dot.net) 
 
 To install from nuget.org open the project.json file of your web application and in the dependencies section add:
 
@@ -35,12 +35,18 @@ Unfortunately it is not yet possible for us to install the needed views from nug
 
 In your Startup.cs you will need this at the top: 
 
-    using Microsoft.Framework.DependencyInjection.Extensions;
-    using cloudscribe.Web.Navigation;
+    using Microsoft.Framework.DependencyInjection;
+    using Microsoft.AspNetCore.Mvc.Razor;
 
 and in ConfigureServices you will need this:
 
-    services.AddCloudscribeNavigation(configuration);
+    services.AddCloudscribeNavigation(Configuration.GetSection("NavigationOptions"));
+	services.Configure<RazorViewEngineOptions>(options =>
+		{
+			options.AddEmbeddedViewsForNavigation();
+		});
+		
+The configuration section shown in the code above does not actually have to exist in your appsettings.json unless you wish to override default settings.
 
 In your _ViewImports.cshtml file add:
 
@@ -82,14 +88,14 @@ For example if you started with the standard ASP.NET 5 project template, you wil
   You would replace that with this:
   
       <div class="navbar-collapse collapse">
-          @await Component.InvokeAsync("Navigation", "BootstrapTopNav", NamedNavigationFilters.TopNav) 
+          @await Component.InvokeAsync("Navigation", new { viewName = "BootstrapTopNav", filterName = NamedNavigationFilters.TopNav, startingNodeKey= "" }) 
           @await Html.PartialAsync("_LoginPartial")
       </div>
   
   That makes the top bootstrap navigation, now to add breadcrumbs put this in at the indicated spot:
   
       <div class="container body-content">
-            @await Component.InvokeAsync("Navigation", "BootstrapBreadcrumbs", NamedNavigationFilters.Breadcrumbs)
+            @await Component.InvokeAsync("Navigation", new { viewName = "BootstrapBreadcrumbs", filterName = NamedNavigationFilters.Breadcrumbs, startingNodeKey = "" })
             @RenderBody()
 
 The div and the @RenderBody() should already be there, you just add the middle part that invokes the breadcrumbs.
