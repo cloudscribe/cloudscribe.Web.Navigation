@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Mvc.Razor;
+
 
 namespace NavigationDemo.Web
 {
@@ -50,18 +50,16 @@ namespace NavigationDemo.Web
                      });
                 
             });
-
-            services.Configure<RazorViewEngineOptions>(options =>
+            
+            services.AddMvc()
+                .AddRazorOptions(options =>
             {
                 // if you download the cloudscribe.Web.Navigation Views and put them in your views folder
-                // then you don't need this line and can customize the views
+                // then you don't need this line and can customize the views (recommended)
                 // you can find them here:
                 // https://github.com/joeaudette/cloudscribe.Web.Navigation/tree/master/src/cloudscribe.Web.Navigation/Views
                 options.AddEmbeddedViewsForNavigation();
-
             });
-
-            services.AddMvc();
 
            
         }

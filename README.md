@@ -36,15 +36,19 @@ Unfortunately it is not yet possible for us to install the needed views from nug
 In your Startup.cs you will need this at the top: 
 
     using Microsoft.Framework.DependencyInjection;
-    using Microsoft.AspNetCore.Mvc.Razor;
 
 and in ConfigureServices you will need this:
 
     services.AddCloudscribeNavigation(Configuration.GetSection("NavigationOptions"));
-	services.Configure<RazorViewEngineOptions>(options =>
-		{
-			options.AddEmbeddedViewsForNavigation();
-		});
+	services.AddMvc()
+                .AddRazorOptions(options =>
+            {
+                // if you download the cloudscribe.Web.Navigation Views and put them in your views folder
+                // then you don't need this line and can customize the views (recommended)
+                // you can find them here:
+                // https://github.com/joeaudette/cloudscribe.Web.Navigation/tree/master/src/cloudscribe.Web.Navigation/Views
+                options.AddEmbeddedViewsForNavigation();
+            });
 		
 The configuration section shown in the code above does not actually have to exist in your appsettings.json unless you wish to override default settings.
 
