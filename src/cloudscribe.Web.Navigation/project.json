@@ -31,7 +31,7 @@
     },
 
     "frameworks": {
-        "netstandard1.5": {
+        "netstandard1.3": {
             "imports": "dnxcore50"
         }
     }
