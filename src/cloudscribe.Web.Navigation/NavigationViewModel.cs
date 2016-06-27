@@ -159,52 +159,60 @@ namespace cloudscribe.Web.Navigation
         public string AdjustUrl(TreeNode<NavigationNode> node)
         {
             string urlToUse = string.Empty;
-            if ((node.Value.Action.Length > 0)&&(node.Value.Controller.Length > 0))
+            try
             {
-                if(node.Value.PreservedRouteParameters.Length > 0)
+                if ((node.Value.Action.Length > 0) && (node.Value.Controller.Length > 0))
                 {
-                    List<string> preservedParams = node.Value.PreservedRouteParameters.SplitOnChar(',');
-                    //var queryBuilder = new QueryBuilder();
-                    //var routeParams = new { };
-                    var queryStrings = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-                    foreach (string p in preservedParams)
+                    if (node.Value.PreservedRouteParameters.Length > 0)
                     {
-                        if(context.Request.Query.ContainsKey(p))
+                        List<string> preservedParams = node.Value.PreservedRouteParameters.SplitOnChar(',');
+                        //var queryBuilder = new QueryBuilder();
+                        //var routeParams = new { };
+                        var queryStrings = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+                        foreach (string p in preservedParams)
                         {
-                            queryStrings.Add(p, context.Request.Query[p]);
+                            if (context.Request.Query.ContainsKey(p))
+                            {
+                                queryStrings.Add(p, context.Request.Query[p]);
+                            }
                         }
+
+                        urlToUse = urlHelper.Action(node.Value.Action, node.Value.Controller);
+                        if ((urlToUse != null) && (queryStrings.Count > 0))
+                        {
+                            urlToUse = QueryHelpers.AddQueryString(urlToUse, queryStrings);
+                        }
+
                     }
-                    
-                    urlToUse = urlHelper.Action(node.Value.Action, node.Value.Controller);
-                    if((urlToUse != null)&&(queryStrings.Count > 0))
+                    else
                     {
-                        urlToUse = QueryHelpers.AddQueryString(urlToUse, queryStrings);
+                        urlToUse = urlHelper.Action(node.Value.Action, node.Value.Controller);
                     }
-                    
+
                 }
-                else
+                else if (node.Value.NamedRoute.Length > 0)
                 {
-                    urlToUse = urlHelper.Action(node.Value.Action, node.Value.Controller);
+                    urlToUse = urlHelper.RouteUrl(node.Value.NamedRoute);
                 }
-                
-            }
-            else if(node.Value.NamedRoute.Length > 0)
-            {
-                urlToUse = urlHelper.RouteUrl(node.Value.NamedRoute);
-            }
 
-            string key = NavigationNodeAdjuster.KeyPrefix + node.Value.Key;
+                string key = NavigationNodeAdjuster.KeyPrefix + node.Value.Key;
 
-            if (context.Items[key] != null)
-            {
-                NavigationNodeAdjuster adjuster = (NavigationNodeAdjuster)context.Items[key];
-                if (adjuster.ViewFilterName == navigationFilterName)
+                if (context.Items[key] != null)
                 {
-                    if (adjuster.AdjustedUrl.Length > 0) { return adjuster.AdjustedUrl; }
+                    NavigationNodeAdjuster adjuster = (NavigationNodeAdjuster)context.Items[key];
+                    if (adjuster.ViewFilterName == navigationFilterName)
+                    {
+                        if (adjuster.AdjustedUrl.Length > 0) { return adjuster.AdjustedUrl; }
+                    }
                 }
-            }
 
-            if(string.IsNullOrEmpty(urlToUse)) { return node.Value.Url; }
+                if (string.IsNullOrEmpty(urlToUse)) { return node.Value.Url; }
+            }
+            catch(ArgumentOutOfRangeException ex)
+            {
+                log.LogError("error handled for " + node.Value.Key, ex);
+            }
+            
 
             //if(urlToUse.Length > 0) { return urlToUse; }
        
