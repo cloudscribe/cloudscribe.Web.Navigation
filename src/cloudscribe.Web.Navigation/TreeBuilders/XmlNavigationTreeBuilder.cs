@@ -72,7 +72,14 @@ namespace cloudscribe.Web.Navigation
             {
                 log.LogError("unable to build navigation tree, could not find the file " + filePath);
 
-                return null;
+                NavigationNode rootNav = new NavigationNode();
+                rootNav.Key = "filenotfound";
+                rootNav.IsRootNode = true;
+                rootNav.Text = filePath + " not found";
+                rootNav.Url = "/";
+                var treeRoot = new TreeNode<NavigationNode>(rootNav);
+
+                return treeRoot;
             }
 
             string xml;
