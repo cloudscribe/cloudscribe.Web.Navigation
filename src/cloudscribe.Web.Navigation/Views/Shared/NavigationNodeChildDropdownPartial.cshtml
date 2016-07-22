@@ -1,5 +1,6 @@
 ﻿@using cloudscribe.Web.Navigation
 @model NavigationViewModel
+@addTagHelper *, cloudscribe.Web.Navigation
 @{
 // Copyright (c) Source Tree Solutions, LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
@@ -51,11 +52,11 @@
         }
         if (!Model.HasVisibleChildren(childNode))
         {
-            <li><a href="@Url.Content(childNode.Value.Url)">@Html.Raw(GetIcon(childNode.Value))@childNode.Value.Text</a></li>
+            <li cwn-data-attributes="@childNode.Value.DataAttributes"><a href="@Url.Content(childNode.Value.Url)">@Html.Raw(GetIcon(childNode.Value))@childNode.Value.Text</a></li>
         }
         else
         {
-            <li class="dropdown-submenu">
+            <li cwn-data-attributes="@childNode.Value.DataAttributes" class="dropdown-submenu">
                 <a href="@Url.Content(childNode.Value.Url)">@Html.Raw(GetIcon(childNode.Value))@childNode.Value.Text </a>
                 @Model.UpdateTempNode(childNode)@Html.Partial("NavigationNodeChildDropdownPartial", Model) @* recursion *@
             </li>

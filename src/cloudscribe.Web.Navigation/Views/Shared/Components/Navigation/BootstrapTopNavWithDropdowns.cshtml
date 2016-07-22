@@ -1,8 +1,7 @@
 ﻿@using cloudscribe.Web.Navigation
 @using System.Text
-
 @model NavigationViewModel
-
+@addTagHelper *, cloudscribe.Web.Navigation
 @{ 
 // Copyright (c) Source Tree Solutions, LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
@@ -47,19 +46,19 @@
     @if (Model.HasVisibleChildren(Model.RootNode))
     {
         <ul class="nav navbar-nav">
-            <li class='@GetClass(Model.RootNode.Value)'><a href="@Url.Content(Model.AdjustUrl(Model.RootNode))">@Model.AdjustText(Model.RootNode)</a></li>
+            <li cwn-data-attributes="@Model.RootNode.Value.DataAttributes" class='@GetClass(Model.RootNode.Value)'><a href="@Url.Content(Model.AdjustUrl(Model.RootNode))">@Model.AdjustText(Model.RootNode)</a></li>
 
             @foreach (var node in Model.RootNode.Children)
             {
                 if (!Model.ShouldAllowView(node)) { continue; }
                 if (!Model.HasVisibleChildren(node))
                 {
-                    <li class='@GetClass(node.Value)'><a href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(GetIcon(node.Value))@Model.AdjustText(node)</a></li>
+                    <li cwn-data-attributes="@node.Value.DataAttributes" class='@GetClass(node.Value)'><a href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(GetIcon(node.Value))@Model.AdjustText(node)</a></li>
                 }
                 else
                 {
 
-                    <li class='@GetClass(node.Value, "dropdown")'>  
+                    <li cwn-data-attributes="@node.Value.DataAttributes" class='@GetClass(node.Value, "dropdown")'>  
                         <a href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(GetIcon(node.Value))@Model.AdjustText(node) <span class="caret"></span></a>
                         @Model.UpdateTempNode(node)@Html.Partial("NavigationNodeChildDropdownPartial", Model)
                     </li>
