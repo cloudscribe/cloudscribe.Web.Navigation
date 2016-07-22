@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-07
-// Last Modified:			2016-02-26
+// Last Modified:			2016-07-22
 // 
 
 using Newtonsoft.Json.Linq;
@@ -106,25 +106,25 @@ namespace cloudscribe.Web.Navigation
                 navNode.HideFromAnonymous = Convert.ToBoolean((string)jNode["Value"]["HideFromAnonymous"]);
             }
 
-            if (jNode["Value"]["ResourceName"] != null)
-            {
-                navNode.ResourceName = (string)jNode["Value"]["ResourceName"];
-            }
+            //if (jNode["Value"]["ResourceName"] != null)
+            //{
+            //    navNode.ResourceName = (string)jNode["Value"]["ResourceName"];
+            //}
 
-            if (jNode["Value"]["ResourceTextKey"] != null)
-            {
-                navNode.ResourceTextKey = (string)jNode["Value"]["ResourceTextKey"];
-            }
+            //if (jNode["Value"]["ResourceTextKey"] != null)
+            //{
+            //    navNode.ResourceTextKey = (string)jNode["Value"]["ResourceTextKey"];
+            //}
 
-            if (jNode["Value"]["ResourceTitleKey"] != null)
-            {
-                navNode.ResourceTitleKey = (string)jNode["Value"]["ResourceTitleKey"];
-            }
+            //if (jNode["Value"]["ResourceTitleKey"] != null)
+            //{
+            //    navNode.ResourceTitleKey = (string)jNode["Value"]["ResourceTitleKey"];
+            //}
 
-            if (jNode["Value"]["IncludeAmbientValuesInUrl"] != null)
-            {
-                navNode.IncludeAmbientValuesInUrl = Convert.ToBoolean((string)jNode["Value"]["IncludeAmbientValuesInUrl"]);
-            }
+            //if (jNode["Value"]["IncludeAmbientValuesInUrl"] != null)
+            //{
+            //    navNode.IncludeAmbientValuesInUrl = Convert.ToBoolean((string)jNode["Value"]["IncludeAmbientValuesInUrl"]);
+            //}
 
             if (tNode == null)
             {

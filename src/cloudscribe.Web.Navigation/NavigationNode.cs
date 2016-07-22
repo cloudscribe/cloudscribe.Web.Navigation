@@ -2,16 +2,22 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-09
-// Last Modified:			2015-07-15
+// Last Modified:			2016-07-22
 // 
 
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace cloudscribe.Web.Navigation
 {
-    public class NavigationNode : INavigationNode, INavigationNodeLocalization, INavigationNodeRenderSettings
+    public class NavigationNode : INavigationNode, INavigationNodeRenderSettings, INavigationNodeDesignMeta
     {
+        public NavigationNode()
+        {
+            DataAttributes = new List<DataAttribute>();
+        }
+
         #region INavigationNode
 
         [JsonRequired]
@@ -36,6 +42,9 @@ namespace cloudscribe.Web.Navigation
         public string Action { get; set; } = string.Empty;
 
         [DefaultValue("")]
+        public string Area { get; set; } = string.Empty;
+
+        [DefaultValue("")]
         public string NamedRoute { get; set; } = string.Empty;
 
         /// <summary>
@@ -45,6 +54,37 @@ namespace cloudscribe.Web.Navigation
         /// </summary>
         [DefaultValue(false)]
         public bool IsRootNode { get; set; } = false;
+        
+
+        #endregion
+
+        //#region INavigationNodeLocalization
+
+        //[DefaultValue("")]
+        //public string ResourceName { get; set; } = string.Empty;
+
+        //[DefaultValue("")]
+        //public string ResourceTextKey { get; set; } = string.Empty;
+
+        //[DefaultValue("")]
+        //public string ResourceTitleKey { get; set; } = string.Empty;
+
+        //#endregion
+
+        #region INavigationNodeRenderSettings
+
+        //[DefaultValue(true)]
+        //public bool IncludeAmbientValuesInUrl { get; set; } = true;
+
+        [DefaultValue("")]
+        public string PreservedRouteParameters { get; set; } = string.Empty;
+
+        [DefaultValue("")]
+        public string ComponentVisibility { get; set; } = string.Empty;
+
+        [DefaultValue("")]
+        public string ViewRoles { get; set; } = string.Empty;
+
         /// <summary>
         /// set to true if the root node itself is not intended to be rendered
         /// false is for the root page to be the "home" page and everything else hangs off it
@@ -59,32 +99,19 @@ namespace cloudscribe.Web.Navigation
 
         #endregion
 
-        #region INavigationNodeLocalization
+        #region INavigationNodeDesignMeta
 
-        [DefaultValue("")]
-        public string ResourceName { get; set; } = string.Empty;
+        public bool IsClickable { get; set; } = true;
 
-        [DefaultValue("")]
-        public string ResourceTextKey { get; set; } = string.Empty;
+        public string IconCssClass { get; set; } = string.Empty;
 
-        [DefaultValue("")]
-        public string ResourceTitleKey { get; set; } = string.Empty;
+        public string CssClass { get; set; } = string.Empty;
 
-        #endregion
+        public string MenuDescription { get; set; } = string.Empty;
 
-        #region INavigationNodeRenderSettings
+        public string Target { get; set; } = string.Empty;
 
-        [DefaultValue(true)]
-        public bool IncludeAmbientValuesInUrl { get; set; } = true;
-
-        [DefaultValue("")]
-        public string PreservedRouteParameters { get; set; } = string.Empty;
-
-        [DefaultValue("")]
-        public string ComponentVisibility { get; set; } = string.Empty;
-
-        [DefaultValue("")]
-        public string ViewRoles { get; set; } = string.Empty;
+        public List<DataAttribute> DataAttributes { get; set; }
 
         #endregion
 

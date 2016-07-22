@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-14
-// Last Modified:			2016-02-26
+// Last Modified:			2016-07-22
 // 
 
 using System;
@@ -58,6 +58,11 @@ namespace cloudscribe.Web.Navigation
                 writer.WriteAttributeString("action", node.Value.Action);
             }
 
+            if (node.Value.Area.Length > 0)
+            {
+                writer.WriteAttributeString("area", node.Value.Area);
+            }
+
             if (node.Value.NamedRoute.Length > 0)
             {
                 writer.WriteAttributeString("named-route", node.Value.NamedRoute);
@@ -93,25 +98,25 @@ namespace cloudscribe.Web.Navigation
                 writer.WriteAttributeString("isRootNode", "true");
             }
 
-            if (node.Value.ResourceName.Length > 0)
-            {
-                writer.WriteAttributeString("resourceName", node.Value.ResourceName);
-            }
+            //if (node.Value.ResourceName.Length > 0)
+            //{
+            //    writer.WriteAttributeString("resourceName", node.Value.ResourceName);
+            //}
 
-            if (node.Value.ResourceTextKey.Length > 0)
-            {
-                writer.WriteAttributeString("resourceTextKey", node.Value.ResourceTextKey);
-            }
+            //if (node.Value.ResourceTextKey.Length > 0)
+            //{
+            //    writer.WriteAttributeString("resourceTextKey", node.Value.ResourceTextKey);
+            //}
 
-            if (node.Value.ResourceTitleKey.Length > 0)
-            {
-                writer.WriteAttributeString("resourceTitleKey", node.Value.ResourceTitleKey);
-            }
+            //if (node.Value.ResourceTitleKey.Length > 0)
+            //{
+            //    writer.WriteAttributeString("resourceTitleKey", node.Value.ResourceTitleKey);
+            //}
 
-            if (!node.Value.IncludeAmbientValuesInUrl)
-            {
-                writer.WriteAttributeString("includeAmbientValuesInUrl", "false");
-            }
+            //if (!node.Value.IncludeAmbientValuesInUrl)
+            //{
+            //    writer.WriteAttributeString("includeAmbientValuesInUrl", "false");
+            //}
 
 
             // children
@@ -120,6 +125,23 @@ namespace cloudscribe.Web.Navigation
             WriteChildNodes(node, writer);
 
             writer.WriteEndElement(); //Children
+
+            if(node.Value.DataAttributes.Count > 0)
+            {
+                writer.WriteStartElement("DataAttributes");
+
+                foreach(var att in node.Value.DataAttributes)
+                {
+                    writer.WriteStartElement("DataAttribute");
+
+                    writer.WriteAttributeString("attribute", att.Attribute);
+                    writer.WriteAttributeString("value", att.Value);
+
+                    writer.WriteEndElement(); //DataAttribute
+                }
+
+                writer.WriteEndElement(); //DataAttributes
+            }
 
 
             writer.WriteEndElement(); //NavNode
@@ -242,6 +264,9 @@ namespace cloudscribe.Web.Navigation
                        
                 }
             }
+
+            
+
         }
 
         private string GetNodeBuilderName(XElement xmlNode)
@@ -277,6 +302,9 @@ namespace cloudscribe.Web.Navigation
             a = xmlNode.Attribute("action");
             if (a != null) { navNode.Action = a.Value; }
 
+            a = xmlNode.Attribute("area");
+            if (a != null) { navNode.Area = a.Value; }
+
             a = xmlNode.Attribute("named-route");
             if (a != null) { navNode.NamedRoute = a.Value; }
 
@@ -302,17 +330,17 @@ namespace cloudscribe.Web.Navigation
             a = xmlNode.Attribute("hideFromAnonymous");
             if (a != null) { navNode.HideFromAnonymous = Convert.ToBoolean(a.Value); }
 
-            a = xmlNode.Attribute("includeAmbientValuesInUrl");
-            if (a != null) { navNode.IncludeAmbientValuesInUrl = Convert.ToBoolean(a.Value); }
+            //a = xmlNode.Attribute("includeAmbientValuesInUrl");
+            //if (a != null) { navNode.IncludeAmbientValuesInUrl = Convert.ToBoolean(a.Value); }
 
-            a = xmlNode.Attribute("resourceName");
-            if (a != null) { navNode.ResourceName = a.Value; }
+            //a = xmlNode.Attribute("resourceName");
+            //if (a != null) { navNode.ResourceName = a.Value; }
 
-            a = xmlNode.Attribute("resourceTextKey");
-            if (a != null) { navNode.ResourceTextKey = a.Value; }
+            //a = xmlNode.Attribute("resourceTextKey");
+            //if (a != null) { navNode.ResourceTextKey = a.Value; }
 
-            a = xmlNode.Attribute("resourceTitleKey");
-            if (a != null) { navNode.ResourceTitleKey = a.Value; }
+            //a = xmlNode.Attribute("resourceTitleKey");
+            //if (a != null) { navNode.ResourceTitleKey = a.Value; }
 
             a = xmlNode.Attribute("preservedRouteParameters");
             if (a != null) { navNode.PreservedRouteParameters = a.Value; }
@@ -323,8 +351,41 @@ namespace cloudscribe.Web.Navigation
             a = xmlNode.Attribute("viewRoles");
             if (a != null) { navNode.ViewRoles = a.Value; }
 
-            
-            
+
+            a = xmlNode.Attribute("isClickable");
+            if (a != null) { navNode.IsClickable = Convert.ToBoolean(a.Value); }
+
+            a = xmlNode.Attribute("iconCssClass");
+            if (a != null) { navNode.IconCssClass = a.Value; }
+
+            a = xmlNode.Attribute("cssClass");
+            if (a != null) { navNode.CssClass = a.Value; }
+
+            a = xmlNode.Attribute("menuDescription");
+            if (a != null) { navNode.MenuDescription = a.Value; }
+
+            a = xmlNode.Attribute("target");
+            if (a != null) { navNode.Target = a.Value; }
+
+
+            foreach (XElement childrenNode in xmlNode.Elements(XName.Get("DataAttributes")))
+            {
+                foreach (XElement childNode in childrenNode.Elements(XName.Get("DataAttribute")))
+                {
+                    var key = childNode.Attribute("attribute");
+                    var val = childNode.Attribute("value");
+                    if((key != null)&&(val != null))
+                    {
+                        var att = new DataAttribute();
+                        att.Attribute = key.Value;
+                        att.Value = val.Value;
+                        navNode.DataAttributes.Add(att);
+                    }
+
+
+                }
+            }
+
             return navNode;
         }
 

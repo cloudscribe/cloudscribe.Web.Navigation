@@ -1,7 +1,5 @@
 ﻿@using cloudscribe.Web.Navigation
-
 @model NavigationViewModel
-
 @{
 // Copyright (c) Source Tree Solutions, LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
@@ -9,39 +7,59 @@
 // Created 2015-07-13
 // Last Modified: 2015-07-13
 }
+@functions
+{
+    public string GetClass(NavigationNode node, string inputClass = null)
+    {
+        if (string.IsNullOrEmpty(node.CssClass))
+        {
+            return inputClass;
 
+        }
+        else
+        {
+            if (!string.IsNullOrEmpty(inputClass))
+            {
+                return inputClass + " " + node.CssClass;
+            }
+            return node.CssClass;
+        }
 
+    }
+    public string GetIcon(NavigationNode node)
+    {
+        if (string.IsNullOrEmpty(node.IconCssClass))
+        {
+            return string.Empty;
+
+        }
+        return "<i class='" + node.IconCssClass + "'></i> ";
+
+    }
+}
 @if ((Model.TempNode != null) && (Model.HasVisibleChildren(Model.TempNode)))
 {
-    @:<ul class="dropdown-menu" role="menu">
+    <ul class="dropdown-menu" role="menu">
     @foreach (var childNode in Model.TempNode.Children)
     {
         if (!Model.ShouldAllowView(childNode)) { continue; }
 
         if (childNode.Value.Text == "Separator")
         {
-            @:
             <li class="divider"></li>
                 continue;
         }
         if (!Model.HasVisibleChildren(childNode))
         {
-            @:
-            <li><a href="@Url.Content(childNode.Value.Url)">@childNode.Value.Text</a></li>
+            <li><a href="@Url.Content(childNode.Value.Url)">@Html.Raw(GetIcon(childNode.Value))@childNode.Value.Text</a></li>
         }
         else
         {
             <li class="dropdown-submenu">
-                <a href="@Url.Content(childNode.Value.Url)">
-                    @childNode.Value.Text 
-                </a>
-                @Model.UpdateTempNode(childNode)
-                @Html.Partial("NavigationNodeChildDropdownPartial", Model) @* recursion *@
+                <a href="@Url.Content(childNode.Value.Url)">@Html.Raw(GetIcon(childNode.Value))@childNode.Value.Text </a>
+                @Model.UpdateTempNode(childNode)@Html.Partial("NavigationNodeChildDropdownPartial", Model) @* recursion *@
             </li>
         }
-
     }
-
-    @:</ul>
-
+    </ul>
 }

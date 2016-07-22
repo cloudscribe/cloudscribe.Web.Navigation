@@ -14,29 +14,56 @@
 // probably don't want to implement dropdowns as they are not mobile friendly and not officially supported by bootstrap
 // http://stackoverflow.com/questions/18023493/bootstrap-3-dropdown-sub-menu-missing
 }
+@functions
+{
+    public string GetClass(NavigationNode node, string inputClass = null)
+    {
+        if (string.IsNullOrEmpty(node.CssClass))
+        {
+            return inputClass;
 
-    @if (Model.HasVisibleChildren(Model.RootNode))
-        {
-        @:<ul class="nav navbar-nav">
-    @:<li><a href="@Url.Content(Model.AdjustUrl(Model.RootNode))">@Model.AdjustText(Model.RootNode)</a></li>
-        foreach (var node in Model.RootNode.Children)
-        {
-            if(!Model.ShouldAllowView(node)) { continue; }
-            if (!Model.HasVisibleChildren(node))
-            {
-                @:
-                <li><a href="@Url.Content(Model.AdjustUrl(node))">@Model.AdjustText(node)</a></li>
-            }
-            else
-            {
-                @:
-                <li class="dropdown">
-                    <a href="@Url.Content(Model.AdjustUrl(node))">
-                    @Model.AdjustText(node) <span class="caret"></span></a>
-                    @Model.UpdateTempNode(node)
-                    @Html.Partial("NavigationNodeChildDropdownPartial", Model)
-                </li>
-            }
         }
-        @:</ul>
+        else
+        {
+            if (!string.IsNullOrEmpty(inputClass))
+            {
+                return inputClass + " " + node.CssClass;
+            }
+            return node.CssClass;
+        }
+
+    }
+    public string GetIcon(NavigationNode node)
+    {
+        if (string.IsNullOrEmpty(node.IconCssClass))
+        {
+            return string.Empty;
+
+        }
+        return "<i class='" + node.IconCssClass + "'></i> ";
+
+    }
+}
+    @if (Model.HasVisibleChildren(Model.RootNode))
+    {
+        <ul class="nav navbar-nav">
+            <li class='@GetClass(Model.RootNode.Value)'><a href="@Url.Content(Model.AdjustUrl(Model.RootNode))">@Model.AdjustText(Model.RootNode)</a></li>
+
+            @foreach (var node in Model.RootNode.Children)
+            {
+                if (!Model.ShouldAllowView(node)) { continue; }
+                if (!Model.HasVisibleChildren(node))
+                {
+                    <li class='@GetClass(node.Value)'><a href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(GetIcon(node.Value))@Model.AdjustText(node)</a></li>
+                }
+                else
+                {
+
+                    <li class='@GetClass(node.Value, "dropdown")'>  
+                        <a href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(GetIcon(node.Value))@Model.AdjustText(node) <span class="caret"></span></a>
+                        @Model.UpdateTempNode(node)@Html.Partial("NavigationNodeChildDropdownPartial", Model)
+                    </li>
+                }
+            }
+        </ul>
     }
