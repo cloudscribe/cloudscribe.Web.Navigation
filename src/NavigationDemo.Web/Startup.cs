@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
-
+using cloudscribe.Web.SiteMap;
 
 namespace NavigationDemo.Web
 {
@@ -38,6 +38,7 @@ namespace NavigationDemo.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<ISiteMapNodeService, NavigationTreeSiteMapNodeService>();
             services.AddCloudscribeNavigation(Configuration.GetSection("NavigationOptions"));
 
             services.Configure<MvcOptions>(options =>

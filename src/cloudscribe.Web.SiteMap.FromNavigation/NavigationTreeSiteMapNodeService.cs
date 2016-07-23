@@ -2,12 +2,13 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:                  Joe Audette
 // Created:                 2016-04-20
-// Last Modified:           2016-05-17
+// Last Modified:           2016-07-23
 // 
 
 using cloudscribe.Web.Navigation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
@@ -29,18 +30,21 @@ namespace cloudscribe.Web.SiteMap
     {
         public NavigationTreeSiteMapNodeService(
             NavigationTreeBuilderService siteMapTreeBuilder,
-            UrlHelper urlHelper,
+            IUrlHelperFactory urlHelperFactory,
+            IActionContextAccessor actionContextAccesor,
             IHttpContextAccessor contextAccessor,
             ILogger<NavigationTreeSiteMapNodeService> logger)
         {
             this.siteMapTreeBuilder = siteMapTreeBuilder;
-            this.urlHelper = urlHelper;
+            this.urlHelperFactory = urlHelperFactory;
+            this.actionContextAccesor = actionContextAccesor;
             this.contextAccessor = contextAccessor; 
             log = logger;
         }
 
         private NavigationTreeBuilderService siteMapTreeBuilder;
-        private UrlHelper urlHelper;
+        private IUrlHelperFactory urlHelperFactory;
+        private IActionContextAccessor actionContextAccesor;
         private ILogger log;
         private IHttpContextAccessor contextAccessor;
         private string baseUrl = string.Empty;
@@ -67,11 +71,12 @@ namespace cloudscribe.Web.SiteMap
         {
             var rootNode = await siteMapTreeBuilder.GetTree();
             var mapNodes = new List<SiteMapNode>();
-            foreach(var navNode in rootNode.Flatten())
+            var urlHelper = urlHelperFactory.GetUrlHelper(actionContextAccesor.ActionContext);
+            foreach (var navNode in rootNode.Flatten())
             {
                 if(string.IsNullOrEmpty(navNode.ViewRoles) || navNode.ViewRoles.Contains("All Users"))
                 {
-                    var url = ResolveUrl(navNode);
+                    var url = ResolveUrl(navNode, urlHelper);
                     if(string.IsNullOrEmpty(url))
                     {
                         log.LogWarning("failed to resolve url for node " + navNode.Key + ", skipping this node for sitemap");
@@ -111,7 +116,7 @@ namespace cloudscribe.Web.SiteMap
 
         }
 
-        private string ResolveUrl(NavigationNode node)
+        private string ResolveUrl(NavigationNode node, IUrlHelper urlHelper)
         {
             if (node.HideFromAnonymous) return string.Empty;
 
