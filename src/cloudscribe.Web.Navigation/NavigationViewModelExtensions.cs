@@ -12,7 +12,8 @@ namespace cloudscribe.Web.Navigation
     {
         public static string GetClass(this NavigationViewModel model, NavigationNode node, string inputClass = null, string activeClass = "active")
         {
-            if (node.EqualsNode(model.CurrentNode.Value))
+            if (node == null) return null;
+            if (model.CurrentNode != null && (node.EqualsNode(model.CurrentNode.Value)))
             {
                 if (!string.IsNullOrEmpty(inputClass))
                 {
@@ -39,6 +40,7 @@ namespace cloudscribe.Web.Navigation
 
         public static string GetIcon(this NavigationViewModel model, NavigationNode node)
         {
+            if (node == null) return string.Empty;
             if (string.IsNullOrEmpty(node.IconCssClass))
             {
                 return string.Empty;
