@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-09
-// Last Modified:			2016-05-17
+// Last Modified:			2016-07-24
 // 
 
 using Microsoft.AspNetCore.Mvc;
@@ -141,6 +141,26 @@ namespace cloudscribe.Web.Navigation
 
 
             if (currentNode.Value.Url == nodeToMatch.Value.Url) { return true; }
+
+            return false;
+        }
+
+        public static bool EqualsNode(this NavigationNode currentNode, NavigationNode nodeToMatch)
+        {
+            if (currentNode.Key == nodeToMatch.Key) { return true; }
+            if (currentNode.Controller == nodeToMatch.Controller && (currentNode.Controller.Length > 0))
+            {
+                if (currentNode.Action == nodeToMatch.Action && (currentNode.Action.Length > 0))
+                {
+                    return true;
+                }
+
+            }
+            if ((nodeToMatch.NamedRoute.Length > 0)
+                && (nodeToMatch.NamedRoute == currentNode.NamedRoute)) { return true; }
+
+
+            if (currentNode.Url == nodeToMatch.Url) { return true; }
 
             return false;
         }

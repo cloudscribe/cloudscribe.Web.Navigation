@@ -2,67 +2,26 @@
 @using System.Text
 @model NavigationViewModel
 @addTagHelper *, cloudscribe.Web.Navigation
-@{ 
-// Copyright (c) Source Tree Solutions, LLC. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
-// Author: Joe Audette
-// Created 2015-07-11
-// Last Modified: 2015-07-15
-
-
-// probably don't want to implement dropdowns as they are not mobile friendly and not officially supported by bootstrap
-// http://stackoverflow.com/questions/18023493/bootstrap-3-dropdown-sub-menu-missing
-}
-@functions
+@if (Model.HasVisibleChildren(Model.RootNode))
 {
-    public string GetClass(NavigationNode node, string inputClass = null)
-    {
-        if (string.IsNullOrEmpty(node.CssClass))
-        {
-            return inputClass;
+    <ul class="nav navbar-nav">
+        <li cwn-data-attributes="@Model.RootNode.Value.DataAttributes" class='@Model.GetClass(Model.RootNode.Value)'><a href="@Url.Content(Model.AdjustUrl(Model.RootNode))">@Html.Raw(Model.GetIcon(Model.RootNode.Value))@Model.AdjustText(Model.RootNode)</a></li>
 
-        }
-        else
+        @foreach (var node in Model.RootNode.Children)
         {
-            if (!string.IsNullOrEmpty(inputClass))
+            if (!Model.ShouldAllowView(node)) { continue; }
+            if (!Model.HasVisibleChildren(node))
             {
-                return inputClass + " " + node.CssClass;
+                <li class='@Model.GetClass(node.Value)' cwn-data-attributes="@node.Value.DataAttributes"><a href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a></li>
             }
-            return node.CssClass;
+            else
+            {
+
+                <li class='@Model.GetClass(node.Value, "dropdown")' cwn-data-attributes="@node.Value.DataAttributes">  
+                    <a href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node) <span class="caret"></span></a>
+                    @Model.UpdateTempNode(node)@Html.Partial("NavigationNodeChildDropdownPartial", Model)
+                </li>
+            }
         }
-
-    }
-    public string GetIcon(NavigationNode node)
-    {
-        if (string.IsNullOrEmpty(node.IconCssClass))
-        {
-            return string.Empty;
-
-        }
-        return "<i class='" + node.IconCssClass + "'></i> ";
-
-    }
+    </ul>
 }
-    @if (Model.HasVisibleChildren(Model.RootNode))
-    {
-        <ul class="nav navbar-nav">
-            <li cwn-data-attributes="@Model.RootNode.Value.DataAttributes" class='@GetClass(Model.RootNode.Value)'><a href="@Url.Content(Model.AdjustUrl(Model.RootNode))">@Model.AdjustText(Model.RootNode)</a></li>
-
-            @foreach (var node in Model.RootNode.Children)
-            {
-                if (!Model.ShouldAllowView(node)) { continue; }
-                if (!Model.HasVisibleChildren(node))
-                {
-                    <li cwn-data-attributes="@node.Value.DataAttributes" class='@GetClass(node.Value)'><a href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(GetIcon(node.Value))@Model.AdjustText(node)</a></li>
-                }
-                else
-                {
-
-                    <li cwn-data-attributes="@node.Value.DataAttributes" class='@GetClass(node.Value, "dropdown")'>  
-                        <a href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(GetIcon(node.Value))@Model.AdjustText(node) <span class="caret"></span></a>
-                        @Model.UpdateTempNode(node)@Html.Partial("NavigationNodeChildDropdownPartial", Model)
-                    </li>
-                }
-            }
-        </ul>
-    }

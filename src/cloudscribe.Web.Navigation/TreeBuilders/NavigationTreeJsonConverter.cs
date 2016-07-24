@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-07
-// Last Modified:			2016-07-22
+// Last Modified:			2016-07-24
 // 
 
 using Newtonsoft.Json.Linq;
@@ -61,12 +61,27 @@ namespace cloudscribe.Web.Navigation
             {
                 navNode.Action = (string)jNode["Value"]["Action"];
             }
-            
-            if(jNode["Value"]["Text"] != null)
+
+            if (jNode["Value"]["Area"] != null)
+            {
+                navNode.Area = (string)jNode["Value"]["Area"];
+            }
+
+            if (jNode["Value"]["NamedRoute"] != null)
+            {
+                navNode.NamedRoute = (string)jNode["Value"]["NamedRoute"];
+            }
+
+            if (jNode["Value"]["Text"] != null)
             {
                 navNode.Text = (string)jNode["Value"]["Text"];
             }
-            
+
+            if (jNode["Value"]["Title"] != null)
+            {
+                navNode.Title = (string)jNode["Value"]["Title"];
+            }
+
             if (jNode["Value"]["Url"] != null)
             {
                 navNode.Url = (string)jNode["Value"]["Url"];
@@ -75,6 +90,8 @@ namespace cloudscribe.Web.Navigation
             {
                 navNode.Url = navNode.ResolveUrl();
             }
+
+            
 
             if (jNode["Value"]["PreservedRouteParameters"] != null)
             {
@@ -106,25 +123,23 @@ namespace cloudscribe.Web.Navigation
                 navNode.HideFromAnonymous = Convert.ToBoolean((string)jNode["Value"]["HideFromAnonymous"]);
             }
 
-            //if (jNode["Value"]["ResourceName"] != null)
-            //{
-            //    navNode.ResourceName = (string)jNode["Value"]["ResourceName"];
-            //}
+            if (jNode["Value"]["IsClickable"] != null)
+            {
+                navNode.IsClickable = Convert.ToBoolean((string)jNode["Value"]["IsClickable"]);
+            }
 
-            //if (jNode["Value"]["ResourceTextKey"] != null)
-            //{
-            //    navNode.ResourceTextKey = (string)jNode["Value"]["ResourceTextKey"];
-            //}
+            if (jNode["Value"]["IconCssClass"] != null)
+            {
+                navNode.IconCssClass = (string)jNode["Value"]["IconCssClass"];
+            }
 
-            //if (jNode["Value"]["ResourceTitleKey"] != null)
-            //{
-            //    navNode.ResourceTitleKey = (string)jNode["Value"]["ResourceTitleKey"];
-            //}
+            if (jNode["Value"]["CssClass"] != null)
+            {
+                navNode.CssClass = (string)jNode["Value"]["CssClass"];
+            }
 
-            //if (jNode["Value"]["IncludeAmbientValuesInUrl"] != null)
-            //{
-            //    navNode.IncludeAmbientValuesInUrl = Convert.ToBoolean((string)jNode["Value"]["IncludeAmbientValuesInUrl"]);
-            //}
+            //TODO: add DataAttributes collection
+            
 
             if (tNode == null)
             {

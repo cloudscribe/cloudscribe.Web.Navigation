@@ -49,6 +49,20 @@ namespace NavigationDemo.Web.Controllers
             return View();
         }
 
+        public IActionResult HideAuth()
+        {
+            ViewData["Message"] = "Your contact page.";
+
+            return View("Contact");
+        }
+
+        public IActionResult HideAnon()
+        {
+            ViewData["Message"] = "Your contact page.";
+
+            return View("Contact");
+        }
+
         public IActionResult Error()
         {
             return View("~/Views/Shared/Error.cshtml");
