@@ -189,23 +189,22 @@ namespace cloudscribe.Web.Navigation
                 }
             }
 
-            
-
-            foreach (XElement childrenNode in xml.Root.Elements(XName.Get("Children")))
+            var childrenNode = xml.Root.Elements(XName.Get("Children"));
+            if (childrenNode != null)
             {
                 foreach (XElement childNode in childrenNode.Elements(XName.Get("NavNode")))
                 {
                     var childBuilder = GetNodeBuilderName(childNode);
-                    if(string.IsNullOrEmpty(childBuilder))
+                    if (string.IsNullOrEmpty(childBuilder))
                     {
                         await AddChildNode(treeRoot, childNode, service).ConfigureAwait(false);
                     }
                     else
                     {
                         var child = await service.GetTree(childBuilder).ConfigureAwait(false);
-                        if(child.Value.ChildContainerOnly)
+                        if (child.Value.ChildContainerOnly)
                         {
-                            foreach(var subChild in child.Children)
+                            foreach (var subChild in child.Children)
                             {
                                 treeRoot.AddChild(subChild);
                             }
@@ -214,13 +213,43 @@ namespace cloudscribe.Web.Navigation
                         {
                             treeRoot.AddChild(child);
                         }
-                        
-                    }
 
-                    
+                    }
                 }
-                    
             }
+
+
+
+            //foreach (XElement childrenNode in xml.Root.Elements(XName.Get("Children")))
+            //{
+            //    foreach (XElement childNode in childrenNode.Elements(XName.Get("NavNode")))
+            //    {
+            //        var childBuilder = GetNodeBuilderName(childNode);
+            //        if(string.IsNullOrEmpty(childBuilder))
+            //        {
+            //            await AddChildNode(treeRoot, childNode, service).ConfigureAwait(false);
+            //        }
+            //        else
+            //        {
+            //            var child = await service.GetTree(childBuilder).ConfigureAwait(false);
+            //            if(child.Value.ChildContainerOnly)
+            //            {
+            //                foreach(var subChild in child.Children)
+            //                {
+            //                    treeRoot.AddChild(subChild);
+            //                }
+            //            }
+            //            else
+            //            {
+            //                treeRoot.AddChild(child);
+            //            }
+
+            //        }
+
+
+            //    }
+
+            //}
 
             return treeRoot;
         }
@@ -367,14 +396,14 @@ namespace cloudscribe.Web.Navigation
             a = xmlNode.Attribute("target");
             if (a != null) { navNode.Target = a.Value; }
 
-
-            foreach (XElement childrenNode in xmlNode.Elements(XName.Get("DataAttributes")))
+            var da = xmlNode.Element(XName.Get("DataAttributes"));
+            if (da != null)
             {
-                foreach (XElement childNode in childrenNode.Elements(XName.Get("DataAttribute")))
+                foreach (XElement childNode in da.Elements(XName.Get("DataAttribute")))
                 {
                     var key = childNode.Attribute("attribute");
                     var val = childNode.Attribute("value");
-                    if((key != null)&&(val != null))
+                    if ((key != null) && (val != null))
                     {
                         var att = new DataAttribute();
                         att.Attribute = key.Value;
@@ -384,7 +413,11 @@ namespace cloudscribe.Web.Navigation
 
 
                 }
+
             }
+
+
+
 
             return navNode;
         }
