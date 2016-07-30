@@ -1,5 +1,5 @@
 ﻿{
-    "version": "1.0.2-rc20160726",
+    "version": "1.0.2-rc20160727",
     "description": "an ASP.NET Core viewcomponent for menus and breadcrumbs",
     "authors": [ "Joe Audette" ],
     "packOptions": {
@@ -10,7 +10,7 @@
         "copyright": "2015 Source Tree Solutions",
         "iconUrl": "https://raw.githubusercontent.com/joeaudette/cloudscribe.Web.Navigation/master/cloudscribe-icon-32.png",
         "requireLicenseAcceptance": false,
-        "releaseNotes": "update for aspnetcore RTM"
+        "releaseNotes": ""
     },
 
     "buildOptions": {
