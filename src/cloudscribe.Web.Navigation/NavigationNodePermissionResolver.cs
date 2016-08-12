@@ -19,7 +19,7 @@ namespace cloudscribe.Web.Navigation
 
         private IHttpContextAccessor httpContextAccessor;
 
-        public bool ShouldAllowView(TreeNode<NavigationNode> menuNode)
+        public virtual bool ShouldAllowView(TreeNode<NavigationNode> menuNode)
         {
             if (menuNode.Value.ViewRoles.Length == 0) { return true; }
             if (menuNode.Value.ViewRoles == "All Users;") { return true; }

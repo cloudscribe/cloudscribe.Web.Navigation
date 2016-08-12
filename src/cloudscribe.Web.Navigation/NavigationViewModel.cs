@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-10
-// Last Modified:			2016-05-17
+// Last Modified:			2016-08-12
 // 
 
 using Microsoft.AspNetCore.Http;
@@ -25,7 +25,7 @@ namespace cloudscribe.Web.Navigation
             HttpContext context,
             IUrlHelper urlHelper,
             TreeNode<NavigationNode> rootNode,
-            INavigationNodePermissionResolver permissionResolver,
+            IEnumerable<INavigationNodePermissionResolver> permissionResolvers,
             string nodeSearchUrlPrefix,
             ILogger logger)
         {
@@ -33,13 +33,17 @@ namespace cloudscribe.Web.Navigation
             this.nodeSearchUrlPrefix = nodeSearchUrlPrefix;
             this.context = context;
             this.RootNode = rootNode;
-            this.permissionResolver = permissionResolver;
+            this.permissionResolvers = permissionResolvers;
             this.urlHelper = urlHelper;
             this.startingNodeKey = startingNodeKey;
             log = logger;
 
             removalFilters.Add(FilterIsAllowed);
-            removalFilters.Add(permissionResolver.ShouldAllowView);
+            foreach(var permissionResolver in permissionResolvers)
+            {
+                removalFilters.Add(permissionResolver.ShouldAllowView);
+            }
+            
             removalFilters.Add(IsAllowedByAdjuster);
 
 
@@ -52,7 +56,7 @@ namespace cloudscribe.Web.Navigation
         private string nodeSearchUrlPrefix;
         private HttpContext context;
         private IUrlHelper urlHelper;
-        private INavigationNodePermissionResolver permissionResolver;
+        private IEnumerable<INavigationNodePermissionResolver> permissionResolvers;
         private List<Func<TreeNode<NavigationNode>, bool>> removalFilters = new List<Func<TreeNode<NavigationNode>, bool>>();
 
         public TreeNode<NavigationNode> RootNode { get; private set; }

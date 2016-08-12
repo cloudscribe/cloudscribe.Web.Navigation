@@ -93,6 +93,11 @@ namespace cloudscribe.Web.Navigation
                 writer.WriteAttributeString("viewRoles", node.Value.ViewRoles);
             }
 
+            if (node.Value.CustomData.Length > 0)
+            {
+                writer.WriteAttributeString("customData", node.Value.CustomData);
+            }
+
             if (node.Value.IsRootNode)
             {
                 writer.WriteAttributeString("isRootNode", "true");
@@ -379,6 +384,9 @@ namespace cloudscribe.Web.Navigation
 
             a = xmlNode.Attribute("viewRoles");
             if (a != null) { navNode.ViewRoles = a.Value; }
+
+            a = xmlNode.Attribute("customData");
+            if (a != null) { navNode.CustomData = a.Value; }
 
 
             a = xmlNode.Attribute("isClickable");

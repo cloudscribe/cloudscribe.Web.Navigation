@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-07
-// Last Modified:			2016-07-24
+// Last Modified:			2016-08-12
 // 
 
 using Newtonsoft.Json.Linq;
@@ -106,6 +106,11 @@ namespace cloudscribe.Web.Navigation
             if (jNode["Value"]["ViewRoles"] != null)
             {
                 navNode.ViewRoles = (string)jNode["Value"]["ViewRoles"];
+            }
+
+            if (jNode["Value"]["CustomData"] != null)
+            {
+                navNode.CustomData = (string)jNode["Value"]["CustomData"];
             }
 
             if (jNode["Value"]["IsRootNode"] != null)

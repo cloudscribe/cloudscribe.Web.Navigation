@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-09
-// Last Modified:			2015-07-15
+// Last Modified:			2015-08-12
 // 
 
 using System;
@@ -40,6 +40,7 @@ namespace cloudscribe.Web.Navigation
         string PreservedRouteParameters { get; set; }
         string ComponentVisibility { get; set; }
         string ViewRoles { get; set; }
+        string CustomData { get; set; }
         bool ChildContainerOnly { get; set; }
         bool HideFromAuthenticated { get; set; }
         bool HideFromAnonymous { get; set; }

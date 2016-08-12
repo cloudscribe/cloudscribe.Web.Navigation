@@ -2,13 +2,14 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-10
-// Last Modified:			2016-05-17
+// Last Modified:			2016-08-12
 // 
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace cloudscribe.Web.Navigation
@@ -17,14 +18,14 @@ namespace cloudscribe.Web.Navigation
     {
         public NavigationViewComponent(
             NavigationTreeBuilderService siteMapTreeBuilder,
-            INavigationNodePermissionResolver permissionResolver,
+            IEnumerable<INavigationNodePermissionResolver> permissionResolvers,
             IUrlHelperFactory urlHelperFactory,
             IActionContextAccessor actionContextAccesor,
             INodeUrlPrefixProvider prefixProvider,
             ILogger<NavigationViewComponent> logger)
         {
             builder = siteMapTreeBuilder;
-            this.permissionResolver = permissionResolver;
+            this.permissionResolvers = permissionResolvers;
             this.urlHelperFactory = urlHelperFactory;
             this.actionContextAccesor = actionContextAccesor;
             if (prefixProvider == null)
@@ -40,7 +41,7 @@ namespace cloudscribe.Web.Navigation
 
         private ILogger log;
         private NavigationTreeBuilderService builder;
-        private INavigationNodePermissionResolver permissionResolver;
+        private IEnumerable<INavigationNodePermissionResolver> permissionResolvers;
         private IUrlHelperFactory urlHelperFactory;
         private IActionContextAccessor actionContextAccesor;
         private INodeUrlPrefixProvider prefixProvider;
@@ -57,7 +58,7 @@ namespace cloudscribe.Web.Navigation
                 Request.HttpContext,
                 urlHelper,
                 rootNode,
-                permissionResolver,
+                permissionResolvers,
                 prefixProvider.GetPrefix(),
                 log);
 
