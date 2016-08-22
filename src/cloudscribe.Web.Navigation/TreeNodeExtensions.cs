@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-09
-// Last Modified:			2016-07-30
+// Last Modified:			2016-08-22
 // 
 
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +30,8 @@ namespace cloudscribe.Web.Navigation
             Func<TreeNode<NavigationNode>, bool> match = delegate (TreeNode<NavigationNode> n)
             {
                 if(n == null) { return false; }
-                if(string.IsNullOrEmpty(n.Value.Url)) { return false; }
+                if (string.IsNullOrEmpty(urlToMatch)) return false;
+                if (string.IsNullOrEmpty(n.Value.Url)) { return false; }
 
                 if( n.Value.Url.Contains(urlToMatch)) { return true; }
 
@@ -45,9 +46,15 @@ namespace cloudscribe.Web.Navigation
                 }
 
                 string targetUrl = string.Empty;
-                if (n.Value.NamedRoute.Length > 0)
+                if (!string.IsNullOrEmpty(n.Value.NamedRoute))
                 {
                     targetUrl = urlHelper.RouteUrl(n.Value.NamedRoute);
+                    if (targetUrl.Contains(urlToMatch)) { return true; }
+                }
+
+                if ((!string.IsNullOrEmpty(n.Value.Action))&& (!string.IsNullOrEmpty(n.Value.Controller)))
+                {
+                    targetUrl = urlHelper.Action(n.Value.Action, n.Value.Controller);
                     if (targetUrl.Contains(urlToMatch)) { return true; }
                 }
 
@@ -56,6 +63,36 @@ namespace cloudscribe.Web.Navigation
                     targetUrl = n.Value.Url.Replace("~/", "~/" + urlPrefix + "/");
                     if(targetUrl.Contains(urlToMatch)) { return true; }      
                 }
+
+                return false;
+            };
+
+            return currentNode.Find(match);
+        }
+
+        /// <summary>
+        /// this would be called as a secondary check if current node not found by FindByUrl
+        /// </summary>
+        /// <param name="currentNode"></param>
+        /// <param name="urlHelper"></param>
+        /// <param name="urlToMatch"></param>
+        /// <param name="urlPrefix"></param>
+        /// <returns></returns>
+        public static TreeNode<NavigationNode> FindByUrlStartsWith(
+            this TreeNode<NavigationNode> currentNode,
+            IUrlHelper urlHelper,
+            string urlToMatch,
+            string urlPrefix = "")
+        {
+            Func<TreeNode<NavigationNode>, bool> match = delegate (TreeNode<NavigationNode> n)
+            {
+                if (n == null) { return false; }
+                if (string.IsNullOrEmpty(urlToMatch)) return false;
+                if (string.IsNullOrEmpty(n.Value.Url)) { return false; }
+
+                if (urlToMatch.StartsWith(n.Value.Url)) { return true; }
+
+                
 
                 return false;
             };

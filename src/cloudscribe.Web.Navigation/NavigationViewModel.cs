@@ -113,8 +113,8 @@ namespace cloudscribe.Web.Navigation
                         {
                             return StartingNode;
                         }
-
-
+                        // a looser check if not found
+                        //currentNode = RootNode.FindByUrlStartsWith(urlHelper, context.Request.Path, nodeSearchUrlPrefix);
                     }
                         
                     
