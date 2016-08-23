@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-10
-// Last Modified:			2016-08-12
+// Last Modified:			2016-08-23
 // 
 
 using Microsoft.AspNetCore.Http;
@@ -26,6 +26,7 @@ namespace cloudscribe.Web.Navigation
             IUrlHelper urlHelper,
             TreeNode<NavigationNode> rootNode,
             IEnumerable<INavigationNodePermissionResolver> permissionResolvers,
+            IEnumerable<IFindCurrentNode> nodeFinders,
             string nodeSearchUrlPrefix,
             ILogger logger)
         {
@@ -34,6 +35,7 @@ namespace cloudscribe.Web.Navigation
             this.context = context;
             this.RootNode = rootNode;
             this.permissionResolvers = permissionResolvers;
+            this.nodeFinders = nodeFinders;
             this.urlHelper = urlHelper;
             this.startingNodeKey = startingNodeKey;
             log = logger;
@@ -57,6 +59,7 @@ namespace cloudscribe.Web.Navigation
         private HttpContext context;
         private IUrlHelper urlHelper;
         private IEnumerable<INavigationNodePermissionResolver> permissionResolvers;
+        private IEnumerable<IFindCurrentNode> nodeFinders;
         private List<Func<TreeNode<NavigationNode>, bool>> removalFilters = new List<Func<TreeNode<NavigationNode>, bool>>();
 
         public TreeNode<NavigationNode> RootNode { get; private set; }
@@ -113,8 +116,16 @@ namespace cloudscribe.Web.Navigation
                         {
                             return StartingNode;
                         }
-                        // a looser check if not found
-                        //currentNode = RootNode.FindByUrlStartsWith(urlHelper, context.Request.Path, nodeSearchUrlPrefix);
+                        // a way to plug in custom logic to find the current node if the default approach does not
+                        foreach(var finder in nodeFinders)
+                        {
+                            var result = finder.FindNode(RootNode, urlHelper, context.Request.Path, nodeSearchUrlPrefix);
+                            if(result != null)
+                            {
+                                currentNode = result;
+                                break;
+                            }
+                        }
                     }
                         
                     

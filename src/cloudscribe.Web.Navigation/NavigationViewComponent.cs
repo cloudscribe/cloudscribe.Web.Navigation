@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-10
-// Last Modified:			2016-08-12
+// Last Modified:			2016-08-23
 // 
 
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +19,7 @@ namespace cloudscribe.Web.Navigation
         public NavigationViewComponent(
             NavigationTreeBuilderService siteMapTreeBuilder,
             IEnumerable<INavigationNodePermissionResolver> permissionResolvers,
+            IEnumerable<IFindCurrentNode> nodeFinders,
             IUrlHelperFactory urlHelperFactory,
             IActionContextAccessor actionContextAccesor,
             INodeUrlPrefixProvider prefixProvider,
@@ -26,6 +27,7 @@ namespace cloudscribe.Web.Navigation
         {
             builder = siteMapTreeBuilder;
             this.permissionResolvers = permissionResolvers;
+            this.nodeFinders = nodeFinders;
             this.urlHelperFactory = urlHelperFactory;
             this.actionContextAccesor = actionContextAccesor;
             if (prefixProvider == null)
@@ -42,6 +44,7 @@ namespace cloudscribe.Web.Navigation
         private ILogger log;
         private NavigationTreeBuilderService builder;
         private IEnumerable<INavigationNodePermissionResolver> permissionResolvers;
+        private IEnumerable<IFindCurrentNode> nodeFinders;
         private IUrlHelperFactory urlHelperFactory;
         private IActionContextAccessor actionContextAccesor;
         private INodeUrlPrefixProvider prefixProvider;
@@ -59,6 +62,7 @@ namespace cloudscribe.Web.Navigation
                 urlHelper,
                 rootNode,
                 permissionResolvers,
+                nodeFinders,
                 prefixProvider.GetPrefix(),
                 log);
 
