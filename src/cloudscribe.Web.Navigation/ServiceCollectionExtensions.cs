@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.FileProviders;
 using System.Reflection;
 
-//namespace cloudscribe.Web.Navigation
 namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
@@ -25,11 +24,13 @@ namespace Microsoft.Extensions.DependencyInjection
             }
             else
             {
+                // does this add IOptions?
                 services.TryAddSingleton<NavigationOptions, NavigationOptions>();
             }
 
             services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.TryAddScoped<ITreeCacheKeyResolver, DefaultCacheKeyResolver>();
             services.TryAddScoped<ITreeCache, MemoryTreeCache>();
             services.TryAddScoped<INavigationTreeBuilder, XmlNavigationTreeBuilder>();
             services.TryAddScoped<NavigationTreeBuilderService, NavigationTreeBuilderService>();

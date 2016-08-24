@@ -2,16 +2,13 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-10-12
-// Last Modified:			2016-05-17
+// Last Modified:			2016-08-24
 // 
 
 using cloudscribe.Web.Navigation.Caching;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace cloudscribe.Web.Navigation
@@ -20,6 +17,7 @@ namespace cloudscribe.Web.Navigation
     {
         public NavigationTreeBuilderService(
             IEnumerable<INavigationTreeBuilder> treeBuilders,
+            ITreeCacheKeyResolver cacheKeyResolver,
             IOptions<NavigationOptions> navigationOptionsAccessor,
             ITreeCache treeCache = null
             )
@@ -27,6 +25,7 @@ namespace cloudscribe.Web.Navigation
             if (treeBuilders == null) { throw new ArgumentNullException(nameof(treeBuilders)); }
             if (navigationOptionsAccessor == null) { throw new ArgumentNullException(nameof(navigationOptionsAccessor)); }
 
+            this.cacheKeyResolver = cacheKeyResolver;
             this.treeCache = treeCache ?? new NotCachedTreeCache();
             builders = treeBuilders;
             navOptions = navigationOptionsAccessor.Value;
@@ -34,6 +33,7 @@ namespace cloudscribe.Web.Navigation
         }
 
         private ITreeCache treeCache;
+        private ITreeCacheKeyResolver cacheKeyResolver;
         private NavigationOptions navOptions;
 
         private IEnumerable<INavigationTreeBuilder> builders;
@@ -55,10 +55,8 @@ namespace cloudscribe.Web.Navigation
 
         public async Task<TreeNode<NavigationNode>> GetTree()
         {
-            //TODO: do we need a more specific cache key? ie could multiple trees have been created by the same buildername
-
             var builder = GetRootTreeBuilder();
-            var cacheKey = builder.Name;
+            var cacheKey = cacheKeyResolver.GetCacheKey(builder);
             var tree = await treeCache.GetTree(cacheKey).ConfigureAwait(false);
             if(tree != null) { return tree; }
             tree = await builder.BuildTree(this).ConfigureAwait(false);
