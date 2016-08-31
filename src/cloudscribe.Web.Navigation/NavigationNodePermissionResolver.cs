@@ -21,7 +21,7 @@ namespace cloudscribe.Web.Navigation
 
         public virtual bool ShouldAllowView(TreeNode<NavigationNode> menuNode)
         {
-            if (menuNode.Value.ViewRoles.Length == 0) { return true; }
+            if (string.IsNullOrEmpty(menuNode.Value.ViewRoles)) { return true; }
             if (menuNode.Value.ViewRoles == "All Users;") { return true; }
 
             if (httpContextAccessor.HttpContext.User.IsInRoles(menuNode.Value.ViewRoles))

@@ -31,7 +31,7 @@ To install from nuget.org open the project.json file of your web application and
     
 Visual Studio 2015 should restore the package automatically, you could also open a command prompt and use dnu restore in your project folder.
 
-Unfortunately it is not yet possible for us to install the needed views from nuget. The needed views are included as embedded resources which can be added via a RazorOptions extension method (shown below), but you can ooptionally copy them and install them directly in your own web application, [copy the views folder and views from here](https://github.com/joeaudette/cloudscribe.Web.Navigation/tree/master/src/cloudscribe.Web.Navigation/content). You can also create your own custom views and invoke them by name when invoking the ViewComponent.
+Unfortunately it is not yet possible for us to install the needed views from nuget. The needed views are included as embedded resources which can be added via a RazorOptions extension method (shown below), but you can ooptionally copy them and install them directly in your own web application, [copy the views folder and views from here](https://github.com/joeaudette/cloudscribe.Web.Navigation/tree/master/src/cloudscribe.Web.Navigation/Views/Shared). You can also create your own custom views and invoke them by name when invoking the ViewComponent.
 
 In your Startup.cs you will need this at the top: 
 
