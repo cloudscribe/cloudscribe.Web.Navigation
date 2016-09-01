@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-10
-// Last Modified:			2016-08-23
+// Last Modified:			2016-09-01
 // 
 
 using Microsoft.AspNetCore.Http;
@@ -198,7 +198,8 @@ namespace cloudscribe.Web.Navigation
                             }
                         }
 
-                        urlToUse = urlHelper.Action(node.Value.Action, node.Value.Controller);
+                        urlToUse = urlHelper.Action(node.Value.Action, node.Value.Controller, new { area = node.Value.Area });
+                        
                         if ((urlToUse != null) && (queryStrings.Count > 0))
                         {
                             urlToUse = QueryHelpers.AddQueryString(urlToUse, queryStrings);
@@ -206,8 +207,8 @@ namespace cloudscribe.Web.Navigation
 
                     }
                     else
-                    {
-                        urlToUse = urlHelper.Action(node.Value.Action, node.Value.Controller);
+                    {  
+                        urlToUse = urlHelper.Action(node.Value.Action, node.Value.Controller, new { area = node.Value.Area });                
                     }
 
                 }

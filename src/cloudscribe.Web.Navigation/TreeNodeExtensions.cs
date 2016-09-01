@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-09
-// Last Modified:			2016-08-22
+// Last Modified:			2016-09-01
 // 
 
 using Microsoft.AspNetCore.Mvc;
@@ -54,7 +54,7 @@ namespace cloudscribe.Web.Navigation
 
                 if ((!string.IsNullOrEmpty(n.Value.Action))&& (!string.IsNullOrEmpty(n.Value.Controller)))
                 {
-                    targetUrl = urlHelper.Action(n.Value.Action, n.Value.Controller);
+                    targetUrl = urlHelper.Action(n.Value.Action, n.Value.Controller, new { area = n.Value.Area });
                     if (targetUrl.Contains(urlToMatch)) { return true; }
                 }
 
