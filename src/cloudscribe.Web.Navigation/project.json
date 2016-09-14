@@ -1,5 +1,5 @@
 {
-    "version": "1.0.2-rc20160913",
+    "version": "1.0.2-rc20160914",
     "description": "an ASP.NET Core viewcomponent for menus and breadcrumbs",
     "authors": [ "Joe Audette" ],
     "packOptions": {
@@ -19,16 +19,16 @@
 
     "dependencies": {
         "NETStandard.Library": "1.6.0",
-        "Microsoft.AspNetCore.Mvc": "1.0.0",
-        "Microsoft.Extensions.Caching.Abstractions": "1.0.0",
-        "Microsoft.Extensions.Configuration.Abstractions": "1.0.0",
-        "Microsoft.Extensions.Logging.Abstractions": "1.0.0",
-        "Microsoft.Extensions.Options": "1.0.0",
-        "Newtonsoft.Json": "9.0.1",
-        "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
-        "Microsoft.AspNetCore.Mvc.Razor": "1.0.0",
-        "Microsoft.Extensions.FileProviders.Embedded": "1.0.0",
-        "Microsoft.AspNetCore.Mvc.Abstractions": "1.0.0"
+        "Microsoft.AspNetCore.Mvc": "1.0.*",
+        "Microsoft.Extensions.Caching.Abstractions": "1.0.*",
+        "Microsoft.Extensions.Configuration.Abstractions": "1.0.*",
+        "Microsoft.Extensions.Logging.Abstractions": "1.0.*",
+        "Microsoft.Extensions.Options": "1.0.*",
+        "Newtonsoft.Json": "9.0.*",
+        "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.*",
+        "Microsoft.AspNetCore.Mvc.Razor": "1.0.*",
+        "Microsoft.Extensions.FileProviders.Embedded": "1.0.*",
+        "Microsoft.AspNetCore.Mvc.Abstractions": "1.0.*"
     },
 
     "frameworks": {
