@@ -41,6 +41,11 @@ namespace NavigationDemo.Web
             services.AddScoped<ISiteMapNodeService, NavigationTreeSiteMapNodeService>();
             services.AddCloudscribeNavigation(Configuration.GetSection("NavigationOptions"));
 
+            services.AddRouting(options =>
+            {
+                options.LowercaseUrls = true;
+            });
+
             services.Configure<MvcOptions>(options =>
             {
                 // options.InputFormatters.Add(new Xm)

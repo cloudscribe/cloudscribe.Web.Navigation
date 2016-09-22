@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-09
-// Last Modified:			2016-09-01
+// Last Modified:			2016-09-22
 // 
 
 using Microsoft.AspNetCore.Mvc;
@@ -33,14 +33,14 @@ namespace cloudscribe.Web.Navigation
                 if (string.IsNullOrEmpty(urlToMatch)) return false;
                 if (string.IsNullOrEmpty(n.Value.Url)) { return false; }
 
-                if( n.Value.Url.Contains(urlToMatch)) { return true; }
+                if( n.Value.Url.IndexOf(urlToMatch, StringComparison.OrdinalIgnoreCase) >= 0) { return true; }
 
                 if((urlToMatch.EndsWith("Index"))&&(n.Value.Action == "Index"))
                 {
                    if(!n.Value.Url.EndsWith("/") && (!n.Value.Url.Contains("Index")))
                    {
                         var u = n.Value.Url + "/Index";
-                        if (u.Contains(urlToMatch)) return true;
+                        if (u.IndexOf(urlToMatch, StringComparison.OrdinalIgnoreCase) >= 0) return true;
                    }
 
                 }
@@ -49,19 +49,19 @@ namespace cloudscribe.Web.Navigation
                 if (!string.IsNullOrEmpty(n.Value.NamedRoute))
                 {
                     targetUrl = urlHelper.RouteUrl(n.Value.NamedRoute);
-                    if (targetUrl.Contains(urlToMatch)) { return true; }
+                    if (targetUrl.IndexOf(urlToMatch, StringComparison.OrdinalIgnoreCase) >= 0) { return true; }
                 }
 
                 if ((!string.IsNullOrEmpty(n.Value.Action))&& (!string.IsNullOrEmpty(n.Value.Controller)))
                 {
                     targetUrl = urlHelper.Action(n.Value.Action, n.Value.Controller, new { area = n.Value.Area });
-                    if (targetUrl.Contains(urlToMatch)) { return true; }
+                    if (targetUrl.IndexOf(urlToMatch, StringComparison.OrdinalIgnoreCase) >= 0) { return true; }
                 }
 
                 if ((urlPrefix.Length > 0)&&(n.Value.Url.Length > 0))
                 {
                     targetUrl = n.Value.Url.Replace("~/", "~/" + urlPrefix + "/");
-                    if(targetUrl.Contains(urlToMatch)) { return true; }      
+                    if(targetUrl.IndexOf(urlToMatch,StringComparison.OrdinalIgnoreCase) >= 0) { return true; }      
                 }
 
                 return false;
