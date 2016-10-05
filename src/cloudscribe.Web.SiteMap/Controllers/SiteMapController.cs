@@ -2,12 +2,13 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:                  Joe Audette
 // Created:                 2016-04-19
-// Last Modified:           2016-05-17
+// Last Modified:           2016-10-05
 // 
 
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
@@ -57,9 +58,10 @@ namespace cloudscribe.Web.SiteMap.Controllers
                 var nodeList = await nodeService.GetSiteMapNodes(cancellationToken);
                 foreach(var node in nodeList)
                 {
+                    var url = TryEnsureFullUrl(node.Url);
                     var sitemapElement = new XElement(
                     xmlns + SiteMapConstants.UrlTag,
-                    new XElement(xmlns + SiteMapConstants.LocTag, node.Url),
+                    new XElement(xmlns + SiteMapConstants.LocTag, url),
 
                     node.LastModified == null ? null : new XElement(
                         xmlns + SiteMapConstants.LastModTag,
@@ -82,6 +84,18 @@ namespace cloudscribe.Web.SiteMap.Controllers
             var xml = new XDocument(root);
             return new XmlResult(xml);
 
+        }
+
+        private string TryEnsureFullUrl(string providedUrl)
+        {
+            var isFull = Uri.IsWellFormedUriString(providedUrl, UriKind.Absolute);
+            if (isFull) return providedUrl;
+            if(providedUrl.StartsWith("/"))
+            {
+                return $"{Request.Scheme}//{Request.Host}{providedUrl}";
+            }
+            // unexpected format, just return the provided url
+            return providedUrl;
         }
 
     }

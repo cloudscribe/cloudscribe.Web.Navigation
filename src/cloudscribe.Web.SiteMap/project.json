@@ -1,5 +1,5 @@
 ﻿{
-    "version": "1.0.1-rc20160914",
+    "version": "1.0.1-rc20161004",
     "description": "ASP.NET Core controller and models for generating an xml sitemap for search indexes http://www.sitemaps.org",
     "authors": [ "Joe Audette" ],
     "packOptions": {
