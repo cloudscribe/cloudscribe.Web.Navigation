@@ -32,6 +32,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.TryAddScoped<ITreeCacheKeyResolver, DefaultCacheKeyResolver>();
             services.TryAddScoped<ITreeCache, MemoryTreeCache>();
+            
             services.TryAddScoped<INavigationTreeBuilder, XmlNavigationTreeBuilder>();
             services.TryAddScoped<NavigationTreeBuilderService, NavigationTreeBuilderService>();
             services.TryAddScoped<INodeUrlPrefixProvider, DefaultNodeUrlPrefixProvider>();
