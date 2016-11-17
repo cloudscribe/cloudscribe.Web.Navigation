@@ -1,5 +1,5 @@
 {
-    "version": "1.0.2-rc20160923",
+    "version": "1.0.2-rc20160925",
     "description": "an ASP.NET Core viewcomponent for menus and breadcrumbs",
     "authors": [ "Joe Audette" ],
     "packOptions": {
