@@ -1,5 +1,5 @@
 ﻿{
-    "version": "1.0.1-rc20161004",
+    "version": "1.1.0-rc20161127",
     "description": "ASP.NET Core controller and models for generating an xml sitemap for search indexes http://www.sitemaps.org",
     "authors": [ "Joe Audette" ],
     "packOptions": {
@@ -15,11 +15,11 @@
 
 
     "dependencies": {
-        "NETStandard.Library": "1.6.0",
-        "Microsoft.AspNetCore.Http": "1.0.*",
-        "Microsoft.AspNetCore.Mvc": "1.0.*",
-        "Microsoft.Extensions.Logging": "1.0.*",
-        "Microsoft.Extensions.Options": "1.0.*"
+        "NETStandard.Library": "1.6.1",
+        "Microsoft.AspNetCore.Http": "1.1.*",
+        "Microsoft.AspNetCore.Mvc": "1.1.*",
+        "Microsoft.Extensions.Logging": "1.1.*",
+        "Microsoft.Extensions.Options": "1.1.*"
     },
 
     "frameworks": {

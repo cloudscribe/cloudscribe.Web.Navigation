@@ -1,5 +1,5 @@
 ﻿{
-    "version": "1.0.1-rc20160914",
+    "version": "1.1.0-rc20161127",
     "description": "cloudscribe.Web.SiteMap.FromNavigation a library that implements ISiteMapNodeService using existing tree of nodes from cloudscribe.Web.Navigation.NavigationTreeBuilderService",
     "authors": [ "Joe Audette" ],
     "packOptions": {
@@ -15,9 +15,9 @@
     
 
     "dependencies": {
-        "NETStandard.Library": "1.6.0",
-        "cloudscribe.Web.Navigation": "1.0.2-*",
-        "cloudscribe.Web.SiteMap": "1.0.1-*"
+        "NETStandard.Library": "1.6.1",
+        "cloudscribe.Web.Navigation": "1.1.0-*",
+        "cloudscribe.Web.SiteMap": "1.1.0-*"
     },
 
     "frameworks": {
