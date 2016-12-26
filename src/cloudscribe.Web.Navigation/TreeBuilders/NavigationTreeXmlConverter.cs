@@ -206,18 +206,33 @@ namespace cloudscribe.Web.Navigation
                     }
                     else
                     {
-                        var child = await service.GetTree(childBuilder).ConfigureAwait(false);
-                        if (child.Value.ChildContainerOnly)
+                        var appendToBuilderNode = AppendToBuilderNode(childNode);
+                        var childTreeRoot = await service.GetTree(childBuilder).ConfigureAwait(false);
+                        if(appendToBuilderNode)
                         {
-                            foreach (var subChild in child.Children)
+                            var builderNode = BuildNavNode(childNode, service);
+                            var bt = treeRoot.AddChild(builderNode);
+                            foreach (var subChild in childTreeRoot.Children)
                             {
-                                treeRoot.AddChild(subChild);
+                                bt.AddChild(subChild);
+                                
                             }
                         }
                         else
                         {
-                            treeRoot.AddChild(child);
+                            if (childTreeRoot.Value.ChildContainerOnly)
+                            {
+                                foreach (var subChild in childTreeRoot.Children)
+                                {
+                                    treeRoot.AddChild(subChild);
+                                }
+                            }
+                            else
+                            {
+                                treeRoot.AddChild(childTreeRoot);
+                            }
                         }
+                        
 
                     }
                 }
@@ -279,20 +294,27 @@ namespace cloudscribe.Web.Navigation
                     }
                     else
                     {
-                        var child = await service.GetTree(childBuilder).ConfigureAwait(false);
-                        if (child.Value.ChildContainerOnly)
-                        {
-                            foreach (var subChild in child.Children)
-                            {
-                                navNodeT.AddChild(subChild);
-                            }
-                        }
-                        else
-                        {
-                            navNodeT.AddChild(child);
-                        }
+                        var appendToBuilderNode = AppendToBuilderNode(childNode);
+                        var childTreeRoot = await service.GetTree(childBuilder).ConfigureAwait(false);
+                        //if(appendToBuilderNode)
+                        //{
 
-                        
+                        //}
+                        //else
+                        //{
+                            if (childTreeRoot.Value.ChildContainerOnly)
+                            {
+                                foreach (var subChild in childTreeRoot.Children)
+                                {
+                                    navNodeT.AddChild(subChild);
+                                }
+                            }
+                            else
+                            {
+                                navNodeT.AddChild(childTreeRoot);
+                            }
+                        //}
+                          
                     }
 
                        
@@ -309,6 +331,14 @@ namespace cloudscribe.Web.Navigation
             if (tb != null) { return tb.Value; }
 
             return string.Empty;
+        }
+
+        private bool AppendToBuilderNode(XElement xmlNode)
+        {
+            var a = xmlNode.Attribute("treeBuilderAppendToBuilderNode");
+            if (a != null) { return Convert.ToBoolean(a.Value); }
+
+            return false;
         }
 
         private NavigationNode BuildNavNode(
