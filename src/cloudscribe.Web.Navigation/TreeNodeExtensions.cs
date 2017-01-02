@@ -198,8 +198,14 @@ namespace cloudscribe.Web.Navigation
             if((nodeToMatch.Value.NamedRoute.Length > 0)
                 &&(nodeToMatch.Value.NamedRoute == currentNode.Value.NamedRoute)) { return true; }
 
-
-            if (currentNode.Value.Url == nodeToMatch.Value.Url) { return true; }
+            if(
+                (!string.IsNullOrEmpty(currentNode.Value.Url))
+                && (!string.IsNullOrEmpty(nodeToMatch.Value.Url))
+                )
+            {
+                if (currentNode.Value.Url == nodeToMatch.Value.Url) { return true; }
+            }
+            
 
             return false;
         }
