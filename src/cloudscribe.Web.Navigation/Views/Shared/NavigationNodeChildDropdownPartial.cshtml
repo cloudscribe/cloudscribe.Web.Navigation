@@ -15,12 +15,12 @@
         }
         if (!Model.HasVisibleChildren(childNode))
         {
-            <li class='@Model.GetClass(childNode.Value)' cwn-data-attributes="@childNode.Value.DataAttributes"><a href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))@Model.AdjustText(childNode)</a></li>
+            <li role="presentation" class='@Model.GetClass(childNode.Value)' cwn-data-attributes="@childNode.Value.DataAttributes"><a aria-selected='@Model.IsCurrentNode(childNode.Value)' href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))@Model.AdjustText(childNode)</a></li>
         }
         else
         {
-            <li class='@Model.GetClass(childNode.Value, "dropdown-submenu")' cwn-data-attributes="@childNode.Value.DataAttributes">
-                <a href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))@Model.AdjustText(childNode) </a>
+            <li role="presentation" class='@Model.GetClass(childNode.Value, "dropdown-submenu")' cwn-data-attributes="@childNode.Value.DataAttributes">
+                <a aria-selected='@Model.IsCurrentNode(childNode.Value)' href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))@Model.AdjustText(childNode) </a>
                 @Model.UpdateTempNode(childNode)@Html.Partial("NavigationNodeChildDropdownPartial", Model) @* recursion *@
             </li>
         }

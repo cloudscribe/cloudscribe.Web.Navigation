@@ -2,18 +2,18 @@
 @model NavigationViewModel
 @if ((Model.TempNode != null) && (Model.HasVisibleChildren(Model.TempNode)))
 {
-    <ul class="nav nav-second-level">
+    <ul class="nav nav-second-level" role="menu">
         @foreach (var childNode in Model.TempNode.Children)
         {
             if (!Model.ShouldAllowView(childNode)) { continue; }
             if (!Model.HasVisibleChildren(childNode))
             { 
-                <li class='@Model.GetClass(childNode.Value)'><a href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))@Model.AdjustText(childNode)</a></li>  
+                <li role="presentation" class='@Model.GetClass(childNode.Value)'><a aria-selected='@Model.IsCurrentNode(childNode.Value)' href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))@Model.AdjustText(childNode)</a></li>  
             }
             else
             {
-                <li class='@Model.GetClass(childNode.Value)'>
-                    <a href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))@Model.AdjustText(childNode)</a>
+                <li role="presentation" class='@Model.GetClass(childNode.Value)'>
+                    <a aria-selected='@Model.IsCurrentNode(childNode.Value)' href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))@Model.AdjustText(childNode)</a>
                     @Model.UpdateTempNode(childNode)@Html.Partial("NavigationNodeSideNavPartial", Model) @* recursion *@
                 </li>  
             }

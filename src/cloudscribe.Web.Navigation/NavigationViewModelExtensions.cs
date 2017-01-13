@@ -49,5 +49,13 @@ namespace cloudscribe.Web.Navigation
             return "<i class='" + node.IconCssClass + "'></i> ";
         }
 
+        public static string IsCurrentNode(this NavigationViewModel model, NavigationNode node)
+        {
+            if (node == null) return "false";
+            if (model.CurrentNode == null) return "false";
+            if (node.EqualsNode(model.CurrentNode.Value)) return "true";
+            return "false";
+        }
+
     }
 }
