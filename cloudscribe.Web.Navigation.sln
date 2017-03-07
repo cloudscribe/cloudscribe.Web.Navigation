@@ -1,26 +1,23 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{00C77D27-B3F9-4926-AB54-EA90E1BD8BE9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A2EB1D0D-6204-4ABD-966E-9655D98A53F1}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NavigationDemo.Web", "src\NavigationDemo.Web\NavigationDemo.Web.xproj", "{7DCDF1A4-8895-4D5D-B6BA-F39556A756DE}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "cloudscribe.Web.Navigation", "src\cloudscribe.Web.Navigation\cloudscribe.Web.Navigation.xproj", "{4339F1F0-E02F-4E5B-BF6D-E9D732DCA2A6}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "cloudscribe.Web.SiteMap", "src\cloudscribe.Web.SiteMap\cloudscribe.Web.SiteMap.xproj", "{FB123B3E-8722-4306-A9EF-0A30F35C888B}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "cloudscribe.Web.SiteMap.FromNavigation", "src\cloudscribe.Web.SiteMap.FromNavigation\cloudscribe.Web.SiteMap.FromNavigation.xproj", "{6469BF63-2F34-496D-9F9E-82E7552C2FCB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{0B287AC2-2966-4FC0-A510-B61ADA861DA6}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "cloudscribe.Web.Navigation.Test", "test\cloudscribe.Web.Navigation.Test\cloudscribe.Web.Navigation.Test.xproj", "{08628955-9A34-4134-BD3B-5F84FF6C48E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NavigationDemo.Web", "src\NavigationDemo.Web\NavigationDemo.Web.csproj", "{7DCDF1A4-8895-4D5D-B6BA-F39556A756DE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cloudscribe.Web.Navigation", "src\cloudscribe.Web.Navigation\cloudscribe.Web.Navigation.csproj", "{4339F1F0-E02F-4E5B-BF6D-E9D732DCA2A6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cloudscribe.Web.SiteMap", "src\cloudscribe.Web.SiteMap\cloudscribe.Web.SiteMap.csproj", "{FB123B3E-8722-4306-A9EF-0A30F35C888B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cloudscribe.Web.SiteMap.FromNavigation", "src\cloudscribe.Web.SiteMap.FromNavigation\cloudscribe.Web.SiteMap.FromNavigation.csproj", "{6469BF63-2F34-496D-9F9E-82E7552C2FCB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cloudscribe.Web.Navigation.Test", "test\cloudscribe.Web.Navigation.Test\cloudscribe.Web.Navigation.Test.csproj", "{08628955-9A34-4134-BD3B-5F84FF6C48E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
