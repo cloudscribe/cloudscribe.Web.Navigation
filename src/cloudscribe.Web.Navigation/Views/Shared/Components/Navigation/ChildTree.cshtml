@@ -9,11 +9,11 @@
         if (!Model.ShouldAllowView(node)) { continue; }
         if (!Model.HasVisibleChildren(node))
         {
-            <li role="presentation" class='@Model.GetClass(node.Value)'><a aria-selected='@Model.IsCurrentNode(node.Value)' href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a></li>
+            <li role="presentation" class='@Model.GetClass(node.Value)'><a href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a></li>
         }
         else
         {
-            <li role="presentation" class='@Model.GetClass(node.Value)'><a aria-selected='@Model.IsCurrentNode(node.Value)' href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a>
+            <li role="presentation" class='@Model.GetClass(node.Value)'><a href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a>
             @Model.UpdateTempNode(node)@Html.Partial("NavigationNodeChildTreePartial", Model) 
             </li>
         }

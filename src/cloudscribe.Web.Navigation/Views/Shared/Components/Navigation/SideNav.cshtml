@@ -16,7 +16,7 @@
         else
         {
             <li role="presentation" class='@Model.GetClass(node.Value)'>
-                <a aria-selected='@Model.IsCurrentNode(node.Value)' href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a>
+                <a href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a>
                 @Model.UpdateTempNode(node)@Html.Partial("NavigationNodeSideNavPartial", Model)
             </li>   
         }

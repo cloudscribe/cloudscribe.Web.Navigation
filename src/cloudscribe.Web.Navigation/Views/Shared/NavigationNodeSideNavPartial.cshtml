@@ -8,12 +8,12 @@
             if (!Model.ShouldAllowView(childNode)) { continue; }
             if (!Model.HasVisibleChildren(childNode))
             { 
-                <li role="presentation" class='@Model.GetClass(childNode.Value)'><a aria-selected='@Model.IsCurrentNode(childNode.Value)' href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))@Model.AdjustText(childNode)</a></li>  
+                <li role="presentation" class='@Model.GetClass(childNode.Value)'><a href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))@Model.AdjustText(childNode)</a></li>  
             }
             else
             {
                 <li role="presentation" class='@Model.GetClass(childNode.Value)'>
-                    <a aria-selected='@Model.IsCurrentNode(childNode.Value)' href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))@Model.AdjustText(childNode)</a>
+                    <a href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))@Model.AdjustText(childNode)</a>
                     @Model.UpdateTempNode(childNode)@Html.Partial("NavigationNodeSideNavPartial", Model) @* recursion *@
                 </li>  
             }
