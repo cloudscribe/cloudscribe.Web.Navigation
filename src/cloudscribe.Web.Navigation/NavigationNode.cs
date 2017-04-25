@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-09
-// Last Modified:			2016-08-12
+// Last Modified:			2017-04-25
 // 
 
 using Newtonsoft.Json;
@@ -54,6 +54,8 @@ namespace cloudscribe.Web.Navigation
         /// </summary>
         [DefaultValue(false)]
         public bool IsRootNode { get; set; } = false;
+
+        public bool ExcludeFromSearchSiteMap { get; set; } = false;
         
 
         #endregion

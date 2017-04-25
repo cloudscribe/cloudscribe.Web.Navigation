@@ -103,6 +103,11 @@ namespace cloudscribe.Web.Navigation
                 writer.WriteAttributeString("isRootNode", "true");
             }
 
+            if (node.Value.ExcludeFromSearchSiteMap)
+            {
+                writer.WriteAttributeString("excludeFromSearchSiteMap", "true");
+            }
+
             //if (node.Value.ResourceName.Length > 0)
             //{
             //    writer.WriteAttributeString("resourceName", node.Value.ResourceName);
@@ -388,6 +393,11 @@ namespace cloudscribe.Web.Navigation
 
             a = xmlNode.Attribute("isRootNode");
             if (a != null) { navNode.IsRootNode = Convert.ToBoolean(a.Value); }
+
+            a = xmlNode.Attribute("excludeFromSearchSiteMap");
+            if (a != null) { navNode.ExcludeFromSearchSiteMap = Convert.ToBoolean(a.Value); }
+
+            
 
             a = xmlNode.Attribute("hideFromAuthenticated");
             if (a != null) { navNode.HideFromAuthenticated = Convert.ToBoolean(a.Value); }

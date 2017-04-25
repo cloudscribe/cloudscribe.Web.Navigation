@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:                  Joe Audette
 // Created:                 2016-04-20
-// Last Modified:           2016-07-23
+// Last Modified:           2017-04-25
 // 
 
 using cloudscribe.Web.Navigation;
@@ -74,6 +74,8 @@ namespace cloudscribe.Web.SiteMap
             var urlHelper = urlHelperFactory.GetUrlHelper(actionContextAccesor.ActionContext);
             foreach (var navNode in rootNode.Flatten())
             {
+                if (navNode.ExcludeFromSearchSiteMap) continue;
+
                 if(string.IsNullOrEmpty(navNode.ViewRoles) || navNode.ViewRoles.Contains("All Users"))
                 {
                     var url = ResolveUrl(navNode, urlHelper);
