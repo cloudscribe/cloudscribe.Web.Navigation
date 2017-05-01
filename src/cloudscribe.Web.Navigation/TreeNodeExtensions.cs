@@ -191,7 +191,7 @@ namespace cloudscribe.Web.Navigation
             {
                 if (currentNode.Value.Action == nodeToMatch.Value.Action && (currentNode.Value.Action.Length > 0))
                 {
-                    return true;
+                    if(currentNode.Value.Area == nodeToMatch.Value.Area) return true;
                 }
                     
             }
@@ -217,7 +217,7 @@ namespace cloudscribe.Web.Navigation
             {
                 if (currentNode.Action == nodeToMatch.Action && (currentNode.Action.Length > 0))
                 {
-                    return true;
+                    if (currentNode.Area == nodeToMatch.Area) return true;
                 }
 
             }
