@@ -159,7 +159,21 @@ namespace cloudscribe.Web.Navigation
                 }
                 return parentChain;
             }
-        } 
+        }
+
+        private List<NavigationNode> tailCrumbs = null;
+        public List<NavigationNode> TailCrumbs
+        {
+            get
+            {
+                if(tailCrumbs == null)
+                {
+                    if (context.Items[Constants.TailCrumbsContexctKey] != null)
+                        tailCrumbs = (List<NavigationNode>)context.Items[Constants.TailCrumbsContexctKey];
+                }
+                return tailCrumbs;
+            }
+        }
 
         public string AdjustText(TreeNode<NavigationNode> node)
         {
@@ -290,7 +304,7 @@ namespace cloudscribe.Web.Navigation
 
         private bool FilterIsAllowed(TreeNode<NavigationNode> node)
         {
-            if (node.Value.ComponentVisibility.Length == 0) { return true; }
+            if (string.IsNullOrEmpty(node.Value.ComponentVisibility)) { return true; }
             if (navigationFilterName.Length == 0) { return false; }
             if (node.Value.ComponentVisibility.Contains(navigationFilterName)) { return true; }
            

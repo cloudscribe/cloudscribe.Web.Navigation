@@ -8,11 +8,25 @@
         if (!Model.ShouldAllowView(node)) { continue; }
         if (node.EqualsNode(Model.CurrentNode))
         {
-            <li class="active">@Model.AdjustText(node)</li>
+            if (Model.TailCrumbs != null)
+            {
+                <li><a href="@Url.Content(Model.AdjustUrl(node))">@Model.AdjustText(node)</a><span class="divider"></span></li>
+            }
+            else
+            {
+                <li class="active">@Model.AdjustText(node)</li>
+            }
         }
         else
         {
             <li><a href="@Url.Content(Model.AdjustUrl(node))">@Model.AdjustText(node)</a><span class="divider"></span></li>
+        }
+    }
+    @if (Model.TailCrumbs != null)
+    {
+        foreach (var n in Model.TailCrumbs)
+        {
+            <li class="active">@n.Text</li>
         }
     }
     </ul>
