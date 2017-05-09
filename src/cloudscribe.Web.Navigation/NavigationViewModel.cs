@@ -107,6 +107,7 @@ namespace cloudscribe.Web.Navigation
             {
                 if (currentNode == null)
                 {
+                    if (RootNode == null) return null;
                     //log.LogInformation("currentNode was null so lazy loading it");
                     currentNode = RootNode.FindByUrl(urlHelper, context.Request.Path, nodeSearchUrlPrefix);
 
