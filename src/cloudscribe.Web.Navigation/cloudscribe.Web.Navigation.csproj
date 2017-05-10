@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Description>an ASP.NET Core viewcomponent for menus and breadcrumbs</Description>
-    <VersionPrefix>1.2.0</VersionPrefix>
+    <VersionPrefix>1.2.1</VersionPrefix>
     <Authors>Joe Audette</Authors>
     <TargetFrameworks>net451;net452;net46;netstandard1.6</TargetFrameworks>
     <AssemblyName>cloudscribe.Web.Navigation</AssemblyName>
@@ -23,16 +23,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="1.1.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="1.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.*" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="1.1.*" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="1.1.*" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="1.1.*" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="1.1.*" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="1.1.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="1.1.*" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="1.1.*" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="1.1.*" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net451' ">
