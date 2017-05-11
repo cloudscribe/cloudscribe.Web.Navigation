@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:                  Joe Audette
 // Created:                 2016-04-20
-// Last Modified:           2017-04-25
+// Last Modified:           2017-05-11
 // 
 
 using cloudscribe.Web.Navigation;
@@ -127,8 +127,9 @@ namespace cloudscribe.Web.SiteMap
             
             string urlToUse = string.Empty;
             if ((node.Action.Length > 0) && (node.Controller.Length > 0))
-            { 
-                urlToUse = urlHelper.Action(node.Action, node.Controller);
+            {
+                var a = node.Area == null ? "" : node.Area;
+                urlToUse = urlHelper.Action(node.Action, node.Controller, new {area = a });
             }
             else if (node.NamedRoute.Length > 0)
             {

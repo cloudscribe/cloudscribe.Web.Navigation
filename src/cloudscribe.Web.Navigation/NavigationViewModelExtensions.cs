@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2016-07-24
-// Last Modified:			2016-07-24
+// Last Modified:			2017-05-11
 // 
 
 
@@ -12,7 +12,7 @@ namespace cloudscribe.Web.Navigation
     {
         public static string GetClass(this NavigationViewModel model, NavigationNode node, string inputClass = null, string activeClass = "active")
         {
-            if (node == null) return null;
+            if (node == null) return inputClass;
             if (model.CurrentNode != null && (node.EqualsNode(model.CurrentNode.Value)))
             {
                 if (!string.IsNullOrEmpty(inputClass))
