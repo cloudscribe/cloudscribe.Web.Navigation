@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-12
-// Last Modified:			2015-09-10
+// Last Modified:			2017-05-14
 // 
 
 namespace cloudscribe.Web.Navigation
@@ -15,6 +15,7 @@ namespace cloudscribe.Web.Navigation
         public const string FullTree = "fulltree";
         public const string ChildTree = "childtree";
         public const string ParentTree = "parenttree";
+        public const string SiteMap = "sitemap";
 
     }
 }
