@@ -113,10 +113,10 @@ namespace cloudscribe.Web.Navigation
                 navNode.CustomData = (string)jNode["Value"]["CustomData"];
             }
 
-            if (jNode["Value"]["IsRootNode"] != null)
-            {
-                navNode.IsRootNode = Convert.ToBoolean((string)jNode["Value"]["IsRootNode"]);
-            }
+            //if (jNode["Value"]["IsRootNode"] != null)
+            //{
+            //    navNode.IsRootNode = Convert.ToBoolean((string)jNode["Value"]["IsRootNode"]);
+            //}
 
             if (jNode["Value"]["HideFromAuthenticated"] != null)
             {

@@ -74,7 +74,7 @@ namespace cloudscribe.Web.Navigation
 
                 NavigationNode rootNav = new NavigationNode();
                 rootNav.Key = "filenotfound";
-                rootNav.IsRootNode = true;
+                //rootNav.IsRootNode = true;
                 rootNav.Text = filePath + " not found";
                 rootNav.Url = "/";
                 var treeRoot = new TreeNode<NavigationNode>(rootNav);

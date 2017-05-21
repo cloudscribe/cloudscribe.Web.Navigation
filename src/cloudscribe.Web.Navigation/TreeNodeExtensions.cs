@@ -169,7 +169,8 @@ namespace cloudscribe.Web.Navigation
             TreeNode<NavigationNode> parentNode = currentNode.Parent;
             while(parentNode != null)
             {
-                if(includeRoot ||(!parentNode.Value.IsRootNode))
+                //if(includeRoot ||(!parentNode.Value.IsRootNode))
+                if (includeRoot || (!parentNode.IsRoot()))
                 {
                     list.Add(parentNode);
                 }

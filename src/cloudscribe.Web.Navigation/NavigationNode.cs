@@ -6,6 +6,7 @@
 // 
 
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
@@ -52,6 +53,7 @@ namespace cloudscribe.Web.Navigation
         /// a node could start out as a root node and then be added as a sub node of another node
         /// not sure we even need this property 
         /// </summary>
+        [Obsolete("This property should not be used and will be removed in future versions. This property cannot be relied on to identitify the root of the tree, instead use the .IsRoot() method on TreeNode which determines the root by a null parent.")]
         [DefaultValue(false)]
         public bool IsRootNode { get; set; } = false;
 

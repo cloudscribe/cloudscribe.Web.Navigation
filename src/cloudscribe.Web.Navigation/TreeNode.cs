@@ -33,6 +33,11 @@ namespace cloudscribe.Web.Navigation
         [JsonIgnore]
         public TreeNode<T> Parent { get; private set; } = null;
 
+        public bool IsRoot()
+        {
+            return Parent == null;
+        }
+
         public T Value { get { return _value; } }
 
         public ReadOnlyCollection<TreeNode<T>> Children

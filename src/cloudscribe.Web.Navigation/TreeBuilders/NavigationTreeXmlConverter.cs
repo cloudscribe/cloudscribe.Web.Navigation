@@ -98,10 +98,10 @@ namespace cloudscribe.Web.Navigation
                 writer.WriteAttributeString("customData", node.Value.CustomData);
             }
 
-            if (node.Value.IsRootNode)
-            {
-                writer.WriteAttributeString("isRootNode", "true");
-            }
+            //if (node.Value.IsRootNode)
+            //{
+            //    writer.WriteAttributeString("isRootNode", "true");
+            //}
 
             if (node.Value.ExcludeFromSearchSiteMap)
             {
@@ -391,8 +391,8 @@ namespace cloudscribe.Web.Navigation
                 navNode.Url = navNode.ResolveUrl(); // this smells bad
             }
 
-            a = xmlNode.Attribute("isRootNode");
-            if (a != null) { navNode.IsRootNode = Convert.ToBoolean(a.Value); }
+            //a = xmlNode.Attribute("isRootNode");
+            //if (a != null) { navNode.IsRootNode = Convert.ToBoolean(a.Value); }
 
             a = xmlNode.Attribute("excludeFromSearchSiteMap");
             if (a != null) { navNode.ExcludeFromSearchSiteMap = Convert.ToBoolean(a.Value); }
