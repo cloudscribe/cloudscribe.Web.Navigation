@@ -22,14 +22,14 @@ You can download/clone this repo and run the NavigationDemo.Web project to see a
 
 Prerequisites:
 
-*  [Visual Studio 2015](https://www.visualstudio.com/en-us/downloads) 
-*  [ASP.NET Core RTM and related Tooling](http://dot.net) 
+*  [Visual Studio 2017](https://www.visualstudio.com/en-us/downloads) or VSCode
+*  [ASP.NET Core and related Tooling](http://dot.net) 
 
-To install from nuget.org open the project.json file of your web application and in the dependencies section add:
+To install from nuget.org use NugEt Package Manager, or edit the .csproj file of your web application and in the dependencies section add:
 
-    "cloudscribe.Web.Navigation": "1.0.2-*"
+    "cloudscribe.Web.Navigation": "1.2.*"
     
-Visual Studio 2015 should restore the package automatically, you could also open a command prompt and use dnu restore in your project folder.
+Visual Studio should restore the package automatically, you could also open a command prompt and use dnu restore in your project folder.
 
 Unfortunately it is not yet possible for us to install the needed views from nuget. The needed views are included as embedded resources which can be added via a RazorOptions extension method (shown below), but you can ooptionally copy them and install them directly in your own web application, [copy the views folder and views from here](https://github.com/joeaudette/cloudscribe.Web.Navigation/tree/master/src/cloudscribe.Web.Navigation/Views/Shared). You can also create your own custom views and invoke them by name when invoking the ViewComponent.
 
