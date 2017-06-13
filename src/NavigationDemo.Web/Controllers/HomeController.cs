@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Http;
 
 namespace NavigationDemo.Web.Controllers
 {
@@ -82,6 +84,28 @@ namespace NavigationDemo.Web.Controllers
             ViewData["Message"] = "Members only.";
 
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult SetLanguage(string culture, string returnUrl)
+        {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            );
+
+            return LocalRedirect(returnUrl);
+        }
+
+        [HttpPost]
+        public IActionResult ClearLanguageCookie(string culture, string returnUrl)
+        {
+            Response.Cookies.Delete(
+                CookieRequestCultureProvider.DefaultCookieName
+            );
+
+            return LocalRedirect(returnUrl);
         }
     }
 }

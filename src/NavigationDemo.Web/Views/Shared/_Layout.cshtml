@@ -40,6 +40,7 @@
         @await Component.InvokeAsync("Navigation", new { viewName = "BootstrapBreadcrumbs", filterName = NamedNavigationFilters.Breadcrumbs, startingNodeKey = "" })
         @RenderBody()
         <hr />
+        @await Html.PartialAsync("_SelectLanguagePartial")
         <footer>
             <p>&copy; 2016 - NavigationDemo.Web</p>
         </footer>
@@ -65,6 +66,13 @@
         <script src="~/lib/smartmenus/dist/addons/bootstrap/jquery.min.smartmenus.bootstrap.js"></script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
+    <script>
+        (function () {
+            $("#selectLanguage select").change(function () {
+                $(this).parent().submit();
+            });
+        }());
+    </script>
 
     @RenderSection("scripts", required: false)
 </body>
