@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.FileProviders;
 using System.Reflection;
+using System;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -43,6 +44,18 @@ namespace Microsoft.Extensions.DependencyInjection
 
 
 
+        
+        [Obsolete("AddEmbeddedViewsForNavigation is deprecated, please use AddCloudscribeNavigationBootstrap3Views instead.")]
+        public static RazorViewEngineOptions AddEmbeddedViewsForNavigation(this RazorViewEngineOptions options)
+        {
+            options.FileProviders.Add(new EmbeddedFileProvider(
+                    typeof(NavigationOptions).GetTypeInfo().Assembly,
+                    "cloudscribe.Web.Navigation"
+                ));
+
+            return options;
+        }
+
         /// <summary>
         /// This method adds an embedded file provider to the RazorViewOptions to be able to load the Navigation related views.
         /// If you download and install the views below your view folder you don't need this method and you can customize the views.
@@ -50,7 +63,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="options"></param>
         /// <returns>RazorViewEngineOptions</returns>
-        public static RazorViewEngineOptions AddEmbeddedViewsForNavigation(this RazorViewEngineOptions options)
+        public static RazorViewEngineOptions AddCloudscribeNavigationBootstrap3Views(this RazorViewEngineOptions options)
         {
             options.FileProviders.Add(new EmbeddedFileProvider(
                     typeof(NavigationOptions).GetTypeInfo().Assembly,
