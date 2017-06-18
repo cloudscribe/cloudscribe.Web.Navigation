@@ -43,10 +43,10 @@ namespace cloudscribe.Web.Navigation
                 writer.WriteAttributeString("key", node.Value.Key);
             }
 
-            if (node.Value.ParentKey.Length > 0)
-            {
-                writer.WriteAttributeString("parentKey", node.Value.ParentKey);
-            }
+            //if (node.Value.ParentKey.Length > 0)
+            //{
+            //    writer.WriteAttributeString("parentKey", node.Value.ParentKey);
+            //}
 
             if (node.Value.Controller.Length > 0)
             {
@@ -362,8 +362,8 @@ namespace cloudscribe.Web.Navigation
             var a = xmlNode.Attribute("key");
             if(a != null) {  navNode.Key = a.Value; }
 
-            a = xmlNode.Attribute("parentKey");
-            if (a != null) { navNode.ParentKey = a.Value; }
+            //a = xmlNode.Attribute("parentKey");
+            //if (a != null) { navNode.ParentKey = a.Value; }
 
             a = xmlNode.Attribute("controller");
             if (a != null) { navNode.Controller = a.Value; }

@@ -24,6 +24,7 @@ namespace cloudscribe.Web.Navigation
         [JsonRequired]
         public string Key { get; set; } = string.Empty;
 
+        [Obsolete("ParentKey is obsolete and was never actually used, parent child relationships are established by the xml or json or other treebuilders which add nodes to the navigation tree. That is to say the tree structure itself is the parent child relationship.")]
         [DefaultValue("")]
         public string ParentKey { get; set; } = string.Empty;
 

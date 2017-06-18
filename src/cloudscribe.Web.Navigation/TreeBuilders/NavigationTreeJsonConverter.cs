@@ -47,10 +47,10 @@ namespace cloudscribe.Web.Navigation
                 navNode.Key = (string)jNode["Value"]["Key"];
             }
             
-            if(jNode["Value"]["ParentKey"] != null)
-            {
-                navNode.ParentKey = (string)jNode["Value"]["ParentKey"];
-            }
+            //if(jNode["Value"]["ParentKey"] != null)
+            //{
+            //    navNode.ParentKey = (string)jNode["Value"]["ParentKey"];
+            //}
             
             if(jNode["Value"]["Controller"] != null)
             {
