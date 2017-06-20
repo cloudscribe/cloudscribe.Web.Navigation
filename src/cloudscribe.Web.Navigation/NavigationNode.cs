@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-09
-// Last Modified:			2017-04-25
+// Last Modified:			2017-06-20
 // 
 
 using Newtonsoft.Json;
@@ -63,24 +63,10 @@ namespace cloudscribe.Web.Navigation
 
         #endregion
 
-        //#region INavigationNodeLocalization
-
-        //[DefaultValue("")]
-        //public string ResourceName { get; set; } = string.Empty;
-
-        //[DefaultValue("")]
-        //public string ResourceTextKey { get; set; } = string.Empty;
-
-        //[DefaultValue("")]
-        //public string ResourceTitleKey { get; set; } = string.Empty;
-
-        //#endregion
+        
 
         #region INavigationNodeRenderSettings
-
-        //[DefaultValue(true)]
-        //public bool IncludeAmbientValuesInUrl { get; set; } = true;
-
+        
         [DefaultValue("")]
         public string PreservedRouteParameters { get; set; } = string.Empty;
 
