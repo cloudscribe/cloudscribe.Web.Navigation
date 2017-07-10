@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
@@ -26,26 +27,43 @@ namespace cloudscribe.Web.Navigation
             Assembly asm = Assembly.GetEntryAssembly();
             const string controllerSuffix = "Controller";
             _routeTrimChars = new[] { '/', ' ' };
-            //key = {namedRoute}/{area}/{controllername}
-            _controllers = new ReadOnlyDictionary<string, Type>(asm.GetTypes()
-                .Where(typeof(Controller).IsAssignableFrom) //filter controllers
-                .ToDictionary(t =>
+            var authAttrDict = new Dictionary<string, MvcAuthAttributes>();
+            foreach (var controller in asm.GetTypes().Where(typeof(Controller).IsAssignableFrom)) //filter controllers
+            {
+                TypeInfo ti = controller.GetTypeInfo();
+                AuthorizeAttribute controllerAttribute = ti.GetCustomAttribute<AuthorizeAttribute>();
+                string keyPrefix = ti.GetCustomAttribute<RouteAttribute>()?.Name.Trim(_routeTrimChars) + '/' + 
+                    ti.GetCustomAttribute<AreaAttribute>()?.RouteValue + '/' +
+                    (controller.Name.EndsWith(controllerSuffix)
+                        ? controller.Name.Substring(0, controller.Name.Length - controllerSuffix.Length) 
+                        : controller.Name) + '/';
+                foreach(var action in ti.GetMethods().Where(action => action.IsPublic && !action.IsDefined(typeof(NonActionAttribute))))
                 {
-                    TypeInfo ti = t.GetTypeInfo();
-                    return ti.GetCustomAttribute<RouteAttribute>()?.Name.Trim(_routeTrimChars) + '/' + 
-                        ti.GetCustomAttribute<AreaAttribute>()?.RouteValue + '/' +
-                        (t.Name.EndsWith(controllerSuffix) ? t.Name.Substring(0, t.Name.Length - controllerSuffix.Length) : t.Name);
-                }));
+                    string key = keyPrefix + action.Name;
+                    if (action.IsDefined(typeof(AllowAnonymousAttribute)))
+                    {
+                        authAttrDict.Add(key, new MvcAuthAttributes(null, null));
+                    }
+                    else
+                    {
+                        authAttrDict.Add(key, new MvcAuthAttributes(
+                            controllerAttribute,
+                            action.GetCustomAttribute<AuthorizeAttribute>()));
+                    }
+                }
+            }
+            _controllers = new ReadOnlyDictionary<string, MvcAuthAttributes>(authAttrDict);
         }
 
 
         public NavigationNodePermissionResolver(IHttpContextAccessor httpContextAccessor)
         {
-            this._httpContextAccessor = httpContextAccessor;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         private IHttpContextAccessor _httpContextAccessor;
-        private static ReadOnlyDictionary<string, Type> _controllers;
+        //key = {namedRoute}/{area}/{controllerName}/{actionName}
+        private static ReadOnlyDictionary<string, MvcAuthAttributes> _controllers;
         private static readonly char[] _routeTrimChars;
         public const string AllUsers = "AllUsers;"; //note  - shouldn't this be "*". At the very least, remove semicolon
 
@@ -63,33 +81,22 @@ namespace cloudscribe.Web.Navigation
 
         private static MvcAuthAttributes GetRolesForAction(TreeNode<NavigationNode> menuNode)
         {
-            if (!_controllers.TryGetValue(menuNode.Value.NamedRoute.Trim(_routeTrimChars) +'/' + menuNode.Value.Area + '/' + menuNode.Value.Controller, out Type controller))
-            {
-                throw new Exception($"Could not find controller {menuNode.Value.Controller}");
-            }
-            var action = controller.GetMethod(menuNode.Value.Action);
-            //potentially should exclude where action.IsDefined(typeof(NonActionAttribute)
-            if (action == null)
+            if (!_controllers.TryGetValue(menuNode.Value.NamedRoute.Trim(_routeTrimChars) +'/' + menuNode.Value.Area + '/' + menuNode.Value.Controller + '/' + menuNode.Value.Action, out MvcAuthAttributes attributes))
             {
                 throw new Exception($"Could not find action {menuNode.Value.Action} on controller {menuNode.Value.Controller}");
             }
-
-            if (action.IsDefined(typeof(AllowAnonymousAttribute)))
-            {
-                return new MvcAuthAttributes();
-            }
-
-            return new MvcAuthAttributes
-            {
-                Controller = action.GetCustomAttribute<AuthorizeAttribute>(),
-                Action = action.GetCustomAttribute<AuthorizeAttribute>()
-            };
+            return attributes;
         }
 
         private class MvcAuthAttributes
         {
-            public AuthorizeAttribute Controller { get; set; }
-            public AuthorizeAttribute Action { get; set; }
+            public MvcAuthAttributes(AuthorizeAttribute controller, AuthorizeAttribute action)
+            {
+                Controller = controller;
+                Action = action;
+            }
+            public AuthorizeAttribute Controller { get; private set; }
+            public AuthorizeAttribute Action { get; private set; }
 
             public bool IsAuth(System.Security.Claims.ClaimsPrincipal principal)
             {
