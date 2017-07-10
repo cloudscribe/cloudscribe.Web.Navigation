@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace NavigationDemo.Web.Controllers
 {
+    [Authorize]
     public class FakeAccountController : Controller
     {
         public FakeAccountController()
