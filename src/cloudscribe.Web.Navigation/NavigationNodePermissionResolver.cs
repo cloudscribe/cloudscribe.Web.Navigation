@@ -25,20 +25,14 @@ namespace cloudscribe.Web.Navigation
             //this may throw sytem notsupported exception on Mac & Linux???
             //in this format the great problem will be testability - what if the entry assembly is a test
             //better to use injection in later iterations beyond current 'proof of concept'
-            Assembly asm = Assembly.GetEntryAssembly();
-            const string controllerSuffix = "Controller";
-            _routeTrimChars = new[] { '/', ' ' };
-            var authAttrDict = new Dictionary<string, MvcAuthAttributes>();
-            foreach (var controller in asm.GetTypes().Where(typeof(Controller).IsAssignableFrom)) //filter controllers
+            Assembly mvcProject = Assembly.GetEntryAssembly();
+            var authAttrDict = new Dictionary<ActionKey, MvcAuthAttributes>();
+            foreach (var controller in mvcProject.GetTypes().Where(typeof(Controller).IsAssignableFrom)) //filter controllers
             {
                 TypeInfo ti = controller.GetTypeInfo();
                 AuthorizeAttribute controllerAttribute = ti.GetCustomAttribute<AuthorizeAttribute>();
-                string keyPrefix = ti.GetCustomAttribute<RouteAttribute>()?.Name.Trim(_routeTrimChars) + '/' + 
-                    ti.GetCustomAttribute<AreaAttribute>()?.RouteValue + '/' +
-                    (controller.Name.EndsWith(controllerSuffix)
-                        ? controller.Name.Substring(0, controller.Name.Length - controllerSuffix.Length) 
-                        : controller.Name) + '/';
-                foreach(var action in ti.GetMethods().Where(action => action.IsPublic && !action.IsDefined(typeof(NonActionAttribute))))
+                string area = ti.GetCustomAttribute<AreaAttribute>()?.RouteValue;
+                foreach(var action in ti.GetMethods().Where(action => action.DeclaringType == controller && action.IsPublic && !action.IsDefined(typeof(NonActionAttribute))))
                 {
                     var httpMethodType = (from a in action.GetCustomAttributes()
                                           let t = a.GetType()
@@ -46,7 +40,8 @@ namespace cloudscribe.Web.Navigation
                                           select t).SingleOrDefault();
                     if (httpMethodType == null || httpMethodType == typeof(HttpGetAttribute))
                     {
-                        string key = keyPrefix + action.Name;
+                        const string controllerSuffix = "Controller";
+                        var key = new ActionKey(area, controller.Name.EndsWith(controllerSuffix) ?controller.Name.Substring(0,controller.Name.Length - controllerSuffix.Length):controller.Name, action.Name);
                         if (action.IsDefined(typeof(AllowAnonymousAttribute)))
                         {
                             authAttrDict.Add(key, new MvcAuthAttributes(null, null));
@@ -60,7 +55,7 @@ namespace cloudscribe.Web.Navigation
                     }
                 }
             }
-            _controllers = new ReadOnlyDictionary<string, MvcAuthAttributes>(authAttrDict);
+            _authDictionary = new ReadOnlyDictionary<ActionKey, MvcAuthAttributes>(authAttrDict);
         }
 
 
@@ -68,11 +63,10 @@ namespace cloudscribe.Web.Navigation
         {
             _httpContextAccessor = httpContextAccessor;
         }
-
+        
         private IHttpContextAccessor _httpContextAccessor;
-        //key = {namedRoute}/{area}/{controllerName}/{actionName}
-        private static ReadOnlyDictionary<string, MvcAuthAttributes> _controllers;
-        private static readonly char[] _routeTrimChars;
+
+        private static ReadOnlyDictionary<ActionKey, MvcAuthAttributes> _authDictionary;
         public const string AllUsers = "AllUsers;"; //note  - shouldn't this be "*". At the very least, remove semicolon
 
         public virtual bool ShouldAllowView(TreeNode<NavigationNode> menuNode)
@@ -80,7 +74,7 @@ namespace cloudscribe.Web.Navigation
             if (string.IsNullOrEmpty(menuNode.Value.ViewRoles)) {
                 //use default comparison - that is, check if the action can allow the user
                 var authAtts = GetRolesForAction(menuNode);
-                return authAtts.IsAuth(_httpContextAccessor.HttpContext.User);
+                return authAtts?.IsAuth(_httpContextAccessor.HttpContext.User) ?? true;
             }
             if (AllUsers.Equals(menuNode.Value.ViewRoles, StringComparison.OrdinalIgnoreCase)) { return true; }
 
@@ -89,11 +83,13 @@ namespace cloudscribe.Web.Navigation
 
         private static MvcAuthAttributes GetRolesForAction(TreeNode<NavigationNode> menuNode)
         {
-            if (!_controllers.TryGetValue(menuNode.Value.NamedRoute.Trim(_routeTrimChars) +'/' + menuNode.Value.Area + '/' + menuNode.Value.Controller + '/' + menuNode.Value.Action, out MvcAuthAttributes attributes))
+            var key = new ActionKey(menuNode.Value.Area, menuNode.Value.Controller, menuNode.Value.Action);
+            //todo - figure out how to calculate principal authorization by menuNode.Value.NamedRoute
+            if (_authDictionary.TryGetValue(key, out MvcAuthAttributes attributes))
             {
-                throw new Exception($"Could not find action {menuNode.Value.Action} on controller {menuNode.Value.Controller}");
+                return attributes;
             }
-            return attributes;
+            return null;
         }
 
         private class MvcAuthAttributes
@@ -121,6 +117,13 @@ namespace cloudscribe.Web.Navigation
                     return principal.Identity.IsAuthenticated;
                 }
                 return principal.IsInRoles(attr.Roles);
+            }
+        }
+
+        private class ActionKey : Tuple<string,string,string>
+        {
+            public ActionKey(string area, string controller, string action) : base(area ?? string.Empty, controller, action)
+            {
             }
         }
     }
