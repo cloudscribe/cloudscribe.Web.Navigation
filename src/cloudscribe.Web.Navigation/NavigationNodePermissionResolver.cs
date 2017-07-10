@@ -9,6 +9,7 @@ using cloudscribe.Web.Navigation.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -39,16 +40,23 @@ namespace cloudscribe.Web.Navigation
                         : controller.Name) + '/';
                 foreach(var action in ti.GetMethods().Where(action => action.IsPublic && !action.IsDefined(typeof(NonActionAttribute))))
                 {
-                    string key = keyPrefix + action.Name;
-                    if (action.IsDefined(typeof(AllowAnonymousAttribute)))
+                    var httpMethodType = (from a in action.GetCustomAttributes()
+                                          let t = a.GetType()
+                                          where typeof(HttpMethodAttribute).IsAssignableFrom(t)
+                                          select t).SingleOrDefault();
+                    if (httpMethodType == null || httpMethodType == typeof(HttpGetAttribute))
                     {
-                        authAttrDict.Add(key, new MvcAuthAttributes(null, null));
-                    }
-                    else
-                    {
-                        authAttrDict.Add(key, new MvcAuthAttributes(
-                            controllerAttribute,
-                            action.GetCustomAttribute<AuthorizeAttribute>()));
+                        string key = keyPrefix + action.Name;
+                        if (action.IsDefined(typeof(AllowAnonymousAttribute)))
+                        {
+                            authAttrDict.Add(key, new MvcAuthAttributes(null, null));
+                        }
+                        else
+                        {
+                            authAttrDict.Add(key, new MvcAuthAttributes(
+                                controllerAttribute,
+                                action.GetCustomAttribute<AuthorizeAttribute>()));
+                        }
                     }
                 }
             }
