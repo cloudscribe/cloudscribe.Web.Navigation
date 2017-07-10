@@ -88,7 +88,7 @@ namespace cloudscribe.Web.Navigation
         public bool ChildContainerOnly { get; set; } = false;
 
         public bool HideFromAuthenticated { get; set; } = false;
-
+        //? make obsolete and use the authorizeAttribute on the controller
         public bool HideFromAnonymous { get; set; } = false;
 
         #endregion

@@ -74,7 +74,7 @@ namespace NavigationDemo.Web.Controllers
         public IActionResult Administration()
         {
             ViewData["Message"] = "Administrators only.";
-
+            
             return View();
         }
 

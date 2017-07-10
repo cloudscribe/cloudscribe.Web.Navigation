@@ -258,7 +258,7 @@ namespace cloudscribe.Web.Navigation
         
         public bool ShouldAllowView(TreeNode<NavigationNode> node)
         {
-            if (node.Value.HideFromAnonymous && !context.User.Identity.IsAuthenticated) { return false; }
+            if (node.Value.HideFromAnonymous && !context.User.Identity.IsAuthenticated) { return false; } //this line should be handled in NavigationNodePermissionResolver
             if (node.Value.HideFromAuthenticated && context.User.Identity.IsAuthenticated) { return false; }
 
             foreach (var filter in removalFilters)
