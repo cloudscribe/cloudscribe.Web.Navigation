@@ -2,7 +2,7 @@ language: csharp
 solution: cloudscribe.Web.Navigation.sln
 sudo: false
 dist: trusty
-mono: 5.0.1
+mono: none
 dotnet: 1.0.4
 env:
   global:
