@@ -2,10 +2,9 @@
 
   <PropertyGroup>
     <Description>an ASP.NET Core viewcomponent for menus and breadcrumbs</Description>
-    <VersionPrefix>2.0.0</VersionPrefix>
-	<VersionSuffix>preview20170725</VersionSuffix>
+    <VersionPrefix>1.2.7</VersionPrefix>
     <Authors>Joe Audette</Authors>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard1.6</TargetFrameworks>
     <AssemblyName>cloudscribe.Web.Navigation</AssemblyName>
     <PackageId>cloudscribe.Web.Navigation</PackageId>
     <PackageTags>cloudscribe;mvc6;mvcsitemapprovider;navigation;menus;breadcrumbs;bootstrap</PackageTags>
@@ -22,16 +21,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0-*" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.0.0-*" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.0.0-*" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.0-*" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="2.0.0-*" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.*" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="1.1.*" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="1.1.*" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="1.1.*" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="1.1.*" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.*" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.0-*" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="2.0.0-*" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="2.0.0-*" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.0.0-*" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="1.1.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="1.1.*" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="1.1.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="1.1.*" />
   </ItemGroup>
 
   

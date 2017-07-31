@@ -2,10 +2,9 @@
 
   <PropertyGroup>
     <Description>cloudscribe.Web.SiteMap.FromNavigation a library that implements ISiteMapNodeService using existing tree of nodes from cloudscribe.Web.Navigation.NavigationTreeBuilderService</Description>
-    <VersionPrefix>2.0.0</VersionPrefix>
-	<VersionSuffix>preview20170725</VersionSuffix>
+    <VersionPrefix>1.2.2</VersionPrefix>
     <Authors>Joe Audette</Authors>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard1.6</TargetFrameworks>
     <AssemblyName>cloudscribe.Web.SiteMap.FromNavigation</AssemblyName>
     <PackageId>cloudscribe.Web.SiteMap.FromNavigation</PackageId>
     <PackageTags>cloudscribe;mvc;sitemap</PackageTags>

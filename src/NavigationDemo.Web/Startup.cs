@@ -69,17 +69,6 @@ namespace NavigationDemo.Web
                 options.AddCloudscribeNavigationBootstrap3Views();
             });
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = "application";
-                options.DefaultChallengeScheme = "application";
-            })
-                .AddCookieAuthentication("application", options =>
-                {
-                    options.LoginPath = new PathString("/FakeAccount/Index");
-                    
-                });
-
             services.Configure<RequestLocalizationOptions>(options =>
             {
                 var supportedCultures = new[]
@@ -134,7 +123,7 @@ namespace NavigationDemo.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-               
+                app.UseBrowserLink();
             }
             else
             {
@@ -148,8 +137,22 @@ namespace NavigationDemo.Web
             app.UseRequestLocalization(locOptions.Value);
             
             app.UseStaticFiles();
-            
-            app.UseAuthentication();
+
+
+            var ApplicationCookie = new CookieAuthenticationOptions
+            {
+                AuthenticationScheme = "application",
+                CookieName = "application",
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                LoginPath = new PathString("/FakeAccount/Index"),
+                Events = new CookieAuthenticationEvents
+                {
+                    //OnValidatePrincipal = SecurityStampValidator.ValidatePrincipalAsync
+                }
+            };
+
+            app.UseCookieAuthentication(ApplicationCookie);
 
             app.UseMvc(routes =>
             {
