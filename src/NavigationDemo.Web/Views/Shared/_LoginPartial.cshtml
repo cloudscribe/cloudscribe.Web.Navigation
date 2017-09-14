@@ -1,7 +1,7 @@
 ﻿@using System.Security.Claims
 @if (User.Identity.IsAuthenticated)
 {
-    <form asp-controller="FakeAccount" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
+    <form asp-controller="FakeAccount" asp-action="LogOff" method="post" id="logoutForm">
         <ul class="nav navbar-nav navbar-right">
             <li>
                 <a asp-controller="Account" asp-action="Index">Hello @User.FindFirstValue(ClaimsIdentity.DefaultNameClaimType)!</a>
