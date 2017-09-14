@@ -20,18 +20,12 @@ namespace NavigationDemo.Web
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
-            
-            builder.AddEnvironmentVariables();
-            Configuration = builder.Build();
+            Configuration = configuration;
         }
 
-        public IConfigurationRoot Configuration { get; }
+        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -68,6 +62,17 @@ namespace NavigationDemo.Web
                 // https://github.com/joeaudette/cloudscribe.Web.Navigation/tree/master/src/cloudscribe.Web.Navigation/Views
                 options.AddCloudscribeNavigationBootstrap3Views();
             });
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = "application";
+                options.DefaultChallengeScheme = "application";
+            })
+                .AddCookie("application", options =>
+                {
+                    options.LoginPath = new PathString("/FakeAccount/Index");
+                    
+                });
 
             services.Configure<RequestLocalizationOptions>(options =>
             {
@@ -117,13 +122,11 @@ namespace NavigationDemo.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
-
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
+               
             }
             else
             {
@@ -137,22 +140,8 @@ namespace NavigationDemo.Web
             app.UseRequestLocalization(locOptions.Value);
             
             app.UseStaticFiles();
-
-
-            var ApplicationCookie = new CookieAuthenticationOptions
-            {
-                AuthenticationScheme = "application",
-                CookieName = "application",
-                AutomaticAuthenticate = true,
-                AutomaticChallenge = true,
-                LoginPath = new PathString("/FakeAccount/Index"),
-                Events = new CookieAuthenticationEvents
-                {
-                    //OnValidatePrincipal = SecurityStampValidator.ValidatePrincipalAsync
-                }
-            };
-
-            app.UseCookieAuthentication(ApplicationCookie);
+            
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
