@@ -78,7 +78,7 @@ namespace cloudscribe.Web.Navigation
             {
                 if (startingNode == null)
                 {
-                    if (startingNodeKey.Length > 0)
+                    if (startingNodeKey.Length > 0 && startingNodeKey != "RootNode")
                     {
                         startingNode = RootNode.FindByKey(startingNodeKey);
                         if (startingNode == null)
