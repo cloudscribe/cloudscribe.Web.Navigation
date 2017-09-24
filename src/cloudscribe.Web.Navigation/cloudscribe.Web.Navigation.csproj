@@ -2,18 +2,17 @@
 
   <PropertyGroup>
     <Description>an ASP.NET Core viewcomponent for menus and breadcrumbs</Description>
-    <VersionPrefix>2.0.1</VersionPrefix>
+    <VersionPrefix>2.0.2</VersionPrefix>
+    <AssemblyVersion>2.0.2</AssemblyVersion>
     <Authors>Joe Audette</Authors>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <AssemblyName>cloudscribe.Web.Navigation</AssemblyName>
     <PackageId>cloudscribe.Web.Navigation</PackageId>
-    <PackageTags>cloudscribe;mvc6;mvcsitemapprovider;navigation;menus;breadcrumbs;bootstrap</PackageTags>
+    <PackageTags>cloudscribe;asp.net core;mvcsitemapprovider;navigation;menus;breadcrumbs;bootstrap</PackageTags>
     <PackageIconUrl>https://raw.githubusercontent.com/joeaudette/cloudscribe.Web.Navigation/master/cloudscribe-icon-32.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/joeaudette/cloudscribe.Web.Navigation</PackageProjectUrl>
     <PackageLicenseUrl>http://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,6 +30,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="2.0.*" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="2.0.*" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.0.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
 
   
