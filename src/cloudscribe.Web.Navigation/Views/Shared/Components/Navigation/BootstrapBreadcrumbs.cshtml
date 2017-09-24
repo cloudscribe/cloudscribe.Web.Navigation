@@ -1,6 +1,6 @@
 ﻿@using cloudscribe.Web.Navigation
 @model NavigationViewModel
-@if (Model.CurrentNode != null && Model.ParentChain.Count > 1)
+@if (Model.CurrentNode != null && (Model.ParentChain.Count > 1 || Model.TailCrumbs.Count > 0))
 {
     <ul class="breadcrumb">
     @foreach (var node in Model.ParentChain)
