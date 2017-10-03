@@ -145,11 +145,20 @@ namespace cloudscribe.Web.Navigation
         /// <param name="controller"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        public static TreeNode<NavigationNode> FindByControllerAndAction(this TreeNode<NavigationNode> currentNode, string controller, string action)
+        public static TreeNode<NavigationNode> FindByControllerAndAction(
+            this TreeNode<NavigationNode> currentNode, 
+            string controller, 
+            string action,
+            string area = ""
+            )
         {
             Func<TreeNode<NavigationNode>, bool> match = delegate (TreeNode<NavigationNode> n)
             {
-                return ((n.Value.Controller == controller)&&(n.Value.Action == action));
+                return (
+                (n.Value.Controller == controller)
+                &&(n.Value.Action == action) 
+                && (string.IsNullOrWhiteSpace(area) || n.Value.Area == area)
+                );
             };
 
             return currentNode.Find(match);

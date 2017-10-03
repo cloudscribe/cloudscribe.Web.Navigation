@@ -2,7 +2,7 @@
 @using Microsoft.Extensions.Localization
 @model NavigationViewModel
 @inject  IStringLocalizer<NavigationDemo.Web.MenuResources> localizer
-@if (Model.CurrentNode != null && Model.ParentChain.Count > 1)
+@if (Model.CurrentNode != null && (Model.ParentChain.Count > 1 || (Model.TailCrumbs != null && Model.TailCrumbs.Count > 0)))
 {
     <ul class="breadcrumb">
     @foreach (var node in Model.ParentChain)

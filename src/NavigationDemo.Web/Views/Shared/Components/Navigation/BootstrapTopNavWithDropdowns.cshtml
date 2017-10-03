@@ -4,11 +4,11 @@
 @model NavigationViewModel
 @inject  IStringLocalizer<NavigationDemo.Web.MenuResources> localizer
 @addTagHelper *, cloudscribe.Web.Navigation
-@if (Model.HasVisibleChildren(Model.RootNode))
-{
+
     <ul class="nav navbar-nav" role="menubar">
         <li role="presentation" cwn-data-attributes="@Model.RootNode.Value.DataAttributes" class='@Model.GetClass(Model.RootNode.Value)'><a  href="@Url.Content(Model.AdjustUrl(Model.RootNode))">@Html.Raw(Model.GetIcon(Model.RootNode.Value))@localizer[Model.AdjustText(Model.RootNode)]</a></li>
-
+@if (Model.HasVisibleChildren(Model.RootNode))
+{
         @foreach (var node in Model.RootNode.Children)
         {
             if (!Model.ShouldAllowView(node)) { continue; }
@@ -25,5 +25,6 @@
                 </li>
             }
         }
-    </ul>
 }
+    </ul>
+
