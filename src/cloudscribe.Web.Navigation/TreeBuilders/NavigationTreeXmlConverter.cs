@@ -386,10 +386,10 @@ namespace cloudscribe.Web.Navigation
 
             a = xmlNode.Attribute("url");
             if (a != null) { navNode.Url = a.Value; }
-            else
-            {
-                navNode.Url = navNode.ResolveUrl(); // this smells bad
-            }
+            //else
+            //{
+            //    navNode.Url = navNode.ResolveUrl(); // this smells bad
+            //}
 
             //a = xmlNode.Attribute("isRootNode");
             //if (a != null) { navNode.IsRootNode = Convert.ToBoolean(a.Value); }

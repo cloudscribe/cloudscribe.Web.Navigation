@@ -86,10 +86,10 @@ namespace cloudscribe.Web.Navigation
             {
                 navNode.Url = (string)jNode["Value"]["Url"];
             }
-            else
-            {
-                navNode.Url = navNode.ResolveUrl();
-            }
+            //else
+            //{
+            //    navNode.Url = navNode.ResolveUrl();
+            //}
 
             
 

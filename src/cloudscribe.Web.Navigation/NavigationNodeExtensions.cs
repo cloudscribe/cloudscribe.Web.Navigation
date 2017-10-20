@@ -4,11 +4,15 @@
 // 
 
 
+using Microsoft.AspNetCore.Mvc;
+using System;
+
 namespace cloudscribe.Web.Navigation
 {
     public static class NavigationNodeExtensions
     {
 
+        [Obsolete("This method is obsolete and never worked right, it will be removed in a future version. Please use the overload that takes an IUrlHelper")]
         public static string ResolveUrl(this NavigationNode node)
         {
             if (node.Url.Length > 0) return node.Url;
@@ -27,6 +31,24 @@ namespace cloudscribe.Web.Navigation
             }
 
             return url;
+        }
+
+        public static string ResolveUrl(this NavigationNode node, IUrlHelper urlHelper)
+        {
+            string urlToUse = string.Empty;
+            
+            if ((node.Action.Length > 0) && (node.Controller.Length > 0))
+            {
+                urlToUse = urlHelper.Action(node.Action, node.Controller, new { area = node.Area });    
+            }
+            else if (node.NamedRoute.Length > 0)
+            {
+                urlToUse = urlHelper.RouteUrl(node.NamedRoute);
+            }
+                
+            if (string.IsNullOrEmpty(urlToUse)) { return node.Url; }
+           
+            return urlToUse;
         }
     }
 }
