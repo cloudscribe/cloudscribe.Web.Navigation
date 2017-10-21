@@ -15,6 +15,6 @@ Feel free to ask questions in our gitter chat web page:
 
 ### Build Status
 
-| Windows  | Linux/Mac |
+| Windows  | Linux |
 | ------------- | ------------- |
 | [![Build status](https://ci.appveyor.com/api/projects/status/ghcdgoi7hybt8mue?svg=true)](https://ci.appveyor.com/project/joeaudette/cloudscribe-web-navigation)  | [![Build Status](https://travis-ci.org/joeaudette/cloudscribe.Web.Navigation.svg?branch=master)](https://travis-ci.org/joeaudette/cloudscribe.Web.Navigation)  |
