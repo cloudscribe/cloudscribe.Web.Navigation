@@ -27,6 +27,9 @@ namespace cloudscribe.Web.Navigation
             string urlToMatch, 
             string urlPrefix = "")
         {
+            if (urlHelper == null) return null;
+            if (string.IsNullOrEmpty(urlToMatch)) return null;
+
             Func<TreeNode<NavigationNode>, bool> match = delegate (TreeNode<NavigationNode> n)
             {
                 if(n == null) { return false; }
@@ -40,9 +43,9 @@ namespace cloudscribe.Web.Navigation
 
 
 
-                if ((urlToMatch.EndsWith("Index"))&&(n.Value.Action == "Index"))
+                if ((urlToMatch.EndsWith("Index")) && (!string.IsNullOrEmpty(n.Value.Action)) && (n.Value.Action == "Index"))
                 {
-                   if(!n.Value.Url.EndsWith("/") && (!n.Value.Url.Contains("Index")))
+                   if((!string.IsNullOrEmpty(n.Value.Url)) && (!n.Value.Url.EndsWith("/")) && (!n.Value.Url.Contains("Index")))
                    {
                         var u = n.Value.Url + "/Index";
                         if (u.IndexOf(urlToMatch, StringComparison.OrdinalIgnoreCase) >= 0)
@@ -55,7 +58,7 @@ namespace cloudscribe.Web.Navigation
                 if (!string.IsNullOrEmpty(n.Value.NamedRoute))
                 {
                     targetUrl = urlHelper.RouteUrl(n.Value.NamedRoute);
-                    if (targetUrl.IndexOf(urlToMatch, StringComparison.OrdinalIgnoreCase) >= 0)
+                    if ((!string.IsNullOrEmpty(targetUrl)) && (targetUrl.IndexOf(urlToMatch, StringComparison.OrdinalIgnoreCase) >= 0))
                     { return true; }
                 }
 
@@ -66,10 +69,10 @@ namespace cloudscribe.Web.Navigation
                     { return true; }
                 }
 
-                if ((urlPrefix.Length > 0)&&(n.Value.Url.Length > 0))
+                if ((!string.IsNullOrWhiteSpace(urlPrefix))&&(!string.IsNullOrWhiteSpace(n.Value.Url)))
                 {
                     targetUrl = n.Value.Url.Replace("~/", "~/" + urlPrefix + "/");
-                    if(targetUrl.IndexOf(urlToMatch,StringComparison.OrdinalIgnoreCase) >= 0)
+                    if((!string.IsNullOrEmpty(targetUrl)) &&  (targetUrl.IndexOf(urlToMatch,StringComparison.OrdinalIgnoreCase) >= 0))
                     { return true; }      
                 }
 
