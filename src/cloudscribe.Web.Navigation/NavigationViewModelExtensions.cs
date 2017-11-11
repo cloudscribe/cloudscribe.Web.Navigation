@@ -10,7 +10,7 @@ namespace cloudscribe.Web.Navigation
 {
     public static class NavigationViewModelExtensions
     {
-        public static string GetClass(this NavigationViewModel model, NavigationNode node, string inputClass = null, string activeClass = "active")
+        public static string GetClass(this NavigationViewModel model, NavigationNode node, string inputClass = null, string activeClass = "active", bool makeParentNodesActive = false)
         {
             if (node == null) return inputClass;
             if (model.CurrentNode != null && (node.EqualsNode(model.CurrentNode.Value)))
@@ -23,7 +23,21 @@ namespace cloudscribe.Web.Navigation
                 {
                     inputClass = activeClass;
                 }
+            } else if(makeParentNodesActive)
+            {
+                if(model.HasActiveChild(node))
+                {
+                    if (!string.IsNullOrEmpty(inputClass))
+                    {
+                        inputClass = activeClass + " " + inputClass;
+                    }
+                    else
+                    {
+                        inputClass = activeClass;
+                    }
+                }
             }
+
             if (string.IsNullOrEmpty(node.CssClass))
             {
                 return inputClass;
@@ -37,7 +51,7 @@ namespace cloudscribe.Web.Navigation
                 return node.CssClass;
             }
         }
-
+        
         public static string GetIcon(this NavigationViewModel model, NavigationNode node)
         {
             if (node == null) return string.Empty;
@@ -55,6 +69,23 @@ namespace cloudscribe.Web.Navigation
             if (model.CurrentNode == null) return "false";
             if (node.EqualsNode(model.CurrentNode.Value)) return "true";
             return "false";
+        }
+
+        public static bool HasActiveChild(this NavigationViewModel model, NavigationNode node)
+        {
+            if (node == null) return false;
+            if (model.CurrentNode == null) return false;
+            if (node.EqualsNode(model.CurrentNode.Value)) return true;
+            if (model.ParentChain == null) return false;
+
+            foreach(var n in model.ParentChain)
+            {
+                if (n.Value.Key == node.Key) return true;
+            }
+
+
+
+            return false;
         }
 
     }
