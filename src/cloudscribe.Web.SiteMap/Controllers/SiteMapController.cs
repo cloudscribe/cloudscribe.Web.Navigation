@@ -92,7 +92,7 @@ namespace cloudscribe.Web.SiteMap.Controllers
             if (isFull) return providedUrl;
             if(providedUrl.StartsWith("/"))
             {
-                return $"{Request.Scheme}//{Request.Host}{providedUrl}";
+                return $"{Request.Scheme}://{Request.Host}{providedUrl}";
             }
             // unexpected format, just return the provided url
             return providedUrl;
