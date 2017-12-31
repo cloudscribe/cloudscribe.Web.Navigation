@@ -113,8 +113,29 @@ namespace NavigationDemo.Web
                 //}));
             });
 
+            services.AddAuthorization(options =>
+            {
+               
+                options.AddPolicy(
+                    "AdminsPolicy",
+                    authBuilder =>
+                    {
+                        authBuilder.RequireRole("Admins");
+                    });
 
-        }
+                options.AddPolicy(
+                    "MembersPolicy",
+                    authBuilder =>
+                    {
+                        authBuilder.RequireRole("Admins", "Members");
+                    });
+
+            });
+
+        
+
+
+    }
 
 
     

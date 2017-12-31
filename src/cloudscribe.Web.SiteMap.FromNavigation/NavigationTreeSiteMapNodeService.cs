@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:                  Joe Audette
 // Created:                 2016-04-20
-// Last Modified:           2017-05-11
+// Last Modified:           2017-12-31
 // 
 
 using cloudscribe.Web.Navigation;
@@ -30,6 +30,7 @@ namespace cloudscribe.Web.SiteMap
     {
         public NavigationTreeSiteMapNodeService(
             NavigationTreeBuilderService siteMapTreeBuilder,
+            IEnumerable<INavigationNodePermissionResolver> permissionResolvers,
             IUrlHelperFactory urlHelperFactory,
             IActionContextAccessor actionContextAccesor,
             IHttpContextAccessor contextAccessor,
@@ -38,7 +39,8 @@ namespace cloudscribe.Web.SiteMap
             this.siteMapTreeBuilder = siteMapTreeBuilder;
             this.urlHelperFactory = urlHelperFactory;
             this.actionContextAccesor = actionContextAccesor;
-            this.contextAccessor = contextAccessor; 
+            this.contextAccessor = contextAccessor;
+            this.permissionResolvers = permissionResolvers;
             log = logger;
         }
 
@@ -49,6 +51,7 @@ namespace cloudscribe.Web.SiteMap
         private IHttpContextAccessor contextAccessor;
         private string baseUrl = string.Empty;
         private List<string> addedUrls = new List<string>();
+        private IEnumerable<INavigationNodePermissionResolver> permissionResolvers;
 
         // this should not be needed in rc2 because there will be urlhelper methods for absolute url
         public string BaseUrl
@@ -65,6 +68,18 @@ namespace cloudscribe.Web.SiteMap
             }
         }
 
+        private bool ShouldRenderNode(NavigationNode node)
+        {
+            TreeNode<NavigationNode> treeNode = new TreeNode<NavigationNode>(node);
+            foreach(var permission in permissionResolvers)
+            {
+                bool ok = permission.ShouldAllowView(treeNode);
+                if (!ok) return false;
+            }
+
+            return true;
+        }
+
 
         public async Task<IEnumerable<ISiteMapNode>> GetSiteMapNodes(
             CancellationToken cancellationToken = default(CancellationToken))
@@ -76,7 +91,7 @@ namespace cloudscribe.Web.SiteMap
             {
                 if (navNode.ExcludeFromSearchSiteMap) continue;
 
-                if(string.IsNullOrEmpty(navNode.ViewRoles) || navNode.ViewRoles.Contains("All Users"))
+                if(ShouldRenderNode(navNode))
                 {
                     var url = ResolveUrl(navNode, urlHelper);
                     if(string.IsNullOrEmpty(url))

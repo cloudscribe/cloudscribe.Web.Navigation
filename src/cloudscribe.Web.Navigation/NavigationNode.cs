@@ -74,6 +74,9 @@ namespace cloudscribe.Web.Navigation
         public string ComponentVisibility { get; set; } = string.Empty;
 
         [DefaultValue("")]
+        public string AuthorizationPolicy { get; set; } = string.Empty;
+
+        [DefaultValue("")]
         public string ViewRoles { get; set; } = string.Empty;
 
         [DefaultValue("")]

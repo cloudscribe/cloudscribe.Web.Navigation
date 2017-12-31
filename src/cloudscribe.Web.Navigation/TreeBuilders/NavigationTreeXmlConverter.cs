@@ -38,7 +38,7 @@ namespace cloudscribe.Web.Navigation
         {
             writer.WriteStartElement("NavNode");
 
-            if (node.Value.Key.Length > 0)
+            if (!string.IsNullOrEmpty(node.Value.Key))
             {
                 writer.WriteAttributeString("key", node.Value.Key);
             }
@@ -48,52 +48,57 @@ namespace cloudscribe.Web.Navigation
             //    writer.WriteAttributeString("parentKey", node.Value.ParentKey);
             //}
 
-            if (node.Value.Controller.Length > 0)
+            if (!string.IsNullOrEmpty(node.Value.Controller))
             {
                 writer.WriteAttributeString("controller", node.Value.Controller);
             }
 
-            if (node.Value.Action.Length > 0)
+            if (!string.IsNullOrEmpty(node.Value.Action))
             {
                 writer.WriteAttributeString("action", node.Value.Action);
             }
 
-            if (node.Value.Area.Length > 0)
+            if (!string.IsNullOrEmpty(node.Value.Area))
             {
                 writer.WriteAttributeString("area", node.Value.Area);
             }
 
-            if (node.Value.NamedRoute.Length > 0)
+            if (String.IsNullOrEmpty(node.Value.NamedRoute))
             {
                 writer.WriteAttributeString("namedRoute", node.Value.NamedRoute);
             }
 
-            if (node.Value.Text.Length > 0)
+            if (!string.IsNullOrEmpty(node.Value.Text))
             {
                 writer.WriteAttributeString("text", node.Value.Text);
             }
 
-            if (node.Value.Url.Length > 0)
+            if (!string.IsNullOrEmpty(node.Value.Url))
             {
                 writer.WriteAttributeString("url", node.Value.Url);
             }
 
-            if (node.Value.PreservedRouteParameters.Length > 0)
+            if (!string.IsNullOrEmpty(node.Value.PreservedRouteParameters))
             {
                 writer.WriteAttributeString("preservedRouteParameters", node.Value.PreservedRouteParameters);
             }
 
-            if (node.Value.ComponentVisibility.Length > 0)
+            if (!string.IsNullOrEmpty(node.Value.ComponentVisibility))
             {
                 writer.WriteAttributeString("componentVisibility", node.Value.ComponentVisibility);
             }
 
-            if (node.Value.ViewRoles.Length > 0)
+            if (!string.IsNullOrEmpty(node.Value.AuthorizationPolicy))
+            {
+                writer.WriteAttributeString("authorizationPolicy", node.Value.AuthorizationPolicy);
+            }
+
+            if (!string.IsNullOrEmpty(node.Value.ViewRoles))
             {
                 writer.WriteAttributeString("viewRoles", node.Value.ViewRoles);
             }
 
-            if (node.Value.CustomData.Length > 0)
+            if (!string.IsNullOrEmpty(node.Value.CustomData))
             {
                 writer.WriteAttributeString("customData", node.Value.CustomData);
             }
@@ -422,6 +427,9 @@ namespace cloudscribe.Web.Navigation
 
             a = xmlNode.Attribute("componentVisibility");
             if (a != null) { navNode.ComponentVisibility = a.Value; }
+
+            a = xmlNode.Attribute("authorizationPolicy");
+            if (a != null) { navNode.AuthorizationPolicy = a.Value; }
 
             a = xmlNode.Attribute("viewRoles");
             if (a != null) { navNode.ViewRoles = a.Value; }
