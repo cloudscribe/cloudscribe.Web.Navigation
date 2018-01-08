@@ -22,7 +22,7 @@
         else
         {
             <li role="presentation" class='@Model.GetClass(childNode.Value, "dropdown-submenu")' cwn-data-attributes="@childNode.Value.DataAttributes">
-                <a href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))localizer[]@Model.AdjustText(childNode)] <span class="caret"></span></a>
+                <a href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))localizer[@Model.AdjustText(childNode)] <span class="caret"></span></a>
                 @Model.UpdateTempNode(childNode)@Html.Partial("NavigationNodeChildDropdownPartial", Model) @* recursion *@
             </li>
         }
