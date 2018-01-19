@@ -1,0 +1,38 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+           elementFormDefault="qualified" 
+           targetNamespace="https://www.cloudscribe.com/schemas/CloudscribeNavigation.xsd"
+           xmlns:csn="https://www.cloudscribe.com/schemas/CloudscribeNavigation.xsd">
+  <xs:element name="NavNode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Children" minOccurs="1" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="csn:NavNode" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="key" type="xs:string"></xs:attribute>
+      <xs:attribute name="parentKey" type="xs:string"></xs:attribute>
+      <xs:attribute name="controller" type="xs:string"></xs:attribute>
+      <xs:attribute name="action" type="xs:string"></xs:attribute>
+      <xs:attribute name="area" type="xs:string"></xs:attribute>
+      <xs:attribute name="namedRoute" type="xs:string"></xs:attribute>
+      <xs:attribute name="text" type="xs:string"></xs:attribute>
+      <xs:attribute name="title" type="xs:string"></xs:attribute>
+      <xs:attribute name="url" type="xs:anyURI"></xs:attribute>
+      <xs:attribute name="preservedRouteParameters" type="xs:string"></xs:attribute>
+      <xs:attribute name="componentVisibility" type="xs:string"></xs:attribute>
+      <xs:attribute name="authorizationPolicy" type="xs:string"></xs:attribute>
+      <xs:attribute name="viewRoles" type="xs:string"></xs:attribute>
+      <xs:attribute name="customData" type="xs:string"></xs:attribute>
+      <xs:attribute name="isRootNode" type="xs:boolean"></xs:attribute>
+      <xs:attribute name="hideFromAuthenticated" type="xs:boolean"></xs:attribute>
+      <xs:attribute name="hideFromAnonymous" type="xs:boolean"></xs:attribute>
+      <xs:attribute name="isClickable" type="xs:boolean"></xs:attribute>
+      <xs:attribute name="iconCssClass" type="xs:string"></xs:attribute>
+      <xs:attribute name="cssClass" type="xs:string"></xs:attribute>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
