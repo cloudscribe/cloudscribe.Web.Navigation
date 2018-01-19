@@ -1,0 +1,55 @@
+<xs:schema attributeFormDefault="unqualified" 
+           elementFormDefault="qualified" 
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Children">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element ref="NavNode" maxOccurs="unbounded" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="NavNode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Children"/>
+        <xs:element ref="DataAttributes" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute name="key" type="xs:string" use="optional" />
+      <xs:attribute name="controller" type="xs:string" use="optional" />
+      <xs:attribute name="action" type="xs:string" use="optional" />
+      <xs:attribute name="area" type="xs:string" use="optional" />
+      <xs:attribute name="namedRoute" type="xs:string" use="optional" />
+      <xs:attribute name="text" type="xs:string" use="optional" />
+      <xs:attribute name="title" type="xs:string" use="optional" />
+      <xs:attribute name="url" type="xs:anyURI" use="optional" />
+      <xs:attribute name="preservedRouteParameters" type="xs:string" use="optional" />
+      <xs:attribute name="componentVisibility" type="xs:string" use="optional" />
+      <xs:attribute name="authorizationPolicy" type="xs:string" use="optional" />
+      <xs:attribute name="viewRoles" type="xs:string" use="optional" />
+      <xs:attribute name="customData" type="xs:string" use="optional" />
+      <xs:attribute name="isRootNode" type="xs:boolean" use="optional" />
+      <xs:attribute name="hideFromAuthenticated" type="xs:boolean" use="optional" />
+      <xs:attribute name="hideFromAnonymous" type="xs:boolean" use="optional" />
+      <xs:attribute name="isClickable" type="xs:boolean" use="optional" />
+      <xs:attribute name="iconCssClass" type="xs:string" use="optional" />
+      <xs:attribute name="cssClass" type="xs:string" use="optional" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DataAttribute">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="attribute" use="optional"/>
+          <xs:attribute type="xs:string" name="value" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DataAttributes">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="DataAttribute" maxOccurs="unbounded" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
