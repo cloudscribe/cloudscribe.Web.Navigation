@@ -11,8 +11,8 @@
   <xs:element name="NavNode">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="Children"/>
-        <xs:element ref="DataAttributes" minOccurs="0"/>
+        <xs:element ref="Children" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="DataAttributes" minOccurs="0" maxOccurs="1"/>
       </xs:sequence>
       <xs:attribute name="key" type="xs:string" use="required" />
       <xs:attribute name="controller" type="xs:string" use="optional" />
