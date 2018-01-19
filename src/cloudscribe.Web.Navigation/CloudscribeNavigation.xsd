@@ -14,7 +14,7 @@
         <xs:element ref="Children"/>
         <xs:element ref="DataAttributes" minOccurs="0"/>
       </xs:sequence>
-      <xs:attribute name="key" type="xs:string" use="optional" />
+      <xs:attribute name="key" type="xs:string" use="required" />
       <xs:attribute name="controller" type="xs:string" use="optional" />
       <xs:attribute name="action" type="xs:string" use="optional" />
       <xs:attribute name="area" type="xs:string" use="optional" />
@@ -28,9 +28,9 @@
       <xs:attribute name="viewRoles" type="xs:string" use="optional" />
       <xs:attribute name="customData" type="xs:string" use="optional" />
       <xs:attribute name="isRootNode" type="xs:boolean" use="optional" />
-      <xs:attribute name="hideFromAuthenticated" type="xs:boolean" use="optional" />
-      <xs:attribute name="hideFromAnonymous" type="xs:boolean" use="optional" />
-      <xs:attribute name="isClickable" type="xs:boolean" use="optional" />
+      <xs:attribute name="hideFromAuthenticated" type="xs:boolean" use="optional" default="false" />
+      <xs:attribute name="hideFromAnonymous" type="xs:boolean" use="optional" default="false" />
+      <xs:attribute name="isClickable" type="xs:boolean" use="optional" default="true" />
       <xs:attribute name="iconCssClass" type="xs:string" use="optional" />
       <xs:attribute name="cssClass" type="xs:string" use="optional" />
     </xs:complexType>
