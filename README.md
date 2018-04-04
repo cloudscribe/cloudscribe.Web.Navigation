@@ -17,4 +17,4 @@ Feel free to ask questions in our gitter chat web page:
 
 | Windows  | Linux |
 | ------------- | ------------- |
-| [![Build status](https://ci.appveyor.com/api/projects/status/ghcdgoi7hybt8mue?svg=true)](https://ci.appveyor.com/project/joeaudette/cloudscribe-web-navigation)  | [![Build Status](https://travis-ci.org/joeaudette/cloudscribe.Web.Navigation.svg?branch=master)](https://travis-ci.org/joeaudette/cloudscribe.Web.Navigation)  |
+| [![Build status](https://ci.appveyor.com/api/projects/status/ghcdgoi7hybt8mue?svg=true)](https://ci.appveyor.com/project/joeaudette/cloudscribe-web-navigation)  | [![Build Status](https://travis-ci.org/cloudscribe/cloudscribe.Web.Navigation.svg?branch=master)](https://travis-ci.org/cloudscribe/cloudscribe.Web.Navigation)  |
