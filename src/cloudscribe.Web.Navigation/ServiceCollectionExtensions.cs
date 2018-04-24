@@ -73,6 +73,21 @@ namespace Microsoft.Extensions.DependencyInjection
             return options;
         }
 
+        /// <summary>
+        /// both bootstrap 3 and 4 views are included in this library
+        /// </summary>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public static RazorViewEngineOptions AddCloudscribeNavigationBootstrap4Views(this RazorViewEngineOptions options)
+        {
+            options.FileProviders.Add(new EmbeddedFileProvider(
+                    typeof(NavigationOptions).GetTypeInfo().Assembly,
+                    "cloudscribe.Web.Navigation"
+                ));
+
+            return options;
+        }
+
 
 
     }  

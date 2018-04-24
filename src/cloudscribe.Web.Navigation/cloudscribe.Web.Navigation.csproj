@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <Description>an ASP.NET Core viewcomponent for menus and breadcrumbs</Description>
-    <VersionPrefix>2.0.9</VersionPrefix>
-    <AssemblyVersion>2.0.9</AssemblyVersion>
+    <VersionPrefix>2.0.10</VersionPrefix>
+    <AssemblyVersion>2.0.10</AssemblyVersion>
     <Authors>Joe Audette</Authors>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <AssemblyName>cloudscribe.Web.Navigation</AssemblyName>
@@ -25,7 +25,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.0.*" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.*" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="2.0.*" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.*" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.*" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.*" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="2.0.*" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="2.0.*" />
