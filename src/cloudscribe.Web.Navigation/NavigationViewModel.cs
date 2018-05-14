@@ -78,7 +78,7 @@ namespace cloudscribe.Web.Navigation
             {
                 if (startingNode == null)
                 {
-                    if (startingNodeKey.Length > 0 && startingNodeKey != "RootNode")
+                    if (!string.IsNullOrWhiteSpace(startingNodeKey) && startingNodeKey != "RootNode")
                     {
                         startingNode = RootNode.FindByKey(startingNodeKey);
                         if (startingNode == null)
@@ -306,7 +306,7 @@ namespace cloudscribe.Web.Navigation
         private bool FilterIsAllowed(TreeNode<NavigationNode> node)
         {
             if (string.IsNullOrEmpty(node.Value.ComponentVisibility)) { return true; }
-            if (navigationFilterName.Length == 0) { return false; }
+            if (string.IsNullOrWhiteSpace(navigationFilterName)) { return false; }
             if (node.Value.ComponentVisibility.Contains(navigationFilterName)) { return true; }
            
             return false;

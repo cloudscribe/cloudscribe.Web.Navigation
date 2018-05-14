@@ -28,7 +28,7 @@
                             @Html.Raw(Model.GetIcon(childNode.Value))@childNode.Value.Text
                         </a>
                         @Model.UpdateTempNode(childNode)
-                        @Html.Partial("SideNavPartial", Model) @* recursion *@
+                        @Html.Partial("Bs4SideNavPartial", Model) @* recursion *@
                     </li>
                 }
                 else
