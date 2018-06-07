@@ -56,11 +56,7 @@ namespace NavigationDemo.Web
                 .AddDataAnnotationsLocalization()
                 .AddRazorOptions(options =>
             {
-                // if you download the cloudscribe.Web.Navigation Views and put them in your views folder
-                // then you don't need this line and can customize the views (recommended)
-                // you can find them here:
-                // https://github.com/joeaudette/cloudscribe.Web.Navigation/tree/master/src/cloudscribe.Web.Navigation/Views
-                //options.AddCloudscribeNavigationBootstrap3Views();
+                
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
             ;
