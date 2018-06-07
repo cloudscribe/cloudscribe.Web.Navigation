@@ -1,25 +1,26 @@
 ﻿@using cloudscribe.Web.Navigation
 @using System.Text
 @model NavigationViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @if (Model.HasVisibleChildren(Model.CurrentNode))
 {
-   <nav>
-    <ul class="childtree list-unstyled">
-        @foreach (var node in Model.CurrentNode.Children)
-        {
-            if (!Model.ShouldAllowView(node)) { continue; }
-            if (!Model.HasVisibleChildren(node))
+    <nav>
+        <ul class="childtree list-unstyled">
+            @foreach (var node in Model.CurrentNode.Children)
             {
-                <li class='nav-item'><a class='nav-link' href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a></li>
+                if (!Model.ShouldAllowView(node)) { continue; }
+                if (!Model.HasVisibleChildren(node))
+                {
+                    <li class='nav-item'><a class='nav-link' href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a></li>
+                }
+                else
+                {
+                    <li class='nav-item'>
+                        <a class="nav-link" href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a>
+                        @Model.UpdateTempNode(node) <partial name="Bs4NavigationNodeChildTreePartial" model="@Model" />
+                    </li>
+                }
             }
-            else
-            {
-                <li class='nav-item'>
-                    <a class="nav-link" href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a>
-                    @Model.UpdateTempNode(node) <partial name="Bs4NavigationNodeChildTreePartial" for="Model" /> 
-                </li>
-            }
-        }
-    </ul>
-  </nav>  
+        </ul>
+    </nav>
 }

@@ -1,10 +1,11 @@
 ﻿@using cloudscribe.Web.Navigation
 @using System.Text
 @model NavigationViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @addTagHelper *, cloudscribe.Web.Navigation
 
 <ul class="nav navbar-nav" role="menubar">
-    <li role="presentation" cwn-data-attributes="@Model.RootNode.Value.DataAttributes" class='@Model.GetClass(Model.RootNode.Value)'><a href="@Url.Content(Model.AdjustUrl(Model.RootNode))">@Html.Raw(Model.GetIcon(Model.RootNode.Value))@Model.AdjustText(Model.RootNode)</a></li>
+    <li cwn-data-attributes="@Model.RootNode.Value.DataAttributes" class='@Model.GetClass(Model.RootNode.Value)'><a href="@Url.Content(Model.AdjustUrl(Model.RootNode))">@Html.Raw(Model.GetIcon(Model.RootNode.Value))@Model.AdjustText(Model.RootNode)</a></li>
     @if (Model.HasVisibleChildren(Model.RootNode))
     {
         @foreach (var node in Model.RootNode.Children)
@@ -12,14 +13,14 @@
             if (!Model.ShouldAllowView(node)) { continue; }
             if (!Model.HasVisibleChildren(node))
             {
-                <li role="presentation" class='@Model.GetClass(node.Value)' cwn-data-attributes="@node.Value.DataAttributes"><a href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a></li>
+                <li class='@Model.GetClass(node.Value)' cwn-data-attributes="@node.Value.DataAttributes"><a href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a></li>
             }
             else
             {
 
-                <li role="presentation" class='@Model.GetClass(node.Value, "dropdown",  "active", true)' cwn-data-attributes="@node.Value.DataAttributes">
+                <li class='@Model.GetClass(node.Value, "dropdown",  "active", true)' cwn-data-attributes="@node.Value.DataAttributes">
                     <a href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node) <span class="caret"></span></a>
-                    @Model.UpdateTempNode(node) <partial name="NavigationNodeChildDropdownPartial" for="Model" />
+                    @Model.UpdateTempNode(node) <partial name="NavigationNodeChildDropdownPartial" model="@Model" />
                 </li>
             }
         }

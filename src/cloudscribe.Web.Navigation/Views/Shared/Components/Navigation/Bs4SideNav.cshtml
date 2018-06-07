@@ -1,42 +1,43 @@
 ﻿@using cloudscribe.Web.Navigation
 @using System.Text
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @model NavigationViewModel
 @if (Model.HasVisibleChildren(Model.StartingNode))
 {
-        <ul class="nav nav-pills flex-column" id="side-menu">
-            @foreach (var node in Model.StartingNode.Children)
+    <ul class="nav nav-pills flex-column" id="side-menu">
+        @foreach (var node in Model.StartingNode.Children)
+        {
+            if (!Model.ShouldAllowView(node)) { continue; }
+            if (!Model.HasVisibleChildren(node))
             {
-                if (!Model.ShouldAllowView(node)) { continue; }
-                if (!Model.HasVisibleChildren(node))
+                if (node.EqualsNode(Model.CurrentNode))
                 {
-                    if (node.EqualsNode(Model.CurrentNode))
-                    {
-                        <li class="nav-item"><a class="nav-link active" href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a></li>
-                    }
-                    else
-                    {
-                        <li class="nav-item"><a class="nav-link" href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a></li>
-                    }
+                    <li class="nav-item"><a class="nav-link active" href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a></li>
                 }
                 else
                 {
-                    if (node.EqualsNode(Model.CurrentNode))
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link active" href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a>
-                            @Model.UpdateTempNode(node)
-                            <partial name="Bs4SideNavPartial" for="Model" />
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a>
-                            @Model.UpdateTempNode(node)
-                            <partial name="Bs4SideNavPartial" for="Model" />
-                        </li>
-                    }
+                    <li class="nav-item"><a class="nav-link" href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a></li>
                 }
             }
-        </ul>
+            else
+            {
+                if (node.EqualsNode(Model.CurrentNode))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link active" href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a>
+                        @Model.UpdateTempNode(node)
+                        <partial name="Bs4SideNavPartial" model="@Model" />
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a>
+                        @Model.UpdateTempNode(node)
+                        <partial name="Bs4SideNavPartial" model="@Model" />
+                    </li>
+                }
+            }
+        }
+    </ul>
 }
