@@ -15,7 +15,7 @@
             {
                 <li role="presentation" class='@Model.GetClass(childNode.Value)'>
                     <a href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))@Model.AdjustText(childNode)</a>
-                    @Model.UpdateTempNode(childNode)@Html.Partial("NavigationNodeChildTreePartial", Model) @* recursion *@
+                    @Model.UpdateTempNode(childNode) <partial name="NavigationNodeChildTreePartial" for="Model" />  @* recursion *@
                 </li>
             }
         }

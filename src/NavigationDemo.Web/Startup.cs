@@ -60,8 +60,10 @@ namespace NavigationDemo.Web
                 // then you don't need this line and can customize the views (recommended)
                 // you can find them here:
                 // https://github.com/joeaudette/cloudscribe.Web.Navigation/tree/master/src/cloudscribe.Web.Navigation/Views
-                options.AddCloudscribeNavigationBootstrap3Views();
-            });
+                //options.AddCloudscribeNavigationBootstrap3Views();
+            })
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+            ;
 
             services.AddAuthentication(options =>
             {
