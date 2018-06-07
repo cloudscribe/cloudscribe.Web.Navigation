@@ -45,16 +45,16 @@ namespace Microsoft.Extensions.DependencyInjection
 
 
         
-        //[Obsolete("AddEmbeddedViewsForNavigation is deprecated, please use AddCloudscribeNavigationBootstrap3Views instead.")]
-        //public static RazorViewEngineOptions AddEmbeddedViewsForNavigation(this RazorViewEngineOptions options)
-        //{
-        //    options.FileProviders.Add(new EmbeddedFileProvider(
-        //            typeof(NavigationOptions).GetTypeInfo().Assembly,
-        //            "cloudscribe.Web.Navigation"
-        //        ));
+        [Obsolete("AddEmbeddedViewsForNavigation is deprecated, please use AddCloudscribeNavigationBootstrap3Views instead.")]
+        public static RazorViewEngineOptions AddEmbeddedViewsForNavigation(this RazorViewEngineOptions options)
+        {
+            options.FileProviders.Add(new EmbeddedFileProvider(
+                    typeof(NavigationOptions).GetTypeInfo().Assembly,
+                    "cloudscribe.Web.Navigation"
+                ));
 
-        //    return options;
-        //}
+            return options;
+        }
 
         /// <summary>
         /// This method adds an embedded file provider to the RazorViewOptions to be able to load the Navigation related views.
@@ -63,30 +63,30 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="options"></param>
         /// <returns>RazorViewEngineOptions</returns>
-        //public static RazorViewEngineOptions AddCloudscribeNavigationBootstrap3Views(this RazorViewEngineOptions options)
-        //{
-        //    options.FileProviders.Add(new EmbeddedFileProvider(
-        //            typeof(NavigationOptions).GetTypeInfo().Assembly,
-        //            "cloudscribe.Web.Navigation"
-        //        ));
+        public static RazorViewEngineOptions AddCloudscribeNavigationBootstrap3Views(this RazorViewEngineOptions options)
+        {
+            options.FileProviders.Add(new EmbeddedFileProvider(
+                    typeof(NavigationOptions).GetTypeInfo().Assembly,
+                    "cloudscribe.Web.Navigation"
+                ));
 
-        //    return options;
-        //}
+            return options;
+        }
 
-        ///// <summary>
-        ///// both bootstrap 3 and 4 views are included in this library
-        ///// </summary>
-        ///// <param name="options"></param>
-        ///// <returns></returns>
-        //public static RazorViewEngineOptions AddCloudscribeNavigationBootstrap4Views(this RazorViewEngineOptions options)
-        //{
-        //    options.FileProviders.Add(new EmbeddedFileProvider(
-        //            typeof(NavigationOptions).GetTypeInfo().Assembly,
-        //            "cloudscribe.Web.Navigation"
-        //        ));
+        /// <summary>
+        /// both bootstrap 3 and 4 views are included in this library
+        /// </summary>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public static RazorViewEngineOptions AddCloudscribeNavigationBootstrap4Views(this RazorViewEngineOptions options)
+        {
+            options.FileProviders.Add(new EmbeddedFileProvider(
+                    typeof(NavigationOptions).GetTypeInfo().Assembly,
+                    "cloudscribe.Web.Navigation"
+                ));
 
-        //    return options;
-        //}
+            return options;
+        }
 
 
 

@@ -16,7 +16,7 @@
             {
                 <li class='nav-item'>
                     <a class="nav-link" href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a>
-                    @Model.UpdateTempNode(node) <partial name="Bs4NavigationNodeChildTreePartial" for="Model" /> 
+                    @Model.UpdateTempNode(node)@Html.Partial("Bs4NavigationNodeChildTreePartial", Model)
                 </li>
             }
         }

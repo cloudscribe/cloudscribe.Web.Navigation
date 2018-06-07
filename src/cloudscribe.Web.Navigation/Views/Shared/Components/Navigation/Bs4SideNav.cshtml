@@ -25,7 +25,7 @@
                         <li class="nav-item">
                             <a class="nav-link active" href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a>
                             @Model.UpdateTempNode(node)
-                            <partial name="Bs4SideNavPartial" for="Model" />
+                            @Html.Partial("Bs4SideNavPartial", Model)
                         </li>
                     }
                     else
@@ -33,7 +33,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a>
                             @Model.UpdateTempNode(node)
-                            <partial name="Bs4SideNavPartial" for="Model" />
+                            @Html.Partial("Bs4SideNavPartial", Model)
                         </li>
                     }
                 }

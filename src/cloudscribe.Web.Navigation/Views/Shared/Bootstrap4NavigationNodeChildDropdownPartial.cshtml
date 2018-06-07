@@ -8,6 +8,11 @@
         {
             if (!Model.ShouldAllowView(childNode)) { continue; }
 
+            @*if (childNode.Value.Text == "Separator")
+                {
+                    <li class="divider"></li>
+                    continue;
+                }*@
             if (!Model.HasVisibleChildren(childNode))
             {
                 <li class='@Model.GetClass(childNode.Value, "")'><a class="dropdown-item" href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))@Model.AdjustText(childNode)</a></li>
@@ -17,7 +22,7 @@
 
                 <li class='@Model.GetClass(childNode.Value, "dropdown ",  "active", true)'>
                     <a class="dropdown-item dropdown-toggle" href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))@Model.AdjustText(childNode) </a>
-                    @Model.UpdateTempNode(childNode) <partial name="Bootstrap4NavigationNodeChildDropdownPartial" for="Model" />   @* recursion *@
+                    @Model.UpdateTempNode(childNode)@Html.Partial("Bootstrap4NavigationNodeChildDropdownPartial", Model)  @* recursion *@
                 </li>
 
             }

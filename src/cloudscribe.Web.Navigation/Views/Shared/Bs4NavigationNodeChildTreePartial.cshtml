@@ -15,7 +15,7 @@
             {
                 <li class='nav-item'>
                     <a class="nav-link" href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))@Model.AdjustText(childNode)</a>
-                    @Model.UpdateTempNode(childNode) <partial name="Bs4NavigationNodeChildTreePartial" for="Model" />  @* recursion *@
+                    @Model.UpdateTempNode(childNode)@Html.Partial("Bs4NavigationNodeChildTreePartial", Model) @* recursion *@
                 </li>
             }
         }
