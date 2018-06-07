@@ -15,7 +15,7 @@
         else
         {
             <li role="presentation" class='@Model.GetClass(node.Value)'><a href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a>
-            @Model.UpdateTempNode(node)@Html.Partial("NavigationNodeChildTreePartial", Model) 
+            @Model.UpdateTempNode(node) <partial name="NavigationNodeChildTreePartial" for="Model" />  
             </li>
         }
     }

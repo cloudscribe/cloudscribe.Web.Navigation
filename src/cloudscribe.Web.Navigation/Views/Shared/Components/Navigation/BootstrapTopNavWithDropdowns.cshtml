@@ -19,7 +19,7 @@
 
                 <li role="presentation" class='@Model.GetClass(node.Value, "dropdown",  "active", true)' cwn-data-attributes="@node.Value.DataAttributes">
                     <a href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node) <span class="caret"></span></a>
-                    @Model.UpdateTempNode(node)@Html.Partial("NavigationNodeChildDropdownPartial", Model)
+                    @Model.UpdateTempNode(node) <partial name="NavigationNodeChildDropdownPartial" for="Model" />
                 </li>
             }
         }
