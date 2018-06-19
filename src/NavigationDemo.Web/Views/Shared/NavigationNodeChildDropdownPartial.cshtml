@@ -1,31 +1,32 @@
 ﻿@using cloudscribe.Web.Navigation
 @using Microsoft.Extensions.Localization
 @model NavigationViewModel
-@inject  IStringLocalizer<NavigationDemo.Web.MenuResources> localizer
+@inject IStringLocalizer<NavigationDemo.Web.MenuResources> localizer
 @addTagHelper *, cloudscribe.Web.Navigation
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @if ((Model.TempNode != null) && (Model.HasVisibleChildren(Model.TempNode)))
 {
     <ul class="dropdown-menu" role="menu">
-    @foreach (var childNode in Model.TempNode.Children)
-    {
-        if (!Model.ShouldAllowView(childNode)) { continue; }
+        @foreach (var childNode in Model.TempNode.Children)
+        {
+            if (!Model.ShouldAllowView(childNode)) { continue; }
 
-        if (childNode.Value.Text == "Separator")
-        {
-            <li class="divider"></li>
+            if (childNode.Value.Text == "Separator")
+            {
+                <li class="divider"></li>
                 continue;
+            }
+            if (!Model.HasVisibleChildren(childNode))
+            {
+                <li role="presentation" class='@Model.GetClass(childNode.Value)' cwn-data-attributes="@childNode.Value.DataAttributes"><a href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))@localizer[Model.AdjustText(childNode)]</a></li>
+            }
+            else
+            {
+                <li role="presentation" class='@Model.GetClass(childNode.Value, "dropdown-submenu")' cwn-data-attributes="@childNode.Value.DataAttributes">
+                    <a href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))localizer[@Model.AdjustText(childNode)] <span class="caret"></span></a>
+                    @Model.UpdateTempNode(childNode) <partial name="NavigationNodeChildDropdownPartial" model="@Model" />  @* recursion *@
+                </li>
+            }
         }
-        if (!Model.HasVisibleChildren(childNode))
-        {
-            <li role="presentation" class='@Model.GetClass(childNode.Value)' cwn-data-attributes="@childNode.Value.DataAttributes"><a href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))@localizer[Model.AdjustText(childNode)]</a></li>
-        }
-        else
-        {
-            <li role="presentation" class='@Model.GetClass(childNode.Value, "dropdown-submenu")' cwn-data-attributes="@childNode.Value.DataAttributes">
-                <a href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))localizer[@Model.AdjustText(childNode)] <span class="caret"></span></a>
-                @Model.UpdateTempNode(childNode)@Html.Partial("NavigationNodeChildDropdownPartial", Model) @* recursion *@
-            </li>
-        }
-    }
     </ul>
 }
