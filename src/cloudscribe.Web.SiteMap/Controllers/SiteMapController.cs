@@ -22,28 +22,30 @@ namespace cloudscribe.Web.SiteMap.Controllers
     /// than 25000 then a sitemap index should be provided that links to multiple sitemaps with each site map
     /// being limted to 25000 urls or less
     /// </summary>
-    [Route("api/[controller]")]
+    
     public class SiteMapController : Controller
     {
 
         public SiteMapController(
             ILogger<SiteMapController> logger,
-            IEnumerable<ISiteMapNodeService> nodeProviders = null)
+            IEnumerable<ISiteMapNodeService> nodeProviders = null
+            )
         {
-            log = logger;
-            this.nodeProviders = nodeProviders; 
+            _log = logger;
+            _nodeProviders = nodeProviders; 
         }
 
-        private ILogger log;
-        private IEnumerable<ISiteMapNodeService> nodeProviders;
+        private ILogger _log;
+        private IEnumerable<ISiteMapNodeService> _nodeProviders;
 
         [HttpGet]
         [ResponseCache(CacheProfileName = "SiteMapCacheProfile")]
-        public async Task<IActionResult> Index()
+        [Route("api/sitemap")]
+        public virtual async Task<IActionResult> Index()
         {
-            if (nodeProviders == null)
+            if (_nodeProviders == null)
             {
-                log.LogInformation("no ISiteMapNodeService were injected so returning 404");
+                _log.LogInformation("no ISiteMapNodeService were injected so returning 404");
                 Response.StatusCode = 404;
                 return new EmptyResult();
             }
@@ -53,7 +55,7 @@ namespace cloudscribe.Web.SiteMap.Controllers
             XNamespace xmlns = SiteMapConstants.Namespace;
             var root = new XElement(xmlns + SiteMapConstants.UrlSetTag);
             
-            foreach (var nodeService in nodeProviders)
+            foreach (var nodeService in _nodeProviders)
             {
                 var nodeList = await nodeService.GetSiteMapNodes(cancellationToken);
                 foreach(var node in nodeList)
@@ -86,7 +88,7 @@ namespace cloudscribe.Web.SiteMap.Controllers
 
         }
 
-        private string TryEnsureFullUrl(string providedUrl)
+        protected string TryEnsureFullUrl(string providedUrl)
         {
             var isFull = Uri.IsWellFormedUriString(providedUrl, UriKind.Absolute);
             if (isFull) return providedUrl;
