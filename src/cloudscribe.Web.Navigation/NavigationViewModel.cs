@@ -83,15 +83,15 @@ namespace cloudscribe.Web.Navigation
                         startingNode = RootNode.FindByKey(startingNodeKey);
                         if (startingNode == null)
                         {
-                            log.LogWarning("could not find navigation node for starting node key "
-                                + startingNodeKey
-                                + " will fallback to RootNode.");
+                            log.LogWarning($"Could not find navigation node for starting node key '{startingNodeKey}', will fallback to {nameof(RootNode)}.");
+                            return RootNode;
+                        }
+                        else
+                        {
+                            return startingNode;
                         }
                     }
-
-                    return RootNode;
                 }
-
                 return startingNode;
             }
         }
