@@ -78,7 +78,12 @@ namespace cloudscribe.Web.Navigation
             {
                 if (startingNode == null)
                 {
-                    if (!string.IsNullOrWhiteSpace(startingNodeKey) && startingNodeKey != "RootNode")
+                    if(startingNodeKey == "RootNode")
+                    {
+                        return RootNode;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(startingNodeKey))
                     {
                         startingNode = RootNode.FindByKey(startingNodeKey);
                         if (startingNode == null)
