@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:                  Joe Audette
 // Created:                 2016-04-19
-// Last Modified:           2016-10-05
+// Last Modified:           2018-08-26
 // 
 
 
@@ -22,7 +22,7 @@ namespace cloudscribe.Web.SiteMap.Controllers
     /// than 25000 then a sitemap index should be provided that links to multiple sitemaps with each site map
     /// being limted to 25000 urls or less
     /// </summary>
-    
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class SiteMapController : Controller
     {
 
