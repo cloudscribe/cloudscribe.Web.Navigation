@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <Description>ASP.NET Core controller and models for generating an xml sitemap for search indexes http://www.sitemaps.org</Description>
-    <VersionPrefix>2.1.1</VersionPrefix>
-    <AssemblyVersion>2.1.1</AssemblyVersion>
+    <VersionPrefix>2.1.2</VersionPrefix>
+    <AssemblyVersion>2.1.2</AssemblyVersion>
     <Authors>Joe Audette</Authors>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <AssemblyName>cloudscribe.Web.SiteMap</AssemblyName>
@@ -12,6 +12,8 @@
     <PackageIconUrl>https://raw.githubusercontent.com/joeaudette/cloudscribe.Web.Navigation/master/cloudscribe-icon-32.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/joeaudette/cloudscribe.Web.Navigation</PackageProjectUrl>
     <PackageLicenseUrl>http://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/cloudscribe/cloudscribe.Web.Navigation.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
     
   </PropertyGroup>
 
