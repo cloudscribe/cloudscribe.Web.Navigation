@@ -66,9 +66,15 @@ namespace cloudscribe.Web.Navigation
                 if ((!string.IsNullOrEmpty(n.Value.Action))&& (!string.IsNullOrEmpty(n.Value.Controller)))
                 {
                     targetUrl = urlHelper.Action(n.Value.Action, n.Value.Controller, new { area = n.Value.Area });
+
                     if (targetUrl == null) return false; // check for null in case action cannot be resolved
+                    if (urlToMatch.EndsWith("/"))
+                    {
+                        targetUrl = targetUrl + "/";
+                    }
                     if (targetUrl.IndexOf(urlToMatch, StringComparison.OrdinalIgnoreCase) >= 0)
                     { return true; }
+                    
                 }
 
                 if ((!string.IsNullOrWhiteSpace(urlPrefix))&&(!string.IsNullOrWhiteSpace(n.Value.Url)))
