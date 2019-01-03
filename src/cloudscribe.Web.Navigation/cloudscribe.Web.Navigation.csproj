@@ -9,7 +9,7 @@
     <PackageTags>cloudscribe;asp.net core;mvcsitemapprovider;navigation;menus;breadcrumbs;bootstrap</PackageTags>
     <PackageIconUrl>https://raw.githubusercontent.com/joeaudette/cloudscribe.Web.Navigation/master/cloudscribe-icon-32.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/joeaudette/cloudscribe.Web.Navigation</PackageProjectUrl>
-    <PackageLicenseUrl>http://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/cloudscribe/cloudscribe.Web.Navigation.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     
