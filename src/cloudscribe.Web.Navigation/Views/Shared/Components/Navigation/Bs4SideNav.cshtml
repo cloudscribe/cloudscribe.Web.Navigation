@@ -10,14 +10,7 @@
             if (!Model.ShouldAllowView(node)) { continue; }
             if (!Model.HasVisibleChildren(node))
             {
-                if (node.EqualsNode(Model.CurrentNode))
-                {
-                    <li class="nav-item"><a class="nav-link active" href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a></li>
-                }
-                else
-                {
-                    <li class="nav-item"><a class="nav-link" href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a></li>
-                }
+                <li class="nav-item"><a class="nav-link @(node.EqualsNode(Model.CurrentNode) ? "active" : "")" href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a></li>
             }
             else
             {
