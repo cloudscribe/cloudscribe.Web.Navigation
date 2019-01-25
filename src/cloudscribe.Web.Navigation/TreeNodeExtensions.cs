@@ -77,6 +77,19 @@ namespace cloudscribe.Web.Navigation
                     
                 }
 
+                if(!string.IsNullOrWhiteSpace(n.Value.Page))
+                {
+                    targetUrl = urlHelper.Page(n.Value.Page, new { area = n.Value.Area });
+
+                    if (targetUrl == null) return false; // check for null in case action cannot be resolved
+                    if (urlToMatch.EndsWith("/"))
+                    {
+                        targetUrl = targetUrl + "/";
+                    }
+                    if (targetUrl.IndexOf(urlToMatch, StringComparison.OrdinalIgnoreCase) >= 0)
+                    { return true; }
+                }
+
                 if ((!string.IsNullOrWhiteSpace(urlPrefix))&&(!string.IsNullOrWhiteSpace(n.Value.Url)))
                 {
                     targetUrl = n.Value.Url.Replace("~/", "~/" + urlPrefix + "/");
