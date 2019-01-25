@@ -208,7 +208,7 @@ namespace cloudscribe.Web.Navigation
         public static bool EqualsNode(this TreeNode<NavigationNode> currentNode, TreeNode<NavigationNode> nodeToMatch)
         {
             if(currentNode.Value.Key == nodeToMatch.Value.Key) { return true; }
-            if (currentNode.Value.Controller == nodeToMatch.Value.Controller && (currentNode.Value.Controller.Length > 0))
+            if (currentNode.Value.Controller == nodeToMatch.Value.Controller && (!string.IsNullOrWhiteSpace(currentNode.Value.Controller)))
             {
                 if (currentNode.Value.Action == nodeToMatch.Value.Action && (currentNode.Value.Action.Length > 0))
                 {
@@ -216,7 +216,7 @@ namespace cloudscribe.Web.Navigation
                 }
                     
             }
-            if((nodeToMatch.Value.NamedRoute.Length > 0)
+            if((!string.IsNullOrWhiteSpace(nodeToMatch.Value.NamedRoute))
                 &&(nodeToMatch.Value.NamedRoute == currentNode.Value.NamedRoute)) { return true; }
 
             if(
@@ -234,15 +234,15 @@ namespace cloudscribe.Web.Navigation
         public static bool EqualsNode(this NavigationNode currentNode, NavigationNode nodeToMatch)
         {
             if (currentNode.Key == nodeToMatch.Key) { return true; }
-            if (currentNode.Controller == nodeToMatch.Controller && (currentNode.Controller.Length > 0))
+            if (currentNode.Controller == nodeToMatch.Controller && (!string.IsNullOrWhiteSpace(currentNode.Controller)))
             {
-                if (currentNode.Action == nodeToMatch.Action && (currentNode.Action.Length > 0))
+                if (currentNode.Action == nodeToMatch.Action && (!string.IsNullOrWhiteSpace(currentNode.Action)))
                 {
                     if (currentNode.Area == nodeToMatch.Area) return true;
                 }
 
             }
-            if ((nodeToMatch.NamedRoute.Length > 0)
+            if ((!string.IsNullOrWhiteSpace(nodeToMatch.NamedRoute))
                 && (nodeToMatch.NamedRoute == currentNode.NamedRoute)) { return true; }
 
             if(!string.IsNullOrEmpty(nodeToMatch.Url))

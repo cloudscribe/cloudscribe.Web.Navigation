@@ -2,18 +2,16 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-10
-// Last Modified:			2016-09-01
+// Last Modified:			2019-01-25
 // 
 
+using cloudscribe.Web.Navigation.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using cloudscribe.Web.Navigation.Helpers;
-using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace cloudscribe.Web.Navigation
 {
@@ -118,7 +116,7 @@ namespace cloudscribe.Web.Navigation
 
                     if (currentNode == null)
                     {
-                        if (startingNodeKey.Length > 0)
+                        if (!string.IsNullOrWhiteSpace(startingNodeKey))
                         {
                             return StartingNode;
                         }
@@ -189,7 +187,7 @@ namespace cloudscribe.Web.Navigation
                 NavigationNodeAdjuster adjuster = (NavigationNodeAdjuster)context.Items[key];
                 if(adjuster.ViewFilterName == navigationFilterName)
                 {
-                    if (adjuster.AdjustedText.Length > 0) { return adjuster.AdjustedText; }
+                    if (!string.IsNullOrWhiteSpace(adjuster.AdjustedText)) { return adjuster.AdjustedText; }
                 }
                 
             }
@@ -202,9 +200,9 @@ namespace cloudscribe.Web.Navigation
             string urlToUse = string.Empty;
             try
             {
-                if ((node.Value.Action.Length > 0) && (node.Value.Controller.Length > 0))
+                if ((!string.IsNullOrWhiteSpace(node.Value.Action)) && (!string.IsNullOrWhiteSpace(node.Value.Controller)))
                 {
-                    if (node.Value.PreservedRouteParameters.Length > 0)
+                    if (!string.IsNullOrWhiteSpace(node.Value.PreservedRouteParameters))
                     {
                         List<string> preservedParams = node.Value.PreservedRouteParameters.SplitOnChar(',');
                         //var queryBuilder = new QueryBuilder();
@@ -230,11 +228,15 @@ namespace cloudscribe.Web.Navigation
                     {  
                         urlToUse = urlHelper.Action(node.Value.Action, node.Value.Controller, new { area = node.Value.Area });                
                     }
-
+                 
                 }
-                else if (node.Value.NamedRoute.Length > 0)
+                else if (!string.IsNullOrWhiteSpace(node.Value.NamedRoute))
                 {
                     urlToUse = urlHelper.RouteUrl(node.Value.NamedRoute);
+                }
+                else if(!string.IsNullOrWhiteSpace(node.Value.Page))
+                {
+                    urlToUse = urlHelper.Page(node.Value.Page, new { area = node.Value.Area });
                 }
 
                 string key = NavigationNodeAdjuster.KeyPrefix + node.Value.Key;
@@ -244,7 +246,7 @@ namespace cloudscribe.Web.Navigation
                     NavigationNodeAdjuster adjuster = (NavigationNodeAdjuster)context.Items[key];
                     if (adjuster.ViewFilterName == navigationFilterName)
                     {
-                        if (adjuster.AdjustedUrl.Length > 0) { return adjuster.AdjustedUrl; }
+                        if (!string.IsNullOrWhiteSpace(adjuster.AdjustedUrl)) { return adjuster.AdjustedUrl; }
                     }
                 }
 
@@ -256,7 +258,7 @@ namespace cloudscribe.Web.Navigation
             }
             
 
-            //if(urlToUse.Length > 0) { return urlToUse; }
+            
        
             return urlToUse;
         }

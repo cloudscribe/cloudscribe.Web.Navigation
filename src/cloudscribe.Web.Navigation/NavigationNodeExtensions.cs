@@ -15,9 +15,9 @@ namespace cloudscribe.Web.Navigation
         [Obsolete("This method is obsolete and never worked right, it will be removed in a future version. Please use the overload that takes an IUrlHelper")]
         public static string ResolveUrl(this NavigationNode node)
         {
-            if (node.Url.Length > 0) return node.Url;
+            if (!string.IsNullOrWhiteSpace(node.Url)) return node.Url;
             string url = string.Empty;
-            if((node.Controller.Length > 0)&&(node.Action.Length > 0))
+            if((!string.IsNullOrWhiteSpace(node.Controller))&&(!string.IsNullOrWhiteSpace(node.Action)))
             {
                 if(node.Action == "Index")
                 {
@@ -36,12 +36,12 @@ namespace cloudscribe.Web.Navigation
         public static string ResolveUrl(this NavigationNode node, IUrlHelper urlHelper)
         {
             string urlToUse = string.Empty;
-            
-            if ((node.Action.Length > 0) && (node.Controller.Length > 0))
+
+            if ((!string.IsNullOrWhiteSpace(node.Controller)) && (!string.IsNullOrWhiteSpace(node.Action)))
             {
                 urlToUse = urlHelper.Action(node.Action, node.Controller, new { area = node.Area });    
             }
-            else if (node.NamedRoute.Length > 0)
+            else if (!string.IsNullOrWhiteSpace(node.NamedRoute))
             {
                 urlToUse = urlHelper.RouteUrl(node.NamedRoute);
             }

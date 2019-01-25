@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<NavNode key="Home" 
+         page="/Index" 
+         text="Home"
+         iconCssClass=""
+         authorizationPolicy=""
+         >
+  <Children>
+    <NavNode key="Privacy"
+         page="/Privacy"
+         text="Privacy"
+         iconCssClass=""
+         authorizationPolicy=""
+         >
+      <Children />
+    </NavNode>
+
+    <NavNode key="Login"
+         area="Identity"
+         page="/Account/Login"
+         text="Login"
+         iconCssClass=""
+         authorizationPolicy=""
+         hideFromAuthenticated="true"
+         >
+      <Children />
+    </NavNode>
+    
+  </Children>
+</NavNode>

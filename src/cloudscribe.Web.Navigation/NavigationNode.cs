@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-09
-// Last Modified:			2017-06-20
+// Last Modified:			2019-01-25
 // 
 
 using Newtonsoft.Json;
@@ -46,17 +46,23 @@ namespace cloudscribe.Web.Navigation
         [DefaultValue("")]
         public string Area { get; set; } = string.Empty;
 
+        /// <summary>
+        /// the name of a Razor Page
+        /// </summary>
+        [DefaultValue("")]
+        public string Page { get; set; } = string.Empty;
+
         [DefaultValue("")]
         public string NamedRoute { get; set; } = string.Empty;
 
-        /// <summary>
-        /// this property can lie, it is not enforced in creating a tree
-        /// a node could start out as a root node and then be added as a sub node of another node
-        /// not sure we even need this property 
-        /// </summary>
-        [Obsolete("This property should not be used and will be removed in future versions. This property cannot be relied on to identitify the root of the tree, instead use the .IsRoot() method on TreeNode which determines the root by a null parent.")]
-        [DefaultValue(false)]
-        public bool IsRootNode { get; set; } = false;
+        ///// <summary>
+        ///// this property can lie, it is not enforced in creating a tree
+        ///// a node could start out as a root node and then be added as a sub node of another node
+        ///// not sure we even need this property 
+        ///// </summary>
+        //[Obsolete("This property should not be used and will be removed in future versions. This property cannot be relied on to identitify the root of the tree, instead use the .IsRoot() method on TreeNode which determines the root by a null parent.")]
+        //[DefaultValue(false)]
+        //public bool IsRootNode { get; set; } = false;
 
         public bool ExcludeFromSearchSiteMap { get; set; } = false;
         

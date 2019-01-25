@@ -63,6 +63,11 @@ namespace cloudscribe.Web.Navigation
                 writer.WriteAttributeString("area", node.Value.Area);
             }
 
+            if (!string.IsNullOrEmpty(node.Value.Page))
+            {
+                writer.WriteAttributeString("page", node.Value.Page);
+            }
+
             if (String.IsNullOrEmpty(node.Value.NamedRoute))
             {
                 writer.WriteAttributeString("namedRoute", node.Value.NamedRoute);
@@ -378,6 +383,9 @@ namespace cloudscribe.Web.Navigation
 
             a = xmlNode.Attribute("area");
             if (a != null) { navNode.Area = a.Value; }
+
+            a = xmlNode.Attribute("page");
+            if (a != null) { navNode.Page = a.Value; }
 
             a = xmlNode.Attribute("namedRoute");
             if(a == null) a = xmlNode.Attribute("named-route"); //this is not consistent was a mistake
