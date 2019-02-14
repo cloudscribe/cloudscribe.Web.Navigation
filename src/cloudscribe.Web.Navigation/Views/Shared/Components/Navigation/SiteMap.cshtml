@@ -2,11 +2,11 @@
 @using System.Text
 @model NavigationViewModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@if (Model.HasVisibleChildren(Model.CurrentNode))
+@if (Model.HasVisibleChildren(Model.StartingNode))
 {
     <ul class="sitemap-menu" role="menu">
-        <li class='@Model.GetClass(Model.CurrentNode.Value)'><a href="@Url.Content(Model.AdjustUrl(Model.CurrentNode))">@Html.Raw(Model.GetIcon(Model.CurrentNode.Value))@Model.AdjustText(Model.CurrentNode)</a></li>
-        @foreach (var node in Model.CurrentNode.Children)
+        <li class='@Model.GetClass(Model.StartingNode.Value)'><a href="@Url.Content(Model.AdjustUrl(Model.StartingNode))">@Html.Raw(Model.GetIcon(Model.StartingNode.Value))@Model.AdjustText(Model.StartingNode)</a></li>
+        @foreach (var node in Model.StartingNode.Children)
         {
             if (!Model.ShouldAllowView(node)) { continue; }
             if (!Model.HasVisibleChildren(node))
