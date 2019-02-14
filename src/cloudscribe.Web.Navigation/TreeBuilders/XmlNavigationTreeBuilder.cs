@@ -2,13 +2,14 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-14
-// Last Modified:			2017-07-31
+// Last Modified:			2019-02-14
 // 
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -20,22 +21,25 @@ namespace cloudscribe.Web.Navigation
         public XmlNavigationTreeBuilder(
             IHostingEnvironment appEnv,
             IOptions<NavigationOptions> navigationOptionsAccessor,
+            IEnumerable<INavigationTreeProcessor> treeProcessors,
             ILogger<XmlNavigationTreeBuilder> logger)
         {
             if (appEnv == null) { throw new ArgumentNullException(nameof(appEnv)); }
             if (logger == null) { throw new ArgumentNullException(nameof(logger)); }
             if (navigationOptionsAccessor == null) { throw new ArgumentNullException(nameof(navigationOptionsAccessor)); }
 
-            this.appEnv = appEnv;
-            navOptions = navigationOptionsAccessor.Value;
-            log = logger;
+            _env = appEnv;
+            _navOptions = navigationOptionsAccessor.Value;
+            _treeProcessors = treeProcessors;
+            _log = logger;
             
         }
 
-        private IHostingEnvironment appEnv;
-        private NavigationOptions navOptions;
-        private ILogger log;
+        private readonly IHostingEnvironment _env;
+        private readonly NavigationOptions _navOptions;
+        private readonly ILogger _log;
         private TreeNode<NavigationNode> rootNode = null;
+        private readonly IEnumerable<INavigationTreeProcessor> _treeProcessors;
 
         public string Name
         {
@@ -49,6 +53,10 @@ namespace cloudscribe.Web.Navigation
             if (rootNode == null)
             { 
                 rootNode = await BuildTreeInternal(service);  
+                foreach(var processor in _treeProcessors)
+                {
+                    await processor.ProcessTree(rootNode);
+                }
             }
 
             return rootNode;
@@ -56,8 +64,8 @@ namespace cloudscribe.Web.Navigation
 
         private string ResolveFilePath()
         {
-            string filePath = appEnv.ContentRootPath + Path.DirectorySeparatorChar
-                + navOptions.NavigationMapXmlFileName;
+            string filePath = _env.ContentRootPath + Path.DirectorySeparatorChar
+                + _navOptions.NavigationMapXmlFileName;
 
             return filePath;
         }
@@ -68,7 +76,7 @@ namespace cloudscribe.Web.Navigation
 
             if (!File.Exists(filePath))
             {
-                log.LogError("unable to build navigation tree, could not find the file " + filePath);
+                _log.LogError("unable to build navigation tree, could not find the file " + filePath);
 
                 NavigationNode rootNav = new NavigationNode();
                 rootNav.Key = "filenotfound";
