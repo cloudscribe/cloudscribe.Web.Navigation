@@ -1,10 +1,10 @@
 ﻿@using System.Security.Claims
 @if (User.Identity.IsAuthenticated)
 {
-    <form asp-controller="FakeAccount" asp-action="LogOff" method="post" id="logoutForm">
+    <form asp-controller="FakeAccount" asp-action="LogOff" asp-area="" method="post" id="logoutForm">
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a asp-controller="Account" asp-action="Index">Hello @User.FindFirstValue(ClaimsIdentity.DefaultNameClaimType)!</a>
+                <a asp-controller="Account" asp-action="Index" asp-area="">Hello @User.FindFirstValue(ClaimsIdentity.DefaultNameClaimType)!</a>
             </li>
             <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
         </ul>
@@ -13,6 +13,6 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li><a asp-controller="FakeAccount" asp-action="Index">Log in</a></li>
+        <li><a asp-controller="FakeAccount" asp-action="Index" asp-area="">Log in</a></li>
     </ul>
 }

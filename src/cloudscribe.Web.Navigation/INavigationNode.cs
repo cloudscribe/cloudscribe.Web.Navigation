@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-09
-// Last Modified:			2019-01-25
+// Last Modified:			2019-02-15
 // 
 
 using System;
@@ -13,7 +13,6 @@ namespace cloudscribe.Web.Navigation
     public interface INavigationNode
     {
         string Key { get; set; }
-        string ParentKey { get; set; }
         string Text { get; set; }
         string Title { get; set; }
         string Url { get; set; } 
@@ -23,9 +22,7 @@ namespace cloudscribe.Web.Navigation
         string Page { get; set; }
 
         string NamedRoute { get; set; }
-
-        //[Obsolete("This property should not be used and will be removed in future versions. This property cannot be relied on to identitify the root of the tree, instead use the .IsRoot() method on TreeNode which determines the root by a null parent.")]
-        //bool IsRootNode { get; set; }
+        
     }
     
     public interface INavigationNodeRenderSettings

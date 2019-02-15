@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-10
-// Last Modified:			2015-10-23
+// Last Modified:			2019-02-15
 // 
 
 
@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 
 namespace cloudscribe.Web.Navigation
 {
+    [Serializable()]
     public class TreeNode<T>
     {
         private readonly T _value;
@@ -54,7 +55,6 @@ namespace cloudscribe.Web.Navigation
 
         public TreeNode<T> AddChild(TreeNode<T> node)
         {
-            //var node = new TreeNode<T>(value) { Parent = this };
             _children.Add(node);
             node.Parent = this;
             return node;

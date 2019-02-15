@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace cloudscribe.Web.Navigation.Caching
 {
@@ -14,9 +11,10 @@ namespace cloudscribe.Web.Navigation.Caching
             return Task.FromResult(tree);
         }
 
-        public void AddToCache(TreeNode<NavigationNode> tree, string cacheKey)
+        public Task AddToCache(TreeNode<NavigationNode> tree, string cacheKey)
         {
             //do nothing
+            return Task.CompletedTask;
         }
 
         

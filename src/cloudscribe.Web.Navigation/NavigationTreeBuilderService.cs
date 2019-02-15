@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-10-12
-// Last Modified:			2016-08-24
+// Last Modified:			2019-02-15
 // 
 
 using cloudscribe.Web.Navigation.Caching;
@@ -22,30 +22,28 @@ namespace cloudscribe.Web.Navigation
             ITreeCache treeCache = null
             )
         {
-            if (treeBuilders == null) { throw new ArgumentNullException(nameof(treeBuilders)); }
             if (navigationOptionsAccessor == null) { throw new ArgumentNullException(nameof(navigationOptionsAccessor)); }
 
-            this.cacheKeyResolver = cacheKeyResolver;
-            this.treeCache = treeCache ?? new NotCachedTreeCache();
-            builders = treeBuilders;
-            navOptions = navigationOptionsAccessor.Value;
+            _cacheKeyResolver = cacheKeyResolver;
+            _treeCache = treeCache ?? new NotCachedTreeCache();
+            _builders = treeBuilders ?? throw new ArgumentNullException(nameof(treeBuilders));
+            _navOptions = navigationOptionsAccessor.Value;
 
         }
 
-        private ITreeCache treeCache;
-        private ITreeCacheKeyResolver cacheKeyResolver;
-        private NavigationOptions navOptions;
-
-        private IEnumerable<INavigationTreeBuilder> builders;
+        private readonly ITreeCache _treeCache;
+        private readonly ITreeCacheKeyResolver _cacheKeyResolver;
+        private readonly NavigationOptions _navOptions;
+        private readonly IEnumerable<INavigationTreeBuilder> _builders;
 
         public INavigationTreeBuilder GetRootTreeBuilder()
         {
-            return GetTreeBuilder(navOptions.RootTreeBuilderName);
+            return GetTreeBuilder(_navOptions.RootTreeBuilderName);
         }
 
         public INavigationTreeBuilder GetTreeBuilder(string name)
         {
-            foreach(var t in builders)
+            foreach(var t in _builders)
             {
                 if(t.Name == name) { return t; }
             }
@@ -56,11 +54,11 @@ namespace cloudscribe.Web.Navigation
         public async Task<TreeNode<NavigationNode>> GetTree()
         {
             var builder = GetRootTreeBuilder();
-            var cacheKey = cacheKeyResolver.GetCacheKey(builder);
-            var tree = await treeCache.GetTree(cacheKey).ConfigureAwait(false);
+            var cacheKey = _cacheKeyResolver.GetCacheKey(builder);
+            var tree = await _treeCache.GetTree(cacheKey).ConfigureAwait(false);
             if(tree != null) { return tree; }
             tree = await builder.BuildTree(this).ConfigureAwait(false);
-            treeCache.AddToCache(tree, cacheKey);
+            await _treeCache.AddToCache(tree, cacheKey);
 
             return tree;
         }

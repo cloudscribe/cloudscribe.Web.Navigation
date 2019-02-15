@@ -2,15 +2,12 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-10-12
-// Last Modified:			2016-05-17
+// Last Modified:			2019-02-15
 // 
 
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace cloudscribe.Web.Navigation.Caching
@@ -21,51 +18,28 @@ namespace cloudscribe.Web.Navigation.Caching
             IDistributedCache cache,
             IOptions<TreeCacheOptions> optionsAccessor = null)
         {
-            if (cache == null) { throw new ArgumentNullException(nameof(cache)); }
-            this.cache = cache;
-
-            options = optionsAccessor?.Value;
-            if (options == null) options = new TreeCacheOptions(); //default
+            _cache = cache ?? throw new ArgumentNullException(nameof(cache));
+            _options = optionsAccessor?.Value;
+            if (_options == null) _options = new TreeCacheOptions(); //default
         }
 
-        private IDistributedCache cache;
-        private TreeCacheOptions options;
+        private readonly IDistributedCache _cache;
+        private readonly TreeCacheOptions _options;
 
-        public Task<TreeNode<NavigationNode>> GetTree(string cacheKey)
+        public async Task<TreeNode<NavigationNode>> GetTree(string cacheKey)
         {
-            throw new NotImplementedException();
 
-            //TreeNode<NavigationNode> result = null;
-            //await cache.ConnectAsync();
-            //byte[] bytes = await cache.GetAsync(cacheKey);
-            //if (bytes != null)
-            //{
-            //    // TODO how to deserialize from the bytes?
-
-            //    //log.LogDebug("rootnode was found in distributed cache so deserializing");
-            //    //string xml = Encoding.UTF8.GetString(bytes);
-            //    //XDocument doc = XDocument.Parse(xml);
-
-            //    //rootNode = converter.FromXml(doc);
-            //}
+            var tree = await _cache.GetAsync<TreeNode<NavigationNode>>(cacheKey);
+            return tree;
             
-            //return result;
         }
 
-        public void AddToCache(TreeNode<NavigationNode> tree, string cacheKey)
+        public async Task AddToCache(TreeNode<NavigationNode> tree, string cacheKey)
         {
-            throw new NotImplementedException();
-
-            //TODO: how best to serialize to bytes
-
-            //string xml2 = converter.ToXmlString(tree);
-
-            //await cache.SetAsync(
-            //                    cacheKey,
-            //                    Encoding.UTF8.GetBytes(xml2),
-            //                    new DistributedCacheEntryOptions().SetSlidingExpiration(
-            //                        TimeSpan.FromSeconds(options.CacheDurationInSeconds))
-            //                        );
+            var options = new DistributedCacheEntryOptions();
+            options.SetSlidingExpiration(TimeSpan.FromSeconds(_options.CacheDurationInSeconds));
+            await _cache.SetAsync<TreeNode<NavigationNode>>(cacheKey, tree, options);
+            
         }
 
     }

@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,26 +23,25 @@ namespace cloudscribe.Web.Navigation
         public JsonNavigationTreeBuilder(
             IHostingEnvironment appEnv,
             IOptions<NavigationOptions> navigationOptionsAccessor,
-            ILoggerFactory loggerFactory,
-            IDistributedCache cache)
+            IEnumerable<INavigationTreeProcessor> treeProcessors,
+            ILogger<JsonNavigationTreeBuilder> logger
+            )
         {
-            if(appEnv == null) { throw new ArgumentNullException(nameof(appEnv)); }
-            if (loggerFactory == null) { throw new ArgumentNullException(nameof(loggerFactory)); }
             if (navigationOptionsAccessor == null) { throw new ArgumentNullException(nameof(navigationOptionsAccessor)); }
 
-            this.appEnv = appEnv;
-            navOptions = navigationOptionsAccessor.Value;
-            logFactory = loggerFactory;
-            log = loggerFactory.CreateLogger(typeof(JsonNavigationTreeBuilder).FullName);
-            this.cache = cache;
+            _env = appEnv ?? throw new ArgumentNullException(nameof(appEnv));
+            _navOptions = navigationOptionsAccessor.Value;
+            _treeProcessors = treeProcessors;
+            _log = logger;
+           
         }
 
-        private IDistributedCache cache;
-        private const string cacheKey = "navjsonbuild";
-        private IHostingEnvironment appEnv;
-        private NavigationOptions navOptions;
-        private ILoggerFactory logFactory;
-        private ILogger log;
+       
+        
+        private readonly IHostingEnvironment _env;
+        private readonly NavigationOptions _navOptions;
+        private readonly IEnumerable<INavigationTreeProcessor> _treeProcessors;
+        private readonly ILogger _log;
         private TreeNode<NavigationNode> rootNode = null;
 
         public string Name
@@ -49,33 +49,18 @@ namespace cloudscribe.Web.Navigation
             get { return "JsonNavigationTreeBuilder"; }
         }
 
-        public async Task<TreeNode<NavigationNode>> BuildTree(
-            NavigationTreeBuilderService service)
+        public async Task<TreeNode<NavigationNode>> BuildTree(NavigationTreeBuilderService service)
         {
-            // ultimately we will need to cache sitemap per site
-
+            
             if (rootNode == null)
-            {
-                
-                //await cache.ConnectAsync();
-                byte[] bytes = await cache.GetAsync(cacheKey);
-                if (bytes != null)
-                {
-                    string json = Encoding.UTF8.GetString(bytes);
-                    rootNode = BuildTreeFromJson(json);
-                }
-                else
-                {
-                    rootNode = await BuildTree();
-                    string json = rootNode.ToJsonCompact();
+            { 
+                rootNode = await BuildTree();
 
-                    await cache.SetAsync(
-                                        cacheKey,
-                                        Encoding.UTF8.GetBytes(json),
-                                        new DistributedCacheEntryOptions().SetSlidingExpiration(
-                                            TimeSpan.FromSeconds(100))
-                                            );
+                foreach (var processor in _treeProcessors)
+                {
+                    await processor.ProcessTree(rootNode);
                 }
+              
             }
 
             return rootNode;
@@ -87,7 +72,7 @@ namespace cloudscribe.Web.Navigation
 
             if(!File.Exists(filePath))
             {
-                log.LogError("unable to build navigation tree, could not find the file " + filePath);
+                _log.LogError("unable to build navigation tree, could not find the file " + filePath);
 
                 return null;
             }
@@ -109,8 +94,8 @@ namespace cloudscribe.Web.Navigation
 
         private string ResolveFilePath()
         {
-            string filePath = appEnv.ContentRootPath + Path.DirectorySeparatorChar
-                + navOptions.NavigationMapJsonFileName;
+            string filePath = _env.ContentRootPath + Path.DirectorySeparatorChar
+                + _navOptions.NavigationMapJsonFileName;
 
             return filePath;
         }
