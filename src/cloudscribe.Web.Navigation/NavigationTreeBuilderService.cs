@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-10-12
-// Last Modified:			2019-02-15
+// Last Modified:			2019-02-17
 // 
 
 using cloudscribe.Web.Navigation.Caching;
@@ -76,6 +76,16 @@ namespace cloudscribe.Web.Navigation
             var tree = await builder.BuildTree(this).ConfigureAwait(false);
 
             return tree;
+        }
+
+        public async Task ClearTreeCache()
+        {
+            foreach (var builder in _builders)
+            {
+                var cacheKey = _cacheKeyResolver.GetCacheKey(builder);
+                await _treeCache.ClearTreeCache(cacheKey);
+            }
+
         }
 
 

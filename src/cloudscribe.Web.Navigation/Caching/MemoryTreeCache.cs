@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2016-02-26
-// Last Modified:			2019-02-15
+// Last Modified:			2019-02-17
 // 
 
 using Microsoft.Extensions.Caching.Memory;
@@ -41,6 +41,13 @@ namespace cloudscribe.Web.Navigation.Caching
                 new MemoryCacheEntryOptions()
                  .SetSlidingExpiration(TimeSpan.FromSeconds(_options.CacheDurationInSeconds))
                  );
+
+            return Task.CompletedTask;
+        }
+
+        public Task ClearTreeCache(string cacheKey)
+        {
+            _cache.Remove(cacheKey);
 
             return Task.CompletedTask;
         }

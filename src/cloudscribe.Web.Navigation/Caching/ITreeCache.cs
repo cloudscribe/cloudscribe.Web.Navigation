@@ -6,6 +6,8 @@ namespace cloudscribe.Web.Navigation.Caching
     {
         Task<TreeNode<NavigationNode>> GetTree(string cacheKey);
         Task AddToCache(TreeNode<NavigationNode> tree, string cacheKey);
-        
+        Task ClearTreeCache(string cacheKey);
+
+
     }
 }

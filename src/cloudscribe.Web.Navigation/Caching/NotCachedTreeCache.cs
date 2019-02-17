@@ -17,6 +17,12 @@ namespace cloudscribe.Web.Navigation.Caching
             return Task.CompletedTask;
         }
 
-        
+        public Task ClearTreeCache(string cacheKey)
+        {
+            //do nothing
+            return Task.CompletedTask;
+        }
+
+
     }
 }
