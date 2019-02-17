@@ -8,6 +8,8 @@ namespace cloudscribe.Web.Navigation.Caching
         Task AddToCache(TreeNode<NavigationNode> tree, string cacheKey);
         Task ClearTreeCache(string cacheKey);
 
+        Task ClearTreeCache();
+
 
     }
 }

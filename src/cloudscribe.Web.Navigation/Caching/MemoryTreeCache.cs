@@ -8,6 +8,7 @@
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace cloudscribe.Web.Navigation.Caching
@@ -16,15 +17,21 @@ namespace cloudscribe.Web.Navigation.Caching
     {
         public MemoryTreeCache(
             IMemoryCache cache,
+            ITreeCacheKeyResolver cacheKeyResolver,
+            IEnumerable<INavigationTreeBuilder> treeBuilders,
             IOptions<TreeCacheOptions> optionsAccessor = null)
         {
             _cache = cache ?? throw new ArgumentNullException(nameof(cache));
             _options = optionsAccessor?.Value;
             if (_options == null) _options = new TreeCacheOptions(); //default
+            _cacheKeyResolver = cacheKeyResolver;
+            _treeBuilders = treeBuilders;
         }
 
         private readonly IMemoryCache _cache;
         private readonly TreeCacheOptions _options;
+        private readonly ITreeCacheKeyResolver _cacheKeyResolver;
+        private readonly IEnumerable<INavigationTreeBuilder> _treeBuilders;
 
         public Task<TreeNode<NavigationNode>> GetTree(string cacheKey)
         {
@@ -48,6 +55,17 @@ namespace cloudscribe.Web.Navigation.Caching
         public Task ClearTreeCache(string cacheKey)
         {
             _cache.Remove(cacheKey);
+
+            return Task.CompletedTask;
+        }
+
+        public Task ClearTreeCache()
+        {
+            foreach (var builder in _treeBuilders)
+            {
+                var cacheKey = _cacheKeyResolver.GetCacheKey(builder);
+                _cache.Remove(cacheKey);
+            }
 
             return Task.CompletedTask;
         }

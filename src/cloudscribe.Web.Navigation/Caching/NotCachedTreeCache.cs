@@ -24,5 +24,10 @@ namespace cloudscribe.Web.Navigation.Caching
         }
 
 
+        public Task ClearTreeCache()
+        {
+            return Task.CompletedTask;
+        }
+
     }
 }
