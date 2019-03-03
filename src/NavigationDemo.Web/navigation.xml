@@ -1,20 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<NavNode key="Home" controller="Home" action="Index" text="Home" iconCssClass="glyphicon glyphicon-home">
+<NavNode key="Home" controller="Home" action="Index" area="" text="Home" iconCssClass="glyphicon glyphicon-home">
   <Children>
-    <NavNode key="About" controller="Home" action="About" text="About" iconCssClass="glyphicon glyphicon-heart">
+    <NavNode key="About" controller="Home" action="About" area="" text="About" iconCssClass="glyphicon glyphicon-heart">
       <Children>
-        <NavNode key="AboutMe" controller="Home" action="AboutMe" text="About Me" iconCssClass="glyphicon glyphicon-user">
+        <NavNode key="AboutMe" controller="Home" action="AboutMe" area="" text="About Me" iconCssClass="glyphicon glyphicon-user">
           <Children />
         </NavNode>
-          <NavNode key="AboutCompany" controller="Home" action="AboutCompany" text="About Company" iconCssClass="glyphicon glyphicon-knight">
+          <NavNode key="AboutCompany" controller="Home" action="AboutCompany" area="" text="About Company" iconCssClass="glyphicon glyphicon-knight">
               <Children />
           </NavNode>
-          <NavNode key="AboutProject" controller="Home" action="AboutProject" text="About Project" iconCssClass="glyphicon glyphicon-sunglasses">
+          <NavNode key="AboutProject" controller="Home" action="AboutProject" area="" text="About Project" iconCssClass="glyphicon glyphicon-sunglasses">
               <Children />
           </NavNode>
       </Children>
     </NavNode>
-    <NavNode key="Contact" controller="Home" action="Contact" text="Contact" >
+    <NavNode key="Contact" controller="Home" action="Contact" area="" text="Contact" >
       <Children />
         <DataAttributes>
             <DataAttribute attribute="data-foo" value="bar" />
@@ -34,10 +34,10 @@
               </NavNode>
           </Children>
       </NavNode>
-    <NavNode key="Members" controller="Home" action="Members" text="Members" authorizationPolicy="MembersPolicy">
+    <NavNode key="Members" controller="Home" action="Members" area="" text="Members" authorizationPolicy="MembersPolicy">
       <Children />
     </NavNode>
-    <NavNode key="Administration" controller="Home" action="Administration" text="Administration" authorizationPolicy="AdminsPolicy">
+    <NavNode key="Administration" controller="Home" action="Administration" area="" text="Administration" authorizationPolicy="AdminsPolicy">
       <Children />
     </NavNode>
 

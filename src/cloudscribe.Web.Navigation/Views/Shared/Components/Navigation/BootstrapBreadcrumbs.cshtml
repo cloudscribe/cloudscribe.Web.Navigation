@@ -1,33 +1,35 @@
 ﻿@using cloudscribe.Web.Navigation
 @model NavigationViewModel
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<cloudscribe.Web.Navigation.MenuResources> sr
 @if (Model.CurrentNode != null && (Model.ParentChain.Count > 1 || (Model.TailCrumbs != null && Model.TailCrumbs.Count > 0)))
 {
     <ul class="breadcrumb">
-    @foreach (var node in Model.ParentChain)
-    {
-        if (!Model.ShouldAllowView(node)) { continue; }
-        if (node.EqualsNode(Model.CurrentNode))
+        @foreach (var node in Model.ParentChain)
         {
-            if (Model.TailCrumbs != null)
+            if (!Model.ShouldAllowView(node)) { continue; }
+            if (node.EqualsNode(Model.CurrentNode))
             {
-                <li><a href="@Url.Content(Model.AdjustUrl(node))">@Model.AdjustText(node)</a><span class="divider"></span></li>
+                if (Model.TailCrumbs != null)
+                {
+                    <li><a href="@Url.Content(Model.AdjustUrl(node))">@sr[Model.AdjustText(node)]</a><span class="divider"></span></li>
+                }
+                else
+                {
+                    <li class="active">@sr[Model.AdjustText(node)]</li>
+                }
             }
             else
             {
-                <li class="active">@Model.AdjustText(node)</li>
+                <li><a href="@Url.Content(Model.AdjustUrl(node))">@sr[Model.AdjustText(node)]</a><span class="divider"></span></li>
             }
         }
-        else
+        @if (Model.TailCrumbs != null)
         {
-            <li><a href="@Url.Content(Model.AdjustUrl(node))">@Model.AdjustText(node)</a><span class="divider"></span></li>
+            foreach (var n in Model.TailCrumbs)
+            {
+                <li class="active">@sr[n.Text]</li>
+            }
         }
-    }
-    @if (Model.TailCrumbs != null)
-    {
-        foreach (var n in Model.TailCrumbs)
-        {
-            <li class="active">@n.Text</li>
-        }
-    }
     </ul>
 }

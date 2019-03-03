@@ -25,46 +25,46 @@ namespace cloudscribe.Web.Navigation
             INodeUrlPrefixProvider prefixProvider,
             ILogger<NavigationViewComponent> logger)
         {
-            builder = siteMapTreeBuilder;
-            this.permissionResolvers = permissionResolvers;
-            this.nodeFinders = nodeFinders;
-            this.urlHelperFactory = urlHelperFactory;
-            this.actionContextAccesor = actionContextAccesor;
+            _builder = siteMapTreeBuilder;
+            _permissionResolvers = permissionResolvers;
+            _nodeFinders = nodeFinders;
+            _urlHelperFactory = urlHelperFactory;
+            _actionContextAccesor = actionContextAccesor;
             if (prefixProvider == null)
             {
-                this.prefixProvider = new DefaultNodeUrlPrefixProvider();
+                _prefixProvider = new DefaultNodeUrlPrefixProvider();
             }
             else
             {
-                this.prefixProvider = prefixProvider;
+                _prefixProvider = prefixProvider;
             }
-            log = logger;
+            _log = logger;
         }
 
-        private ILogger log;
-        private NavigationTreeBuilderService builder;
-        private IEnumerable<INavigationNodePermissionResolver> permissionResolvers;
-        private IEnumerable<IFindCurrentNode> nodeFinders;
-        private IUrlHelperFactory urlHelperFactory;
-        private IActionContextAccessor actionContextAccesor;
-        private INodeUrlPrefixProvider prefixProvider;
+        private ILogger _log;
+        private NavigationTreeBuilderService _builder;
+        private IEnumerable<INavigationNodePermissionResolver> _permissionResolvers;
+        private IEnumerable<IFindCurrentNode> _nodeFinders;
+        private IUrlHelperFactory _urlHelperFactory;
+        private IActionContextAccessor _actionContextAccesor;
+        private INodeUrlPrefixProvider _prefixProvider;
 
         
 
         public async Task<IViewComponentResult> InvokeAsync(string viewName, string filterName, string startingNodeKey)
         {
-            var rootNode = await builder.GetTree();
-            var urlHelper = urlHelperFactory.GetUrlHelper(actionContextAccesor.ActionContext);
+            var rootNode = await _builder.GetTree();
+            var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccesor.ActionContext);
             NavigationViewModel model = new NavigationViewModel(
                 startingNodeKey,
                 filterName,
                 Request.HttpContext,
                 urlHelper,
                 rootNode,
-                permissionResolvers,
-                nodeFinders,
-                prefixProvider.GetPrefix(),
-                log);
+                _permissionResolvers,
+                _nodeFinders,
+                _prefixProvider.GetPrefix(),
+                _log);
 
             return View(viewName, model);
         }

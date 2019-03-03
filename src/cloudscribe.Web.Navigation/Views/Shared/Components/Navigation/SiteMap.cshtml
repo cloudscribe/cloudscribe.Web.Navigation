@@ -1,22 +1,24 @@
 ﻿@using cloudscribe.Web.Navigation
 @using System.Text
 @model NavigationViewModel
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<cloudscribe.Web.Navigation.MenuResources> sr
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @if (Model.HasVisibleChildren(Model.StartingNode))
 {
     <ul class="sitemap-menu" role="menu">
-        <li class='@Model.GetClass(Model.StartingNode.Value)'><a href="@Url.Content(Model.AdjustUrl(Model.StartingNode))">@Html.Raw(Model.GetIcon(Model.StartingNode.Value))@Model.AdjustText(Model.StartingNode)</a></li>
+        <li class='@Model.GetClass(Model.StartingNode.Value)'><a href="@Url.Content(Model.AdjustUrl(Model.StartingNode))">@Html.Raw(Model.GetIcon(Model.StartingNode.Value))@sr[Model.AdjustText(Model.StartingNode)]</a></li>
         @foreach (var node in Model.StartingNode.Children)
         {
             if (!Model.ShouldAllowView(node)) { continue; }
             if (!Model.HasVisibleChildren(node))
             {
-                <li class='@Model.GetClass(node.Value)'><a href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a></li>
+                <li class='@Model.GetClass(node.Value)'><a href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@sr[Model.AdjustText(node)]</a></li>
             }
             else
             {
                 <li class='@Model.GetClass(node.Value)'>
-                    <a href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a>
+                    <a href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@sr[Model.AdjustText(node)]</a>
                     @Model.UpdateTempNode(node) <partial name="NavigationNodeChildTreePartial" model="@Model" />
                 </li>
             }

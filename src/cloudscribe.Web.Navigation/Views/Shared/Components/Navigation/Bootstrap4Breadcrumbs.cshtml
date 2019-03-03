@@ -1,5 +1,7 @@
 ﻿@using cloudscribe.Web.Navigation
 @model NavigationViewModel
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<cloudscribe.Web.Navigation.MenuResources> sr
 @if (Model.CurrentNode != null && (Model.ParentChain.Count > 1 || (Model.TailCrumbs != null && Model.TailCrumbs.Count > 0)))
 {
     <nav aria-label="breadcrumb">
@@ -11,23 +13,23 @@
                 {
                     if (Model.TailCrumbs != null)
                     {
-                        <li class="breadcrumb-item"><a href="@Url.Content(Model.AdjustUrl(node))">@Model.AdjustText(node)</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Content(Model.AdjustUrl(node))">@sr[Model.AdjustText(node)]</a></li>
                     }
                     else
                     {
-                        <li class="breadcrumb-item active">@Model.AdjustText(node)</li>
+                        <li class="breadcrumb-item active">@sr[Model.AdjustText(node)]</li>
                     }
                 }
                 else
                 {
-                    <li class="breadcrumb-item"><a href="@Url.Content(Model.AdjustUrl(node))">@Model.AdjustText(node)</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Content(Model.AdjustUrl(node))">@sr[Model.AdjustText(node)]</a></li>
                 }
             }
             @if (Model.TailCrumbs != null)
             {
                 foreach (var n in Model.TailCrumbs)
                 {
-                    <li class="breadcrumb-item active">@n.Text</li>
+                    <li class="breadcrumb-item active">@sr[n.Text]</li>
                 }
             }
         </ol>

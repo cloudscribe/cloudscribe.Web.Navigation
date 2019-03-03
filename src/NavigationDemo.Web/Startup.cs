@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Localization;
 
 namespace NavigationDemo.Web
 {
@@ -33,6 +34,9 @@ namespace NavigationDemo.Web
             services.AddScoped<ISiteMapNodeService, NavigationTreeSiteMapNodeService>();
             services.AddCloudscribeNavigation(Configuration.GetSection("NavigationOptions"));
 
+
+            services.Configure<GlobalResourceOptions>(Configuration.GetSection("GlobalResourceOptions"));
+            services.AddSingleton<IStringLocalizerFactory, GlobalResourceManagerStringLocalizerFactory>();
             services.AddLocalization(options => options.ResourcesPath = "Resources");
 
             services.AddRouting(options =>

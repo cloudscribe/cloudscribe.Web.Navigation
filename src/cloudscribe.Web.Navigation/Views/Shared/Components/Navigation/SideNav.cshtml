@@ -1,6 +1,8 @@
 ﻿@using cloudscribe.Web.Navigation
 @using System.Text
 @model NavigationViewModel
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<cloudscribe.Web.Navigation.MenuResources> sr
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @if (Model.HasVisibleChildren(Model.StartingNode))
 {
@@ -12,12 +14,12 @@
                     if (!Model.ShouldAllowView(node)) { continue; }
                     if (!Model.HasVisibleChildren(node))
                     {
-                        <li class='@Model.GetClass(node.Value)'><a href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a></li>
+                        <li class='@Model.GetClass(node.Value)'><a href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@sr[Model.AdjustText(node)]</a></li>
                     }
                     else
                     {
                         <li class='@Model.GetClass(node.Value)'>
-                            <a href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@Model.AdjustText(node)</a>
+                            <a href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@sr[Model.AdjustText(node)]</a>
                             @Model.UpdateTempNode(node) <partial name="NavigationNodeSideNavPartial" model="@Model" />
                         </li>
                     }
