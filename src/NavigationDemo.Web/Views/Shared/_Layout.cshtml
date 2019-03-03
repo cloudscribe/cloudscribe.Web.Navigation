@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Globalization
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -42,7 +43,7 @@
         <hr />
         @await Html.PartialAsync("_SelectLanguagePartial")
         <footer>
-            <p>&copy; 2016 - NavigationDemo.Web</p>
+            <p>&copy; 2016 - NavigationDemo.Web @CultureInfo.CurrentUICulture.Name</p>
         </footer>
     </div>
 

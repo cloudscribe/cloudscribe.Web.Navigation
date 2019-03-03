@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <Description>ASP.NET Core controller and models for generating an xml sitemap for search indexes http://www.sitemaps.org</Description>
-    <VersionPrefix>2.1.3</VersionPrefix>
-    <AssemblyVersion>2.1.3</AssemblyVersion>
+    <VersionPrefix>2.1.4</VersionPrefix>
+    <AssemblyVersion>2.1.4</AssemblyVersion>
     <Authors>Joe Audette</Authors>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <AssemblyName>cloudscribe.Web.SiteMap</AssemblyName>

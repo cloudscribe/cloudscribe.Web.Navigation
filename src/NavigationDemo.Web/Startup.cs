@@ -16,6 +16,9 @@ using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Localization;
+using Microsoft.AspNetCore.Localization.Routing;
+using Microsoft.AspNetCore.Routing;
+using cloudscribe.Web.Localization;
 
 namespace NavigationDemo.Web
 {
@@ -76,9 +79,7 @@ namespace NavigationDemo.Web
                     
                 });
 
-            services.Configure<RequestLocalizationOptions>(options =>
-            {
-                var supportedCultures = new[]
+            var supportedCultures = new[]
                 {
                      new CultureInfo("en-US"),
                      new CultureInfo("es-ES"),
@@ -89,6 +90,12 @@ namespace NavigationDemo.Web
                      new CultureInfo("zh-Hans"), //Chinese Simplified
                      new CultureInfo("zh-Hant"), //Chinese Traditional
                 };
+
+            var routeSegmentLocalizationProvider = new FirstUrlSegmentRequestCultureProvider(supportedCultures.ToList());
+            
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                
 
                 // State what the default culture for your application is. This will be used if no specific culture
                 // can be determined for a given request.
@@ -113,7 +120,14 @@ namespace NavigationDemo.Web
                 //  // My custom request culture logic
                 //  return new ProviderCultureResult("en");
                 //}));
+
+                options.RequestCultureProviders.Insert(0, routeSegmentLocalizationProvider);
+
             });
+
+            
+            
+
 
             services.AddAuthorization(options =>
             {
@@ -143,7 +157,12 @@ namespace NavigationDemo.Web
     
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(
+            IApplicationBuilder app, 
+            IHostingEnvironment env, 
+            ILoggerFactory loggerFactory,
+            IOptions<RequestLocalizationOptions> locOptions
+            )
         {
             
             if (env.IsDevelopment())
@@ -159,7 +178,10 @@ namespace NavigationDemo.Web
             //https://docs.microsoft.com/en-us/aspnet/core/fundamentals/localization
             //https://msdn.microsoft.com/en-us/library/ee825488(v=cs.20).aspx
 
-            var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+
+
+
+            //var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
             app.UseRequestLocalization(locOptions.Value);
             
             app.UseStaticFiles();
@@ -168,12 +190,32 @@ namespace NavigationDemo.Web
 
             app.UseMvc(routes =>
             {
-                routes.MapRoute("areaRoute", "{area:exists}/{controller=Roswell}/{action=Index}/{id?}");
+                
 
+                routes.MapRoute(
+                    name: "areaRoute-localized", 
+                    template:"{culture}/{area:exists}/{controller}/{action}/{id?}",
+                    defaults: new {  action = "Index" },
+                    constraints: new { culture = new CultureSegmentRouteConstraint() }
+                    );
+
+                routes.MapRoute("areaRoute", "{area:exists}/{controller=Roswell}/{action=Index}/{id?}");
+                
+
+                routes.MapRoute(
+                    name: "default-localized",
+                    template: "{culture}/{controller}/{action}/{id?}",
+                    defaults: new { controller= "Home", action = "Index" },
+                    constraints: new { culture = new CultureSegmentRouteConstraint() }
+                    );
 
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
+
+
+
             });
         }
     }

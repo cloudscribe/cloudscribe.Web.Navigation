@@ -122,7 +122,9 @@ namespace cloudscribe.Web.SiteMap
                     }
                     else
                     {
-                        mapNodes.Add(new SiteMapNode(url));
+                        mapNodes.Add(new SiteMapNode(url) {
+                            LastModified = navNode.LastModifiedUtc
+                        });
                     }
 
                     addedUrls.Add(url);
