@@ -72,8 +72,12 @@ namespace cloudscribe.Web.Navigation
                     {
                         targetUrl = targetUrl + "/";
                     }
-                    if (targetUrl.IndexOf(urlToMatch, StringComparison.OrdinalIgnoreCase) >= 0)
-                    { return true; }
+                    //https://github.com/cloudscribe/cloudscribe.Web.Navigation/issues/71
+                    //if (targetUrl.IndexOf(urlToMatch, StringComparison.OrdinalIgnoreCase) >= 0)
+                    if (targetUrl.StartsWith(urlToMatch, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return true;
+                    }
                     
                 }
 
