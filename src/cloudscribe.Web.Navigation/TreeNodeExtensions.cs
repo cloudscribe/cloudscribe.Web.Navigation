@@ -59,8 +59,15 @@ namespace cloudscribe.Web.Navigation
                 {
                     targetUrl = urlHelper.RouteUrl(n.Value.NamedRoute);
                     if (targetUrl == null) return false; // check for null in case action cannot be resolved
-                    if ((!string.IsNullOrEmpty(targetUrl)) && (targetUrl.IndexOf(urlToMatch, StringComparison.OrdinalIgnoreCase) >= 0))
+                    if ((!string.IsNullOrEmpty(targetUrl)) && (targetUrl.StartsWith(urlToMatch, StringComparison.OrdinalIgnoreCase)))
                     { return true; }
+
+                    if(!string.IsNullOrWhiteSpace(urlPrefix))
+                    {
+                        targetUrl = urlPrefix + targetUrl;
+                        if ((!string.IsNullOrEmpty(targetUrl)) && (targetUrl.StartsWith(urlToMatch, StringComparison.OrdinalIgnoreCase)))
+                        { return true; }
+                    }
                 }
 
                 if ((!string.IsNullOrEmpty(n.Value.Action))&& (!string.IsNullOrEmpty(n.Value.Controller)))
@@ -78,7 +85,14 @@ namespace cloudscribe.Web.Navigation
                     {
                         return true;
                     }
-                    
+
+                    if (!string.IsNullOrWhiteSpace(urlPrefix))
+                    {
+                        targetUrl = urlPrefix + targetUrl;
+                        if ((!string.IsNullOrEmpty(targetUrl)) && (targetUrl.StartsWith(urlToMatch, StringComparison.OrdinalIgnoreCase)))
+                        { return true; }
+                    }
+
                 }
 
                 if(!string.IsNullOrWhiteSpace(n.Value.Page))

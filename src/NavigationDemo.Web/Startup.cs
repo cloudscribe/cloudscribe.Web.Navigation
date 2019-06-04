@@ -200,7 +200,21 @@ namespace NavigationDemo.Web
                     );
 
                 routes.MapRoute("areaRoute", "{area:exists}/{controller=Roswell}/{action=Index}/{id?}");
+
+                routes.MapRoute(
+                   name: "OverviewIndex",
+                   template: "overview"
+                   , defaults: new { controller = "Overview", action = "Index" }
+                   );
+
+                routes.MapRoute(
+                    name: "OverviewWhatever",
+                    template: "whatever/overview"
+                    , defaults: new { controller = "Whatever", action = "Overview" }
+                    );
+
                 
+
 
                 routes.MapRoute(
                     name: "default-localized",
@@ -208,6 +222,8 @@ namespace NavigationDemo.Web
                     defaults: new { controller= "Home", action = "Index" },
                     constraints: new { culture = new CultureSegmentRouteConstraint() }
                     );
+
+
 
                 routes.MapRoute(
                     name: "default",

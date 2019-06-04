@@ -21,8 +21,8 @@
             <DataAttribute attribute="data-foo2" value="baz" />
         </DataAttributes>
     </NavNode>
-    <NavNode key="OverviewWhatever" text="Whatever Overview" controller="Whatever" action="Overview" />
-    <NavNode key="OverviewIndex" text="Overview" controller="Overview" action="Index" />
+    <NavNode key="OverviewWhatever" text="Whatever Overview" namedRoute="OverviewWhatever" />
+    <NavNode key="OverviewIndex" text="Overview" namedRoute="OverviewIndex" />
     
       <NavNode key="area51" area="Area51" controller="Roswell" action="Index" preservedRouteParameters="culture" text="Area 51" >
           <Children>
