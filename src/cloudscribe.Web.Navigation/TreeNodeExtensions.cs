@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-09
-// Last Modified:			2016-09-22
+// Last Modified:			2019-06-05
 // 
 
 using Microsoft.AspNetCore.Mvc;
@@ -28,12 +28,12 @@ namespace cloudscribe.Web.Navigation
             string urlPrefix = "")
         {
             if (urlHelper == null) return null;
-            if (string.IsNullOrEmpty(urlToMatch)) return null;
+            if (string.IsNullOrEmpty(urlToMatch) && string.IsNullOrEmpty(urlPrefix)) return null;
 
             Func<TreeNode<NavigationNode>, bool> match = delegate (TreeNode<NavigationNode> n)
             {
                 if(n == null) { return false; }
-                if (string.IsNullOrEmpty(urlToMatch)) { return false; }
+                //if (string.IsNullOrEmpty(urlToMatch)) { return false; }
 
                 if (!string.IsNullOrEmpty(n.Value.Url))
                 {
@@ -59,13 +59,12 @@ namespace cloudscribe.Web.Navigation
                 {
                     targetUrl = urlHelper.RouteUrl(n.Value.NamedRoute);
                     if (targetUrl == null) return false; // check for null in case action cannot be resolved
-                    if ((!string.IsNullOrEmpty(targetUrl)) && (targetUrl.StartsWith(urlToMatch, StringComparison.OrdinalIgnoreCase)))
+                    if ((!string.IsNullOrEmpty(targetUrl)) && (!string.IsNullOrEmpty(urlToMatch))&&(targetUrl.StartsWith(urlToMatch, StringComparison.OrdinalIgnoreCase)))
                     { return true; }
 
                     if(!string.IsNullOrWhiteSpace(urlPrefix))
                     {
-                        targetUrl = urlPrefix + targetUrl;
-                        if ((!string.IsNullOrEmpty(targetUrl)) && (targetUrl.StartsWith(urlToMatch, StringComparison.OrdinalIgnoreCase)))
+                        if ((!string.IsNullOrEmpty(targetUrl)) && (targetUrl.StartsWith(urlPrefix + urlToMatch, StringComparison.OrdinalIgnoreCase)))
                         { return true; }
                     }
                 }
@@ -81,15 +80,15 @@ namespace cloudscribe.Web.Navigation
                     }
                     //https://github.com/cloudscribe/cloudscribe.Web.Navigation/issues/71
                     //if (targetUrl.IndexOf(urlToMatch, StringComparison.OrdinalIgnoreCase) >= 0)
-                    if (targetUrl.StartsWith(urlToMatch, StringComparison.OrdinalIgnoreCase))
+                    if (!string.IsNullOrEmpty(urlToMatch) &&  targetUrl.StartsWith(urlToMatch, StringComparison.OrdinalIgnoreCase))
                     {
                         return true;
                     }
 
                     if (!string.IsNullOrWhiteSpace(urlPrefix))
                     {
-                        targetUrl = urlPrefix + targetUrl;
-                        if ((!string.IsNullOrEmpty(targetUrl)) && (targetUrl.StartsWith(urlToMatch, StringComparison.OrdinalIgnoreCase)))
+                        
+                        if ((!string.IsNullOrEmpty(targetUrl)) && (targetUrl.StartsWith(urlPrefix + urlToMatch, StringComparison.OrdinalIgnoreCase)))
                         { return true; }
                     }
 

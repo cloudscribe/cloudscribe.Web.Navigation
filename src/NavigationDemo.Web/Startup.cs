@@ -37,6 +37,9 @@ namespace NavigationDemo.Web
             services.AddScoped<ISiteMapNodeService, NavigationTreeSiteMapNodeService>();
             services.AddCloudscribeNavigation(Configuration.GetSection("NavigationOptions"));
 
+            // this was an experiment for https://github.com/cloudscribe/cloudscribe.Web.Navigation/issues/71
+            //services.AddScoped<cloudscribe.Web.Navigation.INodeUrlPrefixProvider, CustomUrlPrefixProvider>();
+
 
             services.Configure<GlobalResourceOptions>(Configuration.GetSection("GlobalResourceOptions"));
             services.AddSingleton<IStringLocalizerFactory, GlobalResourceManagerStringLocalizerFactory>();
