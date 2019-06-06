@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-10
-// Last Modified:			2016-08-23
+// Last Modified:			2019-06-06
 // 
 
 using Microsoft.AspNetCore.Mvc;
@@ -30,14 +30,8 @@ namespace cloudscribe.Web.Navigation
             _nodeFinders = nodeFinders;
             _urlHelperFactory = urlHelperFactory;
             _actionContextAccesor = actionContextAccesor;
-            if (prefixProvider == null)
-            {
-                _prefixProvider = new DefaultNodeUrlPrefixProvider();
-            }
-            else
-            {
-                _prefixProvider = prefixProvider;
-            }
+            _prefixProvider = prefixProvider;
+            
             _log = logger;
         }
 
