@@ -14,6 +14,13 @@
           </NavNode>
       </Children>
     </NavNode>
+
+
+<NavNode key="Service" controller="Company" action="Services" area="" text="Service" iconCssClass=""></NavNode>
+    <NavNode key="Company" controller="Company" action="Index" area="" text="Company" iconCssClass=""></NavNode>
+
+    
+    
     <NavNode key="Contact" controller="Home" action="Contact" area="" preservedRouteParameters="culture" text="Contact" >
       <Children />
         <DataAttributes>

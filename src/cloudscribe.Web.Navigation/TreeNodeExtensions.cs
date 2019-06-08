@@ -15,6 +15,111 @@ namespace cloudscribe.Web.Navigation
 {
     public static class TreeNodeExtensions
     {
+
+
+        public static TreeNode<NavigationNode> FindByUrlExact(
+            this TreeNode<NavigationNode> currentNode,
+            IUrlHelper urlHelper,
+            string urlToMatch,
+            string urlPrefix = "")
+        {
+            if (urlHelper == null) return null;
+            if (string.IsNullOrEmpty(urlToMatch) && string.IsNullOrEmpty(urlPrefix)) return null;
+
+            Func<TreeNode<NavigationNode>, bool> match = delegate (TreeNode<NavigationNode> n)
+            {
+                if (n == null) { return false; }
+                //if (string.IsNullOrEmpty(urlToMatch)) { return false; }
+
+                if (!string.IsNullOrEmpty(n.Value.Url))
+                {
+                    if (n.Value.Url.Equals(urlToMatch, StringComparison.OrdinalIgnoreCase))
+                    { return true; }
+                }
+
+
+
+                if ((urlToMatch.EndsWith("Index")) && (!string.IsNullOrEmpty(n.Value.Action)) && (n.Value.Action == "Index"))
+                {
+                    if ((!string.IsNullOrEmpty(n.Value.Url)) && (!n.Value.Url.EndsWith("/")) && (!n.Value.Url.Contains("Index")))
+                    {
+                        var u = n.Value.Url + "/Index";
+                        if (u.Equals(urlToMatch, StringComparison.OrdinalIgnoreCase))
+                        { return true; }
+                    }
+
+                }
+
+                string targetUrl = string.Empty;
+                if (!string.IsNullOrEmpty(n.Value.NamedRoute))
+                {
+                    targetUrl = urlHelper.RouteUrl(n.Value.NamedRoute);
+                    if (targetUrl == null) return false; // check for null in case action cannot be resolved
+                    if ((!string.IsNullOrEmpty(targetUrl)) && (!string.IsNullOrEmpty(urlToMatch)) && (targetUrl.Equals(urlToMatch, StringComparison.OrdinalIgnoreCase)))
+                    { return true; }
+
+                    if (!string.IsNullOrWhiteSpace(urlPrefix))
+                    {
+                        if ((!string.IsNullOrEmpty(targetUrl)) && (targetUrl.Equals(urlPrefix + urlToMatch, StringComparison.OrdinalIgnoreCase)))
+                        { return true; }
+                    }
+                }
+
+                if ((!string.IsNullOrEmpty(n.Value.Action)) && (!string.IsNullOrEmpty(n.Value.Controller)))
+                {
+                    targetUrl = urlHelper.Action(n.Value.Action, n.Value.Controller, new { area = n.Value.Area });
+
+                    if (targetUrl == null) return false; // check for null in case action cannot be resolved
+                    if (urlToMatch.EndsWith("/"))
+                    {
+                        targetUrl = targetUrl + "/";
+                    }
+                    //https://github.com/cloudscribe/cloudscribe.Web.Navigation/issues/71
+                    //if (targetUrl.IndexOf(urlToMatch, StringComparison.OrdinalIgnoreCase) >= 0)
+                    if (!string.IsNullOrEmpty(urlToMatch) && targetUrl.Equals(urlToMatch, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return true;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(urlPrefix))
+                    {
+
+                        if ((!string.IsNullOrEmpty(targetUrl)) && (targetUrl.Equals(urlPrefix + urlToMatch, StringComparison.OrdinalIgnoreCase)))
+                        { return true; }
+                    }
+
+                }
+
+                if (!string.IsNullOrWhiteSpace(n.Value.Page))
+                {
+                    targetUrl = urlHelper.Page(n.Value.Page, new { area = n.Value.Area });
+
+                    if (targetUrl == null) return false; // check for null in case action cannot be resolved
+                    if (urlToMatch.EndsWith("/"))
+                    {
+                        targetUrl = targetUrl + "/";
+                    }
+                    if (targetUrl.Equals(urlToMatch, StringComparison.OrdinalIgnoreCase))
+                    { return true; }
+                }
+
+                if ((!string.IsNullOrWhiteSpace(urlPrefix)) && (!string.IsNullOrWhiteSpace(n.Value.Url)))
+                {
+                    targetUrl = n.Value.Url.Replace("~/", "~/" + urlPrefix + "/");
+                    if ((!string.IsNullOrEmpty(targetUrl)) && (targetUrl.Equals(urlToMatch, StringComparison.OrdinalIgnoreCase)))
+                    { return true; }
+                }
+
+
+
+                return false;
+            };
+
+            return currentNode.Find(match);
+        }
+
+
+
         /// <summary>
         /// finds the first child node whose Url property contains the urlToMatch
         /// </summary>
@@ -28,6 +133,10 @@ namespace cloudscribe.Web.Navigation
             string urlPrefix = "")
         {
             if (urlHelper == null) return null;
+
+            var exactMatch = FindByUrlExact(currentNode, urlHelper, urlToMatch, urlPrefix);
+            if (exactMatch != null) return exactMatch;
+
             if (string.IsNullOrEmpty(urlToMatch) && string.IsNullOrEmpty(urlPrefix)) return null;
 
             Func<TreeNode<NavigationNode>, bool> match = delegate (TreeNode<NavigationNode> n)
