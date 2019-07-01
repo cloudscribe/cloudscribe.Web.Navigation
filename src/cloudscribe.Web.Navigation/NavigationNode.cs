@@ -54,6 +54,8 @@ namespace cloudscribe.Web.Navigation
         
         public bool ExcludeFromSearchSiteMap { get; set; } = false;
 
+        public DateTime? CreatedUtc { get; set; }
+
         public DateTime? LastModifiedUtc { get; set; }
 
 
