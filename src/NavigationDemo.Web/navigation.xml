@@ -16,8 +16,8 @@
     </NavNode>
 
 
-<NavNode key="Service" controller="Company" action="Services" area="" text="Service" iconCssClass=""></NavNode>
-    <NavNode key="Company" controller="Company" action="Index" area="" text="Company" iconCssClass=""></NavNode>
+<!--<NavNode key="Service" controller="Company" action="Services" area="" text="Service" iconCssClass=""></NavNode>
+    <NavNode key="Company" controller="Company" action="Index" area="" text="Company" iconCssClass=""></NavNode>-->
 
     
     
@@ -28,8 +28,8 @@
             <DataAttribute attribute="data-foo2" value="baz" />
         </DataAttributes>
     </NavNode>
-    <NavNode key="OverviewWhatever" text="Whatever Overview" namedRoute="OverviewWhatever" />
-    <NavNode key="OverviewIndex" text="Overview" namedRoute="OverviewIndex" />
+    <!--<NavNode key="OverviewWhatever" text="Whatever Overview" namedRoute="OverviewWhatever" />
+    <NavNode key="OverviewIndex" text="Overview" namedRoute="OverviewIndex" />-->
     
       <NavNode key="area51" area="Area51" controller="Roswell" action="Index" preservedRouteParameters="culture" text="Area 51" >
           <Children>
