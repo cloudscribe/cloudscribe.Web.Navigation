@@ -8,7 +8,7 @@
         <ol class="breadcrumb">
             @foreach (var node in Model.ParentChain)
             {
-                if (!Model.ShouldAllowView(node)) { continue; }
+                if (! await Model.ShouldAllowView(node)) { continue; }
                 if (node.EqualsNode(Model.CurrentNode))
                 {
                     if (Model.TailCrumbs != null)

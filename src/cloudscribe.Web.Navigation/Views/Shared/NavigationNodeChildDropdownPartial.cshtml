@@ -4,19 +4,19 @@
 @inject IStringLocalizer<cloudscribe.Web.Navigation.MenuResources> sr
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @addTagHelper *, cloudscribe.Web.Navigation
-@if ((Model.TempNode != null) && (Model.HasVisibleChildren(Model.TempNode)))
+@if ((Model.TempNode != null) && (await Model.HasVisibleChildren(Model.TempNode)))
 {
     <ul class="dropdown-menu" role="menu">
         @foreach (var childNode in Model.TempNode.Children)
         {
-            if (!Model.ShouldAllowView(childNode)) { continue; }
+            if (! await Model.ShouldAllowView(childNode)) { continue; }
 
             if (childNode.Value.Text == "Separator")
             {
                 <li role="presentation" class="divider"></li>
                 continue;
             }
-            if (!Model.HasVisibleChildren(childNode))
+            if (! await Model.HasVisibleChildren(childNode))
             {
                 <li class='@Model.GetClass(childNode.Value)' cwn-data-attributes="@childNode.Value.DataAttributes"><a href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))@sr[Model.AdjustText(childNode)]</a></li>
             }

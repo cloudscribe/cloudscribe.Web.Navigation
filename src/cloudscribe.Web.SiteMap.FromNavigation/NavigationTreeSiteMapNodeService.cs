@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:                  Joe Audette
 // Created:                 2016-04-20
-// Last Modified:           2017-12-31
+// Last Modified:           2019-07-31
 // 
 
 using cloudscribe.Web.Navigation;
@@ -68,12 +68,12 @@ namespace cloudscribe.Web.SiteMap
             }
         }
 
-        private bool ShouldRenderNode(NavigationNode node)
+        private async Task<bool> ShouldRenderNode(NavigationNode node)
         {
             TreeNode<NavigationNode> treeNode = new TreeNode<NavigationNode>(node);
             foreach(var permission in permissionResolvers)
             {
-                bool ok = permission.ShouldAllowView(treeNode);
+                bool ok = await permission.ShouldAllowView(treeNode);
                 if (!ok) return false;
             }
 
@@ -91,7 +91,7 @@ namespace cloudscribe.Web.SiteMap
             {
                 if (navNode.ExcludeFromSearchSiteMap) continue;
 
-                if(ShouldRenderNode(navNode))
+                if(await ShouldRenderNode(navNode))
                 {
                     var url = ResolveUrl(navNode, urlHelper);
                     if(string.IsNullOrEmpty(url))

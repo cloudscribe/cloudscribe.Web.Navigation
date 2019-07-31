@@ -4,15 +4,15 @@
 @using Microsoft.Extensions.Localization
 @inject IStringLocalizer<cloudscribe.Web.Navigation.MenuResources> sr
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@if (Model.HasVisibleChildren(Model.StartingNode))
+@if (await Model.HasVisibleChildren(Model.StartingNode))
 {
     <div class="navbar-default sidebar" role="navigation">
         <div class="sidebar-nav navbar-collapse">
             <ul class="nav" id="side-menu" role="menu">
                 @foreach (var node in Model.StartingNode.Children)
                 {
-                    if (!Model.ShouldAllowView(node)) { continue; }
-                    if (!Model.HasVisibleChildren(node))
+                    if (! await Model.ShouldAllowView(node)) { continue; }
+                    if (! await Model.HasVisibleChildren(node))
                     {
                         <li class='@Model.GetClass(node.Value)'><a href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@sr[Model.AdjustText(node)]</a></li>
                     }

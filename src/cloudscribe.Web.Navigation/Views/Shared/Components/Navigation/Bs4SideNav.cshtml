@@ -4,13 +4,13 @@
 @inject IStringLocalizer<cloudscribe.Web.Navigation.MenuResources> sr
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @model NavigationViewModel
-@if (Model.HasVisibleChildren(Model.StartingNode))
+@if (await Model.HasVisibleChildren(Model.StartingNode))
 {
     <ul class="nav nav-pills flex-column" id="side-menu">
         @foreach (var node in Model.StartingNode.Children)
         {
-            if (!Model.ShouldAllowView(node)) { continue; }
-            if (!Model.HasVisibleChildren(node))
+            if (! await Model.ShouldAllowView(node)) { continue; }
+            if (! await Model.HasVisibleChildren(node))
             {
                 <li class="nav-item"><a class="nav-link @(node.EqualsNode(Model.CurrentNode) ? "active" : "")" href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@sr[Model.AdjustText(node)]</a></li>
             }
