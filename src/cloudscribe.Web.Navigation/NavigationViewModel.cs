@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace cloudscribe.Web.Navigation
 {
@@ -50,7 +51,7 @@ namespace cloudscribe.Web.Navigation
 
         }
 
-        private ILogger log;
+        private readonly ILogger log;
         private string startingNodeKey;
         private string navigationFilterName;
         private string nodeSearchUrlPrefix;
@@ -58,7 +59,7 @@ namespace cloudscribe.Web.Navigation
         private IUrlHelper urlHelper;
         private IEnumerable<INavigationNodePermissionResolver> permissionResolvers;
         private IEnumerable<IFindCurrentNode> nodeFinders;
-        private List<Func<TreeNode<NavigationNode>, bool>> removalFilters = new List<Func<TreeNode<NavigationNode>, bool>>();
+        private List<Func<TreeNode<NavigationNode>, Task<bool>>> removalFilters = new List<Func<TreeNode<NavigationNode>, Task<bool>>>();
 
         public TreeNode<NavigationNode> RootNode { get; private set; }
 
@@ -158,7 +159,11 @@ namespace cloudscribe.Web.Navigation
             get {
                 if (parentChain == null)
                 {
-                    var includeCurrentNode = ShouldAllowView(CurrentNode);
+                    //2019-07-31 changed this for async but can't change this method to async, not sure if this breaks anything
+                    //var includeCurrentNode = ShouldAllowView(CurrentNode);
+                    //parentChain = CurrentNode.GetParentNodeChain(includeCurrentNode, true);
+
+                    var includeCurrentNode = true;
                     parentChain = CurrentNode.GetParentNodeChain(includeCurrentNode, true);
                 }
                 return parentChain;
@@ -263,26 +268,26 @@ namespace cloudscribe.Web.Navigation
             return urlToUse;
         }
         
-        public bool ShouldAllowView(TreeNode<NavigationNode> node)
+        public async Task<bool> ShouldAllowView(TreeNode<NavigationNode> node)
         {
             if (node.Value.HideFromAnonymous && !context.User.Identity.IsAuthenticated) { return false; }
             if (node.Value.HideFromAuthenticated && context.User.Identity.IsAuthenticated) { return false; }
 
             foreach (var filter in removalFilters)
             {
-                if (!filter.Invoke(node)) { return false; }
+                if (! await filter.Invoke(node)) { return false; }
             }
 
             return true;
         }
 
-        public bool HasVisibleChildren(TreeNode<NavigationNode> node)
+        public async Task<bool> HasVisibleChildren(TreeNode<NavigationNode> node)
         {
             if(node == null) { return false; }
 
             foreach(var childNode in node.Children)
             {
-                if(ShouldAllowView(childNode)) { return true; }
+                if(await ShouldAllowView(childNode)) { return true; }
             }
 
             return false;
@@ -295,7 +300,7 @@ namespace cloudscribe.Web.Navigation
             return string.Empty;
         }
 
-        private bool IsAllowedByAdjuster(TreeNode<NavigationNode> node)
+        private Task<bool> IsAllowedByAdjuster(TreeNode<NavigationNode> node)
         {
             string key = NavigationNodeAdjuster.KeyPrefix + node.Value.Key;
             if (context.Items[key] != null)
@@ -303,20 +308,20 @@ namespace cloudscribe.Web.Navigation
                 NavigationNodeAdjuster adjuster = (NavigationNodeAdjuster)context.Items[key];
                 if (adjuster.ViewFilterName == navigationFilterName)
                 {
-                    if(adjuster.AdjustRemove) { return false; }
+                    if(adjuster.AdjustRemove) { return Task.FromResult(false); }
                 }
             }
 
-            return true;
+            return Task.FromResult(true);
         }
 
-        private bool FilterIsAllowed(TreeNode<NavigationNode> node)
+        private Task<bool> FilterIsAllowed(TreeNode<NavigationNode> node)
         {
-            if (string.IsNullOrEmpty(node.Value.ComponentVisibility)) { return true; }
-            if (string.IsNullOrWhiteSpace(navigationFilterName)) { return false; }
-            if (node.Value.ComponentVisibility.Contains(navigationFilterName)) { return true; }
+            if (string.IsNullOrEmpty(node.Value.ComponentVisibility)) { return Task.FromResult(true); }
+            if (string.IsNullOrWhiteSpace(navigationFilterName)) { return Task.FromResult(false); }
+            if (node.Value.ComponentVisibility.Contains(navigationFilterName)) { return Task.FromResult(true); }
            
-            return false;
+            return Task.FromResult(false);
         }
 
 

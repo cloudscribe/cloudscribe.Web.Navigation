@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-07-11
-// Last Modified:			2016-05-17
+// Last Modified:			2019-07-31
 // 
 
 using cloudscribe.Web.Navigation.Helpers;
@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Threading.Tasks;
 
 namespace cloudscribe.Web.Navigation
 {
@@ -30,13 +31,14 @@ namespace cloudscribe.Web.Navigation
         private IAuthorizationService _authorizationService;
         private ILogger _log;
 
-        public virtual bool ShouldAllowView(TreeNode<NavigationNode> menuNode)
+        public virtual async Task<bool> ShouldAllowView(TreeNode<NavigationNode> menuNode)
         {
             if(!string.IsNullOrEmpty(menuNode.Value.AuthorizationPolicy))
             {
                 try
                 {
-                    var authResult = _authorizationService.AuthorizeAsync(_httpContextAccessor.HttpContext.User, menuNode.Value.AuthorizationPolicy).GetAwaiter().GetResult();
+                    var authResult = await _authorizationService.AuthorizeAsync(_httpContextAccessor.HttpContext.User, menuNode.Value.AuthorizationPolicy);
+                    //var authResult = _authorizationService.AuthorizeAsync(_httpContextAccessor.HttpContext.User, menuNode.Value.AuthorizationPolicy).GetAwaiter().GetResult();
                     return authResult.Succeeded;
                 }
                 catch(InvalidOperationException ex)

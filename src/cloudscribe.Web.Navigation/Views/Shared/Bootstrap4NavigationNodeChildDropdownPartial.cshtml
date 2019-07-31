@@ -4,14 +4,14 @@
 @addTagHelper *, cloudscribe.Web.Navigation
 @using Microsoft.Extensions.Localization
 @inject IStringLocalizer<cloudscribe.Web.Navigation.MenuResources> sr
-@if ((Model.TempNode != null) && (Model.HasVisibleChildren(Model.TempNode)))
+@if ((Model.TempNode != null) && (await Model.HasVisibleChildren(Model.TempNode)))
 {
     <ul class="dropdown-menu" aria-labelledby="dropdown-@Model.TempNode.Value.Key">
         @foreach (var childNode in Model.TempNode.Children)
         {
-            if (!Model.ShouldAllowView(childNode)) { continue; }
+            if (! await Model.ShouldAllowView(childNode)) { continue; }
 
-            if (!Model.HasVisibleChildren(childNode))
+            if (! await Model.HasVisibleChildren(childNode))
             {
                 <li class='@Model.GetClass(childNode.Value, "")'><a class="dropdown-item" href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))@sr[Model.AdjustText(childNode)]</a></li>
             }
