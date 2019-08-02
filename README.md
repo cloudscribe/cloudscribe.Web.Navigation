@@ -6,12 +6,13 @@ For installation instruction and full details, see the documentation: https://ww
 
 The NavigationDemo.Web project has examples such as nodes filtered by roles, and a way to adjust breadcrumbs from a controller action. The demo app also has menu localization in 7 languages with a language switcher to illustrate how you can localize your own menus.
 
-We use cloudscribe.Web.Navigation for the menus in [cloudscribe Core](https://github.com/joeaudette/cloudscribe), and in [cloudscribe SimpleContent](https://github.com/joeaudette/cloudscribe.SimpleContent), and in our [StarterKits](https://github.com/joeaudette/cloudscribe.StarterKits)
+We use cloudscribe.Web.Navigation for the menus in [cloudscribe Core](https://github.com/joeaudette/cloudscribe), and in [cloudscribe SimpleContent](https://github.com/joeaudette/cloudscribe.SimpleContent)
+
+If you have questions please visit our community forums https://www.cloudscribe.com/forum
 
 Follow me on twitter @cloudscribeweb and @joeaudette
 
 [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/cloudscribeweb) [![Twitter Follow](https://img.shields.io/twitter/follow/cloudscribeweb.svg?style=social&label=Follow)](https://twitter.com/cloudscribeweb)
-[![Join the chat at https://gitter.im/joeaudette/cloudscribe](https://badges.gitter.im/joeaudette/cloudscribe.svg)](https://gitter.im/joeaudette/cloudscribe?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ### Build Status
 
