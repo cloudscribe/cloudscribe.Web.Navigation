@@ -22,9 +22,9 @@ solution: cloudscribe.Web.Navigation.sln
 
 
 sudo: false
-dist: trusty
+dist: xenial
 mono: none
-dotnet: 2.2.100
+dotnet: 2.2.401
 env:
   global:
     - DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
