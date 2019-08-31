@@ -21,7 +21,7 @@ namespace cloudscribe.Web.Navigation
     public class JsonNavigationTreeBuilder : INavigationTreeBuilder
     {
         public JsonNavigationTreeBuilder(
-            IHostingEnvironment appEnv,
+            IWebHostEnvironment appEnv,
             IOptions<NavigationOptions> navigationOptionsAccessor,
             IEnumerable<INavigationTreeProcessor> treeProcessors,
             ILogger<JsonNavigationTreeBuilder> logger
@@ -38,7 +38,7 @@ namespace cloudscribe.Web.Navigation
 
        
         
-        private readonly IHostingEnvironment _env;
+       private readonly IWebHostEnvironment _env;
         private readonly NavigationOptions _navOptions;
         private readonly IEnumerable<INavigationTreeProcessor> _treeProcessors;
         private readonly ILogger _log;
