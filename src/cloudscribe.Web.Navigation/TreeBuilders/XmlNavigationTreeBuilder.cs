@@ -19,7 +19,7 @@ namespace cloudscribe.Web.Navigation
     public class XmlNavigationTreeBuilder : INavigationTreeBuilder
     {
         public XmlNavigationTreeBuilder(
-            IHostingEnvironment appEnv,
+            IWebHostEnvironment appEnv,
             IOptions<NavigationOptions> navigationOptionsAccessor,
             IEnumerable<INavigationTreeProcessor> treeProcessors,
             ILogger<XmlNavigationTreeBuilder> logger)
@@ -35,7 +35,7 @@ namespace cloudscribe.Web.Navigation
             
         }
 
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
         private readonly NavigationOptions _navOptions;
         private readonly ILogger _log;
         private TreeNode<NavigationNode> rootNode = null;

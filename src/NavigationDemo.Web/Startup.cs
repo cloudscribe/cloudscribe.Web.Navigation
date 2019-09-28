@@ -19,12 +19,13 @@ using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Localization.Routing;
 using Microsoft.AspNetCore.Routing;
 using cloudscribe.Web.Localization;
+using Microsoft.Extensions.Hosting;
 
 namespace NavigationDemo.Web
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration, IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
@@ -60,16 +61,19 @@ namespace NavigationDemo.Web
                      });
                 
             });
-            
+
             services.AddMvc()
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                 .AddDataAnnotationsLocalization()
                 .AddRazorOptions(options =>
             {
-                
+
             })
-            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+            .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
             ;
+
+            services.AddControllersWithViews();
+            services.AddRazorPages();
 
             services.AddAuthentication(options =>
             {
@@ -161,9 +165,8 @@ namespace NavigationDemo.Web
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(
-            IApplicationBuilder app, 
-            IHostingEnvironment env, 
-            ILoggerFactory loggerFactory,
+            IApplicationBuilder app,
+            IWebHostEnvironment env, 
             IOptions<RequestLocalizationOptions> locOptions
             )
         {
@@ -188,54 +191,105 @@ namespace NavigationDemo.Web
             app.UseRequestLocalization(locOptions.Value);
             
             app.UseStaticFiles();
-            
+
+            app.UseRouting();
+
             app.UseAuthentication();
+            app.UseAuthorization();
 
-            app.UseMvc(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                
+                //endpoints.MapControllerRoute(
+                //    name: "default",
+                //    pattern: "{controller=Home}/{action=Index}/{id?}");
 
-                routes.MapRoute(
-                    name: "areaRoute-localized", 
-                    template:"{culture}/{area:exists}/{controller}/{action}/{id?}",
-                    defaults: new {  action = "Index" },
+                endpoints.MapControllerRoute(
+                    name: "areaRoute-localized",
+                    pattern: "{culture}/{area:exists}/{controller}/{action}/{id?}",
+                    defaults: new { action = "Index" },
                     constraints: new { culture = new CultureSegmentRouteConstraint() }
                     );
 
-                routes.MapRoute("areaRoute", "{area:exists}/{controller=Roswell}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Roswell}/{action=Index}/{id?}");
 
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                    name: "OverviewIndex",
-                   template: "overview"
+                   pattern: "overview"
                    , defaults: new { controller = "Overview", action = "Index" }
                    );
 
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "OverviewWhatever",
-                    template: "whatever/overview"
+                    pattern: "whatever/overview"
                     , defaults: new { controller = "Whatever", action = "Overview" }
                     );
 
-                
 
 
-                routes.MapRoute(
+
+                endpoints.MapControllerRoute(
                     name: "default-localized",
-                    template: "{culture}/{controller}/{action}/{id?}",
-                    defaults: new { controller= "Home", action = "Index" },
+                    pattern: "{culture}/{controller}/{action}/{id?}",
+                    defaults: new { controller = "Home", action = "Index" },
                     constraints: new { culture = new CultureSegmentRouteConstraint() }
                     );
 
 
 
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 
 
-
+                endpoints.MapRazorPages();
             });
+
+            //app.UseMvc(routes =>
+            //{
+                
+
+            //    routes.MapRoute(
+            //        name: "areaRoute-localized", 
+            //        template:"{culture}/{area:exists}/{controller}/{action}/{id?}",
+            //        defaults: new {  action = "Index" },
+            //        constraints: new { culture = new CultureSegmentRouteConstraint() }
+            //        );
+
+            //    routes.MapRoute("areaRoute", "{area:exists}/{controller=Roswell}/{action=Index}/{id?}");
+
+            //    routes.MapRoute(
+            //       name: "OverviewIndex",
+            //       template: "overview"
+            //       , defaults: new { controller = "Overview", action = "Index" }
+            //       );
+
+            //    routes.MapRoute(
+            //        name: "OverviewWhatever",
+            //        template: "whatever/overview"
+            //        , defaults: new { controller = "Whatever", action = "Overview" }
+            //        );
+
+                
+
+
+            //    routes.MapRoute(
+            //        name: "default-localized",
+            //        template: "{culture}/{controller}/{action}/{id?}",
+            //        defaults: new { controller= "Home", action = "Index" },
+            //        constraints: new { culture = new CultureSegmentRouteConstraint() }
+            //        );
+
+
+
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller=Home}/{action=Index}/{id?}");
+
+
+
+
+            //});
         }
     }
 }

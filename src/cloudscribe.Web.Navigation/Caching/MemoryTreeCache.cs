@@ -1,8 +1,7 @@
-﻿// Copyright (c) Source Tree Solutions, LLC. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+﻿// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2016-02-26
-// Last Modified:			2019-02-17
+// Last Modified:			2019-09-28
 // 
 
 using Microsoft.Extensions.Caching.Memory;
@@ -59,15 +58,15 @@ namespace cloudscribe.Web.Navigation.Caching
             return Task.CompletedTask;
         }
 
-        public Task ClearTreeCache()
+        public async Task ClearTreeCache()
         {
             foreach (var builder in _treeBuilders)
             {
-                var cacheKey = _cacheKeyResolver.GetCacheKey(builder);
+                var cacheKey = await _cacheKeyResolver.GetCacheKey(builder);
                 _cache.Remove(cacheKey);
             }
 
-            return Task.CompletedTask;
+            
         }
     }
 }

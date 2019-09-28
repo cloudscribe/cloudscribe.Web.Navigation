@@ -1,8 +1,7 @@
-﻿// Copyright (c) Source Tree Solutions, LLC. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+﻿// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 // Author:					Joe Audette
 // Created:					2015-10-12
-// Last Modified:			2019-02-17
+// Last Modified:			2019-09-28
 // 
 
 using cloudscribe.Web.Navigation.Caching;
@@ -54,7 +53,7 @@ namespace cloudscribe.Web.Navigation
         public async Task<TreeNode<NavigationNode>> GetTree()
         {
             var builder = GetRootTreeBuilder();
-            var cacheKey = _cacheKeyResolver.GetCacheKey(builder);
+            var cacheKey = await _cacheKeyResolver.GetCacheKey(builder);
             var tree = await _treeCache.GetTree(cacheKey).ConfigureAwait(false);
             if(tree != null) { return tree; }
             tree = await builder.BuildTree(this).ConfigureAwait(false);
@@ -82,7 +81,7 @@ namespace cloudscribe.Web.Navigation
         {
             foreach (var builder in _builders)
             {
-                var cacheKey = _cacheKeyResolver.GetCacheKey(builder);
+                var cacheKey = await _cacheKeyResolver.GetCacheKey(builder);
                 await _treeCache.ClearTreeCache(cacheKey);
             }
 
