@@ -18,6 +18,7 @@ using Microsoft.Extensions.Hosting;
 using System.Globalization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Localization;
+using cloudscribe.Web.Navigation.Caching;
 
 namespace RazorPages.WebApp
 {
@@ -33,6 +34,8 @@ namespace RazorPages.WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<ITreeCache, MemoryTreeCache>();
+
             services.AddScoped<ISiteMapNodeService, NavigationTreeSiteMapNodeService>();
             services.AddCloudscribeNavigation(Configuration.GetSection("NavigationOptions"));
 
