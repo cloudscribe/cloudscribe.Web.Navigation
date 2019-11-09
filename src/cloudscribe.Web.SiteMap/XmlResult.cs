@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -24,29 +25,29 @@ namespace cloudscribe.Web.SiteMap
             this.ContentType = "text/xml";
         }
 
-        public override void ExecuteResult(ActionContext context)
-        { 
-            context.HttpContext.Response.ContentType = this.ContentType;
-            if (Xml != null)
-            {
-                Xml.Save(context.HttpContext.Response.Body, SaveOptions.DisableFormatting);
-            }
-        }
+        //public override void ExecuteResult(ActionContext context)
+        //{ 
+        //    context.HttpContext.Response.ContentType = this.ContentType;
+        //    if (Xml != null)
+        //    {
+        //        Xml.Save(context.HttpContext.Response.Body, SaveOptions.DisableFormatting);
+        //    }
+        //}
         
 
-        public override Task ExecuteResultAsync(ActionContext context)
+        public override async Task ExecuteResultAsync(ActionContext context)
         {
             context.HttpContext.Response.ContentType = this.ContentType;
 
             if (Xml != null)
             {
-                Xml.Save(context.HttpContext.Response.Body, SaveOptions.DisableFormatting);
-                return Task.FromResult(0);
+                await Xml.SaveAsync(context.HttpContext.Response.Body, SaveOptions.DisableFormatting, CancellationToken.None);
+                
 
             }
             else
             {
-                return base.ExecuteResultAsync(context);
+               await base.ExecuteResultAsync(context);
             }
         }
     }

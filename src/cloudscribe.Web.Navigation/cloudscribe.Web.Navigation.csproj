@@ -7,13 +7,17 @@
     <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <PackageTags>cloudscribe;asp.net core;mvcsitemapprovider;navigation;menus;breadcrumbs;bootstrap</PackageTags>
-    <PackageIconUrl>https://raw.githubusercontent.com/joeaudette/cloudscribe.Web.Navigation/master/cloudscribe-icon-32.png</PackageIconUrl>
+    <PackageIcon>icon.png</PackageIcon>
     <PackageProjectUrl>https://github.com/joeaudette/cloudscribe.Web.Navigation</PackageProjectUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/cloudscribe/cloudscribe.Web.Navigation.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="icon.png" Pack="true" PackagePath="\"/>
+  </ItemGroup>
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
