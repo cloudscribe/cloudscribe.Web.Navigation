@@ -43,7 +43,7 @@ namespace cloudscribe.Web.Navigation
 
         public string Name
         { 
-            get { return "JsonNavigationTreeBuilder"; }
+            get { return "cloudscribe.Web.Navigation.JsonNavigationTreeBuilder"; }
         }
 
         public async Task<TreeNode<NavigationNode>> BuildTree(NavigationTreeBuilderService service)
