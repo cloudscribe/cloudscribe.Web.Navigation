@@ -205,43 +205,35 @@ namespace cloudscribe.Web.Navigation
             string urlToUse = string.Empty;
             try
             {
+                var routeValues = new Dictionary<string, object>();
+                routeValues.Add("area", node.Value.Area);
+                if (!string.IsNullOrWhiteSpace(node.Value.PreservedRouteParameters))
+                {
+                    List<string> preservedParams = node.Value.PreservedRouteParameters.SplitOnChar(',');
+                    foreach (string p in preservedParams)
+                    {
+                        if (urlHelper.ActionContext.RouteData.Values.ContainsKey(p))
+                        {
+                            routeValues.Add(p, urlHelper.ActionContext.RouteData.Values[p]);
+                        }
+                        else if (context.Request.Query.ContainsKey(p))
+                        {
+                            routeValues.Add(p, context.Request.Query[p]);
+                        }
+                    }
+                }
+
                 if ((!string.IsNullOrWhiteSpace(node.Value.Action)) && (!string.IsNullOrWhiteSpace(node.Value.Controller)))
                 {
-                    if (!string.IsNullOrWhiteSpace(node.Value.PreservedRouteParameters))
-                    {
-                        List<string> preservedParams = node.Value.PreservedRouteParameters.SplitOnChar(',');
-                        //var queryBuilder = new QueryBuilder();
-                        //var routeParams = new { };
-                        var queryStrings = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-                        foreach (string p in preservedParams)
-                        {
-                            if (context.Request.Query.ContainsKey(p))
-                            {
-                                queryStrings.Add(p, context.Request.Query[p]);
-                            }
-                        }
-
-                        urlToUse = urlHelper.Action(node.Value.Action, node.Value.Controller, new { area = node.Value.Area });
-                        
-                        if ((urlToUse != null) && (queryStrings.Count > 0))
-                        {
-                            urlToUse = QueryHelpers.AddQueryString(urlToUse, queryStrings);
-                        }
-
-                    }
-                    else
-                    {  
-                        urlToUse = urlHelper.Action(node.Value.Action, node.Value.Controller, new { area = node.Value.Area });                
-                    }
-                 
+                    urlToUse = urlHelper.Action(node.Value.Action, node.Value.Controller, routeValues);
                 }
                 else if (!string.IsNullOrWhiteSpace(node.Value.NamedRoute))
                 {
-                    urlToUse = urlHelper.RouteUrl(node.Value.NamedRoute);
+                    urlToUse = urlHelper.RouteUrl(node.Value.NamedRoute, routeValues);
                 }
                 else if(!string.IsNullOrWhiteSpace(node.Value.Page))
                 {
-                    urlToUse = urlHelper.Page(node.Value.Page, new { area = node.Value.Area });
+                    urlToUse = urlHelper.Page(node.Value.Page, routeValues);
                 }
 
                 string key = NavigationNodeAdjuster.KeyPrefix + node.Value.Key;
