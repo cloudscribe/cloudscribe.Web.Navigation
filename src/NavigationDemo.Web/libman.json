@@ -3,7 +3,6 @@
   "defaultProvider": "unpkg",
   "libraries": [
     {
-      //"provider": "cdnjs",
       "library": "jquery@3.5.0",
       "files": [
         "dist/jquery.min.js",
