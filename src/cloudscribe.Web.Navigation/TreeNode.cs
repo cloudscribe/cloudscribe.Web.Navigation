@@ -25,6 +25,13 @@ namespace cloudscribe.Web.Navigation
             _value = value;
         }
 
+        [JsonConstructor]
+        public TreeNode(T value, List<TreeNode<T>> children)
+        {
+            _value    = value;
+            _children = children;  //JsonConvert won't deserialize to a ReadOnlyCollection, so setting this here.
+        }
+
         public TreeNode<T> this[int i]
         {
             get { return _children[i]; }
