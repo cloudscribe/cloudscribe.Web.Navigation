@@ -29,7 +29,7 @@ namespace cloudscribe.Web.Navigation
         public TreeNode(T value, List<TreeNode<T>> children)
         {
             _value    = value;
-            _children = children;  //JsonConvert won't deserialize to a ReadOnlyCollection, so setting this here.
+            _children = children;  // JsonConvert won't deserialize to a ReadOnlyCollection, so setting this here.
         }
 
         public TreeNode<T> this[int i]
@@ -37,8 +37,8 @@ namespace cloudscribe.Web.Navigation
             get { return _children[i]; }
         }
 
-        //JsonConvert throws an error if an object has a reference to its parent
-        [JsonIgnore]
+        // JsonConvert throws an error if an object has a reference to its parent... 
+        // (jk - old comment above - not seeing this causing a problem? Removing JsonIgnore.)
         public TreeNode<T> Parent { get; private set; } = null;
 
         public bool IsRoot()

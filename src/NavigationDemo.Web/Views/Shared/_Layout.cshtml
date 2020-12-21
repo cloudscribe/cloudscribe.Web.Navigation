@@ -38,7 +38,11 @@
         </div>
     </div>
     <div class="container body-content">
-        @await Component.InvokeAsync("Navigation", new { viewName = "BootstrapBreadcrumbs", filterName = NamedNavigationFilters.Breadcrumbs, startingNodeKey = "" })
+
+        <p>------------------- Start breadcrumbs</p>
+        @await Component.InvokeAsync("Navigation", new { viewName = "Bootstrap4Breadcrumbs", filterName = NamedNavigationFilters.Breadcrumbs, startingNodeKey = "" })
+        <p>-------------------- End breadcrumbs</p>
+
         @RenderBody()
         <hr />
         @await Html.PartialAsync("_SelectLanguagePartial")
