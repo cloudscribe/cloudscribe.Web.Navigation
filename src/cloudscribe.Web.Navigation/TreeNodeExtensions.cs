@@ -318,26 +318,30 @@ namespace cloudscribe.Web.Navigation
             bool includeCurrentNode,
             bool includeRoot)
         {
-            List<TreeNode<NavigationNode>> list = new List<TreeNode<NavigationNode>>();
+            var list = new List<TreeNode<NavigationNode>>();
+            
             if(includeCurrentNode)
             {
                 list.Add(currentNode);
             }
 
-            TreeNode<NavigationNode> parentNode = currentNode.Parent;
-            while(parentNode != null)
+            // walk up the parent chain
+            if (currentNode.ParentValueChain.Count > 0)
             {
-                //if(includeRoot ||(!parentNode.Value.IsRootNode))
-                if (includeRoot || (!parentNode.IsRoot()))
+                var parentNode = currentNode.GetParent();
+
+                while (parentNode != null)
                 {
-                    list.Add(parentNode);
+                    if (includeRoot || (parentNode.ParentValueChain.Count > 0))
+                    {
+                        list.Add(parentNode);
+                    }
+                        
+                    parentNode = parentNode.GetParent();  // returns null when we run out of parents
                 }
-               
-                parentNode = parentNode.Parent;
             }
 
-            // this is used for breadcrumbs
-            // so we want the sort from parent down to current node
+            // this is used for breadcrumbs, so we want the sort from parent down to current node
             list.Reverse();
 
             return list;
