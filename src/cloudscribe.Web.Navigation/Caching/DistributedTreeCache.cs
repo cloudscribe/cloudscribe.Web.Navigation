@@ -52,7 +52,7 @@ namespace cloudscribe.Web.Navigation.Caching
                 var options = new DistributedCacheEntryOptions();
                 options.SetSlidingExpiration(TimeSpan.FromSeconds(_options.CacheDurationInSeconds));
                 await _cache.SetAsync<TreeNode<NavigationNode>>(cacheKey, tree, options);
-                // _logger.LogDebug($"Added navigation tree to distributed cache: {cacheKey}");
+                _logger.LogDebug($"Added navigation tree to distributed cache: {cacheKey}");
             }
             catch (Exception ex)
             {

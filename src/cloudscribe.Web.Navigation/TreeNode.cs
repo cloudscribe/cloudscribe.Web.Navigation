@@ -38,13 +38,12 @@ namespace cloudscribe.Web.Navigation
         }
 
         // JsonConvert throws an error if an object has a reference to its parent... 
-        // (jk - old comment above - not seeing this causing a problem? Removing JsonIgnore.)
+        // jk - This property is probably redundant now... see GetParent()
+        [JsonIgnore]
         public TreeNode<T> Parent { get; private set; } = null;
 
-        public bool IsRoot()
-        {
-            return Parent == null;
-        }
+        // jk - Collated parentage in a form that is serializable without recursion problems
+        public List<T> ParentValueChain { get; set; } = new List<T>();
 
         public T Value { get { return _value; } }
 
@@ -55,15 +54,22 @@ namespace cloudscribe.Web.Navigation
 
         public TreeNode<T> AddChild(T value)
         {
-            var node = new TreeNode<T>(value) { Parent = this };
+            var node = new TreeNode<T>(value); 
+            node.ParentValueChain.AddRange(this.ParentValueChain);
+            node.ParentValueChain.Add(this.Value);
+            node.Parent = this; 
+
             _children.Add(node);
             return node;
         }
 
         public TreeNode<T> AddChild(TreeNode<T> node)
         {
+            node.ParentValueChain.AddRange(this.ParentValueChain);
+            node.ParentValueChain.Add(this.Value);
+            node.Parent = this; 
+
             _children.Add(node);
-            node.Parent = this;
             return node;
         }
 
@@ -99,6 +105,24 @@ namespace cloudscribe.Web.Navigation
         public IEnumerable<T> Flatten()
         {
             return new[] { Value }.Union(_children.SelectMany(x => x.Flatten()));
+        }
+
+        /// <summary>
+        /// Re-create parent node from the collated ParentValueChain
+        /// </summary>
+        public TreeNode<T> GetParent()
+        {
+            var parentChainCount = ParentValueChain.Count;
+            if (parentChainCount == 0) return null;
+
+            var parentChainValue = ParentValueChain[parentChainCount - 1];
+            var parentNode = new TreeNode<T>(parentChainValue);
+
+            // ordering is preserved during List manipulation
+            parentNode.ParentValueChain.AddRange(ParentValueChain);
+            parentNode.ParentValueChain.RemoveAt(parentChainCount - 1);
+
+            return parentNode;
         }
     }
 }
