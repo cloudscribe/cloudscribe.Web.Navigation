@@ -38,7 +38,7 @@ namespace cloudscribe.Web.Navigation
         }
 
         // JsonConvert throws an error if an object has a reference to its parent... 
-        // jk - This property is probably redundant now...
+        // jk - This property is probably redundant now... see GetParent()
         [JsonIgnore]
         public TreeNode<T> Parent { get; private set; } = null;
 
@@ -107,6 +107,9 @@ namespace cloudscribe.Web.Navigation
             return new[] { Value }.Union(_children.SelectMany(x => x.Flatten()));
         }
 
+        /// <summary>
+        /// Re-create parent node from the collated ParentValueChain
+        /// </summary>
         public TreeNode<T> GetParent()
         {
             var parentChainCount = ParentValueChain.Count;
