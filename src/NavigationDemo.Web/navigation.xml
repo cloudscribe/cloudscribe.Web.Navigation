@@ -36,6 +36,7 @@
             <NavNode key="areahome" area="Area51" controller="Home" action="Index" preservedRouteParameters="culture" text="Home">
               <Children />
             </NavNode>
+            <NavNode key="areaseparator" text="Separator"></NavNode>
               <NavNode key="aliens" area="Area51" controller="Roswell" action="Aliens" preservedRouteParameters="culture" text="Aliens">
                   <Children />
               </NavNode>
