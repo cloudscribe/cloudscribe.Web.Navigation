@@ -19,6 +19,7 @@ namespace cloudscribe.Web.Navigation
     {
         private readonly T _value;
         private readonly List<TreeNode<T>> _children = new List<TreeNode<T>>();
+        private TreeNode<T> _parent;
 
         public TreeNode(T value)
         {
@@ -38,9 +39,20 @@ namespace cloudscribe.Web.Navigation
         }
 
         // JsonConvert throws an error if an object has a reference to its parent... 
-        // jk - This property is probably redundant now... see GetParent()
+        // so this never gets serialized
         [JsonIgnore]
-        public TreeNode<T> Parent { get; private set; } = null;
+        public TreeNode<T> Parent
+        {
+            get 
+            { 
+                if (_parent == null) _parent = GetParent();
+                return _parent;
+            } 
+            set
+            {
+                _parent = value;
+            }
+        } 
 
         // jk - Collated parentage in a form that is serializable without recursion problems
         public List<T> ParentValueChain { get; set; } = new List<T>();
@@ -57,7 +69,7 @@ namespace cloudscribe.Web.Navigation
             var node = new TreeNode<T>(value); 
             node.ParentValueChain.AddRange(this.ParentValueChain);
             node.ParentValueChain.Add(this.Value);
-            node.Parent = this; 
+            node.Parent = this;
 
             _children.Add(node);
             return node;
@@ -67,7 +79,7 @@ namespace cloudscribe.Web.Navigation
         {
             node.ParentValueChain.AddRange(this.ParentValueChain);
             node.ParentValueChain.Add(this.Value);
-            node.Parent = this; 
+            node.Parent = this;
 
             _children.Add(node);
             return node;
