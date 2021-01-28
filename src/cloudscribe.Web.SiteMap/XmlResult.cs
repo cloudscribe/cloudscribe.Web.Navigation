@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Mvc;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -25,25 +27,38 @@ namespace cloudscribe.Web.SiteMap
             this.ContentType = "text/xml";
         }
 
-        //public override void ExecuteResult(ActionContext context)
-        //{ 
-        //    context.HttpContext.Response.ContentType = this.ContentType;
-        //    if (Xml != null)
-        //    {
-        //        Xml.Save(context.HttpContext.Response.Body, SaveOptions.DisableFormatting);
-        //    }
-        //}
-        
-
         public override async Task ExecuteResultAsync(ActionContext context)
         {
             context.HttpContext.Response.ContentType = this.ContentType;
 
             if (Xml != null)
             {
-                await Xml.SaveAsync(context.HttpContext.Response.Body, SaveOptions.DisableFormatting, CancellationToken.None);
-                
+                try 
+                {
+                    // refactor to avoid IO issue below
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        await Xml.SaveAsync(ms, SaveOptions.DisableFormatting, default(CancellationToken));
+                        ms.Seek(0, SeekOrigin.Begin);
+                        await ms.CopyToAsync(context.HttpContext.Response.Body, default(CancellationToken));
+                    }
+                }
+                catch
+                {
+                    // synchronous IO disabled in Core 3.0
+                    // https://khalidabuhakmeh.com/dotnet-core-3-dot-0-allowsynchronousio-workaround
+                    // https://github.com/dotnet/aspnetcore/issues/7644
 
+                    // workaround:
+                    var syncIOFeature = context.HttpContext.Features.Get<IHttpBodyControlFeature>();
+                    if (syncIOFeature != null)
+                    {
+                        syncIOFeature.AllowSynchronousIO = true;
+                    }
+
+                    // old way of doing this triggered IO exception:
+                    await Xml.SaveAsync(context.HttpContext.Response.Body, SaveOptions.DisableFormatting, CancellationToken.None);
+                }
             }
             else
             {
