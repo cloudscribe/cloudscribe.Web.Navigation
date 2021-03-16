@@ -54,7 +54,10 @@ namespace cloudscribe.Web.Navigation
             }
         } 
 
-        // jk - Collated parentage in a form that is serializable without recursion problems
+
+        public string ParentKey { get; set; }
+
+        // jk - Collated parentage in a form that is serializable without recursion errors
         public List<T> ParentValueChain { get; set; } = new List<T>();
 
         public T Value { get { return _value; } }
@@ -66,10 +69,17 @@ namespace cloudscribe.Web.Navigation
 
         public TreeNode<T> AddChild(T value)
         {
-            var node = new TreeNode<T>(value); 
+            var node = new TreeNode<T>(value);
+
+            // set appropriate parentage on the new node.
+            // As my child - you get all of my own parentage, plus me...
             node.ParentValueChain.AddRange(this.ParentValueChain);
             node.ParentValueChain.Add(this.Value);
+
+            // this no longer gets cached - left here for legacy
             node.Parent = this;
+
+            // node.ParentKey = (this.Value as NavigationNode).Key;
 
             _children.Add(node);
             return node;
@@ -77,12 +87,35 @@ namespace cloudscribe.Web.Navigation
 
         public TreeNode<T> AddChild(TreeNode<T> node)
         {
-            node.ParentValueChain.AddRange(this.ParentValueChain);
+            // When adding a pre-existing child node to the tree, 
+            // the receiving parent node takes control of re-asserting the
+            // parentage lineage onto the newly added node plus all of its children
+            
+            // As my child - you get all of my own parentage, plus me...
+            node.ParentValueChain = new List<T>(this.ParentValueChain);
             node.ParentValueChain.Add(this.Value);
+
+            // and likewise recursive through the children of the newly added child
+            SetChildParentage(node);
+
+            // this no longer gets cached - left here for legacy
             node.Parent = this;
+
+            // node.ParentKey = (this.Value as NavigationNode).Key;
 
             _children.Add(node);
             return node;
+        }
+
+
+        private void SetChildParentage(TreeNode<T> parent)
+        {
+            foreach (var ch in parent.Children)
+            {
+                ch.ParentValueChain = new List<T>(parent.ParentValueChain);
+                ch.ParentValueChain.Add(parent.Value);
+                SetChildParentage(ch);
+            }
         }
 
         public TreeNode<T>[] AddChildren(params T[] values)
@@ -130,8 +163,12 @@ namespace cloudscribe.Web.Navigation
             var parentChainValue = ParentValueChain[parentChainCount - 1];
             var parentNode = new TreeNode<T>(parentChainValue);
 
-            // ordering is preserved during List manipulation
-            parentNode.ParentValueChain.AddRange(ParentValueChain);
+            // need to re-create the upwards parentage on this new parentNode
+            // (ordering is preserved during List manipulation)
+
+            // my parent has the same parent lineage as me, only without the last one
+            // (which is the parent itself)
+            parentNode.ParentValueChain = new List<T>(this.ParentValueChain);
             parentNode.ParentValueChain.RemoveAt(parentChainCount - 1);
 
             return parentNode;
