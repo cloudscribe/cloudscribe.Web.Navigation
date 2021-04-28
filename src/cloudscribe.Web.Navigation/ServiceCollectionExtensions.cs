@@ -33,8 +33,9 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddDistributedMemoryCache();
 
             services.TryAddScoped<ITreeCache, DistributedTreeCache>();
-            
+
             services.TryAddScoped<INavigationTreeBuilder, XmlNavigationTreeBuilder>();
+            services.AddScoped<INavigationTreeBuilder, ReflectionNavigationTreeBuilder>();
             services.TryAddScoped<NavigationTreeBuilderService, NavigationTreeBuilderService>();
             services.TryAddScoped<INodeUrlPrefixProvider, DefaultNodeUrlPrefixProvider>();
             services.TryAddScoped<INavigationNodePermissionResolver, NavigationNodePermissionResolver>();

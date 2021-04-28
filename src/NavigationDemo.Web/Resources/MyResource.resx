@@ -118,42 +118,21 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="About" xml:space="preserve">
-    <value>关于</value>
+    <value>About</value>
   </data>
-  <data name="About Company" xml:space="preserve">
-    <value>关于公司</value>
+  <data name="AboutCompany" xml:space="preserve">
+    <value>Aoubt Company</value>
   </data>
-  <data name="About Me" xml:space="preserve">
-    <value>关于我</value>
+  <data name="AboutMe" xml:space="preserve">
+    <value>About Me</value>
   </data>
-  <data name="About Project" xml:space="preserve">
-    <value>关于项目</value>
+  <data name="Mulan" xml:space="preserve">
+    <value>Mulan</value>
   </data>
-  <data name="Administration" xml:space="preserve">
-    <value>管理</value>
+  <data name="Mushu" xml:space="preserve">
+    <value>Mushu</value>
   </data>
-  <data name="Aliens" xml:space="preserve">
-    <value>外星人</value>
-  </data>
-  <data name="Area 51" xml:space="preserve">
-    <value>51区</value>
-  </data>
-  <data name="Contact" xml:space="preserve">
-    <value>联系</value>
-  </data>
-  <data name="Hide From Anonymous" xml:space="preserve">
-    <value>匿名不可见</value>
-  </data>
-  <data name="Hide From Authenticated" xml:space="preserve">
-    <value>登录后隐藏</value>
-  </data>
-  <data name="Home" xml:space="preserve">
-    <value>首页</value>
-  </data>
-  <data name="Members" xml:space="preserve">
-    <value>会员区</value>
-  </data>
-  <data name="Men In Black" xml:space="preserve">
-    <value>黑衣人</value>
+  <data name="Reflection" xml:space="preserve">
+    <value>Reflection</value>
   </data>
 </root>

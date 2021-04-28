@@ -46,13 +46,17 @@ namespace cloudscribe.Web.Navigation
             {
                 navNode.Key = (string)jNode["Value"]["Key"];
             }
-            
+            if (string.IsNullOrEmpty(navNode.Key))
+            {
+                navNode.Key = Guid.NewGuid().ToString();
+            }
+
             //if(jNode["Value"]["ParentKey"] != null)
             //{
             //    navNode.ParentKey = (string)jNode["Value"]["ParentKey"];
             //}
-            
-            if(jNode["Value"]["Controller"] != null)
+
+            if (jNode["Value"]["Controller"] != null)
             {
                 navNode.Controller = (string)jNode["Value"]["Controller"];
             }
@@ -153,8 +157,13 @@ namespace cloudscribe.Web.Navigation
                 navNode.CssClass = (string)jNode["Value"]["CssClass"];
             }
 
+            if (jNode["Value"]["Order"] != null)
+            {
+                navNode.Order = Convert.ToInt32((string)jNode["Value"]["Order"]);
+            }
+
             //TODO: add DataAttributes collection
-            
+
 
             if (tNode == null)
             {

@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <NavNode key="Home" controller="Home" action="Index" area="" preservedRouteParameters="culture" text="Home" iconCssClass="glyphicon glyphicon-home">
   <Children>
-    <NavNode key="About" controller="Home" action="About" area="" preservedRouteParameters="culture" text="About" iconCssClass="glyphicon glyphicon-heart">
+    <NavNode key="About" controller="Home" action="About" area="" preservedRouteParameters="culture" text="$resources:NavigationDemo.Web.Resources.MyResource,About" iconCssClass="glyphicon glyphicon-heart">
       <Children>
-        <NavNode key="AboutMe" controller="Home" action="AboutMe" area="" preservedRouteParameters="culture" text="About Me" iconCssClass="glyphicon glyphicon-user">
+        <NavNode controller="Home" action="AboutMe" area="" preservedRouteParameters="culture" text="$resources:NavigationDemo.Web.Resources.MyResource,AboutMe" iconCssClass="glyphicon glyphicon-user">
           <Children />
         </NavNode>
-          <NavNode key="AboutCompany" controller="Home" action="AboutCompany" area="" preservedRouteParameters="culture" text="About Company" iconCssClass="glyphicon glyphicon-knight">
+          <NavNode controller="Home" action="AboutCompany" area="" preservedRouteParameters="culture" text="$resources:NavigationDemo.Web.Resources.MyResource,AboutCompany" iconCssClass="glyphicon glyphicon-knight">
               <Children />
           </NavNode>
           <NavNode key="AboutProject" controller="Home" action="AboutProject" area="" preservedRouteParameters="culture" text="About Project" iconCssClass="glyphicon glyphicon-sunglasses">
@@ -31,7 +31,7 @@
     <!--<NavNode key="OverviewWhatever" text="Whatever Overview" namedRoute="OverviewWhatever" />
     <NavNode key="OverviewIndex" text="Overview" namedRoute="OverviewIndex" />-->
     
-      <NavNode key="area51" area="Area51" controller="Roswell" action="Index" preservedRouteParameters="culture" text="Area 51" >
+      <NavNode key="Area51Home" area="Area51" controller="Roswell" action="Index" preservedRouteParameters="culture" text="Area 51" >
           <Children>
             <NavNode key="areahome" area="Area51" controller="Home" action="Index" preservedRouteParameters="culture" text="Home">
               <Children />
