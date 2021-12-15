@@ -6,6 +6,7 @@
 // 
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -371,6 +372,11 @@ namespace cloudscribe.Web.Navigation
 
             var a = xmlNode.Attribute("key");
             if(a != null) {  navNode.Key = a.Value; }
+            // automatically generate a key if
+            if (string.IsNullOrEmpty(navNode.Key))
+            {
+                navNode.Key = Guid.NewGuid().ToString();
+            }
 
             //a = xmlNode.Attribute("parentKey");
             //if (a != null) { navNode.ParentKey = a.Value; }
@@ -392,10 +398,10 @@ namespace cloudscribe.Web.Navigation
             if (a != null) { navNode.NamedRoute = a.Value; }
 
             a = xmlNode.Attribute("text");
-            if (a != null) { navNode.Text = a.Value; }
+            if (a != null) { navNode.Text = ProcessResourceString(a.Value); }
 
             a = xmlNode.Attribute("title");
-            if (a  != null) { navNode.Title = a.Value; }
+            if (a  != null) { navNode.Title = ProcessResourceString(a.Value); }
 
             a = xmlNode.Attribute("url");
             if (a != null) { navNode.Url = a.Value; }
@@ -456,10 +462,13 @@ namespace cloudscribe.Web.Navigation
             if (a != null) { navNode.CssClass = a.Value; }
 
             a = xmlNode.Attribute("menuDescription");
-            if (a != null) { navNode.MenuDescription = a.Value; }
+            if (a != null) { navNode.MenuDescription = ProcessResourceString(a.Value); }
 
             a = xmlNode.Attribute("target");
             if (a != null) { navNode.Target = a.Value; }
+
+            a = xmlNode.Attribute("order");
+            if (a != null) { navNode.Order = Convert.ToInt32(a.Value); }
 
             var da = xmlNode.Element(XName.Get("DataAttributes"));
             if (da != null)
@@ -482,10 +491,67 @@ namespace cloudscribe.Web.Navigation
             }
 
 
-
-
             return navNode;
         }
 
+        /// <summary>
+        /// support for the old resource string in ASP.NET Site Navigation, see:
+        /// https://docs.microsoft.com/en-us/previous-versions/aspnet/ms178427(v=vs.100)?redirectedfrom=MSDN
+        /// 
+        /// Only use this for compatiblity with MvcSiteMapProvider.
+        /// 
+        /// format: $resources:ClassName,ResourceName,DefaultString (DefaultString is optional)
+        /// </summary>
+        private string ProcessResourceString(string value)
+        {
+            if (!string.IsNullOrEmpty(value) && value.Length > 11)
+            {
+                var tmp = value.Trim();
+                if (tmp.ToLowerInvariant().StartsWith("$resources:"))
+                {
+                    tmp = tmp.Substring(11);
+                    var pieces = tmp.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (pieces.Length >= 2)
+                    {
+                        var className = pieces[0].Trim();
+                        var resourceName = pieces[1].Trim();
+                        var defaultString = (pieces.Length >= 3 ? pieces[2] : resourceName);
+                        var type = GetTypeFromAppDomain(className);
+                        if (type == null) return defaultString;
+                        var prop = type.GetProperty(resourceName, 
+                            System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
+                        if (prop == null) return defaultString;
+                        return prop.GetGetMethod().Invoke(null, null) as string;
+                    }
+                }
+            }
+            return value;
+        }
+        private Dictionary<string, Type> classesDict;
+        private Type GetTypeFromAppDomain(string className)
+        {
+            if (classesDict == null) classesDict = new Dictionary<string, Type>();
+            Type type = null;
+            if (classesDict.ContainsKey(className))
+            {
+                type = classesDict[className];
+            }
+            else
+            {
+                var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+                foreach (var assembly in assemblies)
+                {
+                    type = assembly.GetType(className);
+                    if (type != null)
+                    {
+                        classesDict[className] = type;
+                        return type;
+                    }
+                }
+                classesDict[className] = null; //not found
+            }
+            return type;
+        }
     }
+
 }

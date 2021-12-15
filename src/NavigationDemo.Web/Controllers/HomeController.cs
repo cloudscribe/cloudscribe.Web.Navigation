@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Http;
+using cloudscribe.Web.Navigation;
 
 namespace NavigationDemo.Web.Controllers
 {
     public class HomeController : Controller
     {
+        [NavNode(Key = "Home", ParentKey = "", Text = "Home")]
         public IActionResult Index()
         {
             return View();

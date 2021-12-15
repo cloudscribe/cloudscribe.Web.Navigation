@@ -110,5 +110,10 @@ namespace cloudscribe.Web.Navigation
 
         #endregion
 
+        /// <summary>
+        /// The order number. If you use this, you should set NavigationOptions.EnableSorting to true.
+        /// </summary>
+        public int Order { get; set; }
+
     }
 }

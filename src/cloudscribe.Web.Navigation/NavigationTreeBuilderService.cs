@@ -57,6 +57,16 @@ namespace cloudscribe.Web.Navigation
             var tree = await _treeCache.GetTree(cacheKey).ConfigureAwait(false);
             if(tree != null) { return tree; }
             tree = await builder.BuildTree(this).ConfigureAwait(false);
+            if (_navOptions.RootTreeBuilderName != Constants.ReflectionNavigationTreeBuilderName &&
+                !string.IsNullOrEmpty(_navOptions.IncludeAssembliesForScan))
+            {
+                var helper = new NavigationTreeReflectionConverter();
+                await helper.ScanAndMerge(this, _navOptions.IncludeAssembliesForScan, tree).ConfigureAwait(false);
+            }
+            if (_navOptions.EnableSorting)
+            {
+                SortTreeNode(tree);
+            }
             await _treeCache.AddToCache(tree, cacheKey);
 
             return tree;
@@ -87,6 +97,17 @@ namespace cloudscribe.Web.Navigation
 
         }
 
+        private void SortTreeNode(TreeNode<NavigationNode> treeNode)
+        {
+            if (treeNode.Children.Count > 0)
+            {
+                treeNode.Sort();
+                foreach (var child in treeNode.Children)
+                {
+                    SortTreeNode(child);
+                }
+            }
+        }
 
     }
 }

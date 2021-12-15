@@ -173,5 +173,27 @@ namespace cloudscribe.Web.Navigation
 
             return parentNode;
         }
+
+        private class TreeNodeComparer : IComparer<TreeNode<T>>
+        {
+            public int Compare([AllowNull] TreeNode<T> x, [AllowNull] TreeNode<T> y)
+            {
+                if (x.Value is NavigationNode thisNode
+                    && y.Value is NavigationNode otherNode)
+                {
+                    return thisNode.Order.CompareTo(otherNode.Order);
+                }
+                return 0;
+            }
+        }
+        public void Sort()
+        {
+            // List.Sort is unstable sort, which would probably swap items with the same order.
+            // LINQ OrderBy is stable sort, which tries to preserve the original order.
+
+            var tmp = _children.OrderBy(x => x, new TreeNodeComparer()).ToArray();
+            _children.Clear();
+            _children.AddRange(tmp);
+        }
     }
 }
