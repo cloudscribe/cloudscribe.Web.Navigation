@@ -10,7 +10,7 @@ We use cloudscribe.Web.Navigation for the menus in [cloudscribe Core](https://gi
 
 If you have questions please visit our community forums https://www.cloudscribe.com/forum
 
-Follow me on twitter @cloudscribeweb and @joeaudette
+Follow cloudscribe on twitter @cloudscribeweb
 
 [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/cloudscribeweb) [![Twitter Follow](https://img.shields.io/twitter/follow/cloudscribeweb.svg?style=social&label=Follow)](https://twitter.com/cloudscribeweb)
 
