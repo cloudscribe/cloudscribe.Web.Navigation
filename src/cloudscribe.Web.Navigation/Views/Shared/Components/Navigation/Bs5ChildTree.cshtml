@@ -1,0 +1,28 @@
+﻿@using cloudscribe.Web.Navigation
+@using System.Text
+@model NavigationViewModel
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<cloudscribe.Web.Navigation.MenuResources> sr
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@if (await Model.HasVisibleChildren(Model.CurrentNode))
+{
+    <nav>
+        <ul class="childtree list-unstyled">
+            @foreach (var node in Model.CurrentNode.Children)
+            {
+                if (! await Model.ShouldAllowView(node)) { continue; }
+                if (! await Model.HasVisibleChildren(node))
+                {
+                    <li class='nav-item'><a class='nav-link' href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@sr[Model.AdjustText(node)]</a></li>
+                }
+                else
+                {
+                    <li class='nav-item'>
+                        <a class="nav-link" href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@sr[Model.AdjustText(node)]</a>
+                        @Model.UpdateTempNode(node) <partial name="Bs5NavigationNodeChildTreePartial" model="@Model" />
+                    </li>
+                }
+            }
+        </ul>
+    </nav>
+}

@@ -7,12 +7,12 @@
     <title>@ViewData["Title"] - NavigationDemo.Web</title>
 
     <environment names="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/lib/smartmenus/dist/addons/bootstrap/jquery.smartmenus.bootstrap.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/lib/smartmenus/jquery.smartmenus.bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment names="Staging,Production">
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/lib/smartmenus/dist/addons/bootstrap/jquery.smartmenus.bootstrap.css" />
@@ -23,16 +23,16 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
+                <button type="button" class="navbar-toggle" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
+                    <span class="visually-hidden">Toggle navigation</span>
+                    <span class="icon-bar">+</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
                 <a asp-controller="Home" asp-action="Index" asp-area="" class="navbar-brand">NavigationDemo.Web</a>
             </div>
-            <div class="navbar-collapse collapse">
-                @await Component.InvokeAsync("Navigation", new { viewName = "Bootstrap4TopNavWithDropdowns", filterName = NamedNavigationFilters.TopNav, startingNodeKey= "" }) 
+            <div class="collapse navbar-collapse">
+                @await Component.InvokeAsync("Navigation", new { viewName = "Bootstrap5TopNavWithDropdowns", filterName = NamedNavigationFilters.TopNav, startingNodeKey= "" }) 
                 @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>
@@ -40,7 +40,7 @@
     <div class="container body-content">
 
         <p>------------------- Start breadcrumbs</p>
-        @await Component.InvokeAsync("Navigation", new { viewName = "Bootstrap4Breadcrumbs", filterName = NamedNavigationFilters.Breadcrumbs, startingNodeKey = "" })
+        @await Component.InvokeAsync("Navigation", new { viewName = "Bootstrap5Breadcrumbs", filterName = NamedNavigationFilters.Breadcrumbs, startingNodeKey = "" })
         <p>-------------------- End breadcrumbs</p>
 
         @RenderBody()
@@ -52,25 +52,24 @@
     </div>
 
     <environment names="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/lib/smartmenus/dist/jquery.smartmenus.js"></script>
-        <script src="~/lib/smartmenus/dist/addons/bootstrap/jquery.smartmenus.bootstrap.js"></script>
-        
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+        <script src="~/lib/smartmenus/bs4.smartmenus.min.js"></script>
     </environment>
+    
     <environment names="Staging,Production">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
                 asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
                 asp-fallback-test="window.jQuery">
         </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
         </script>
         <script src="~/lib/smartmenus/dist/jquery.smartmenus.min.js"></script>
         <script src="~/lib/smartmenus/dist/addons/bootstrap/jquery.min.smartmenus.bootstrap.js"></script>
-        
     </environment>
+
     <script>
         (function () {
             $("#selectLanguage select").change(function () {
