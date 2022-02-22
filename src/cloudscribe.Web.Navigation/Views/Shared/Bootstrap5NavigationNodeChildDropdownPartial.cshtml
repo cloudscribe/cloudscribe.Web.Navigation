@@ -1,0 +1,30 @@
+﻿@using cloudscribe.Web.Navigation
+@model NavigationViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, cloudscribe.Web.Navigation
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<cloudscribe.Web.Navigation.MenuResources> sr
+@if ((Model.TempNode != null) && (await Model.HasVisibleChildren(Model.TempNode)))
+{
+<ul class="dropdown-menu" aria-labelledby="dropdown-@Model.TempNode.Value.Key">
+    @foreach (var childNode in Model.TempNode.Children) {
+        if (!await Model.ShouldAllowView(childNode)) { continue; }
+
+        if (childNode.Value.Text == "Separator") {
+            <div class="dropdown-divider"></div>
+            continue;
+        }
+        if (!await Model.HasVisibleChildren(childNode)) {
+            <li class='@Model.GetClass(childNode.Value, "")'><a class="dropdown-item" href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))@sr[Model.AdjustText(childNode)]</a></li>
+        }
+        else {
+
+            <li class='@Model.GetClass(childNode.Value, "dropdown ",  "active", true)'>
+                <a class="dropdown-item dropdown-toggle" href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))@sr[Model.AdjustText(childNode)] </a>
+                @Model.UpdateTempNode(childNode) <partial name="Bootstrap5NavigationNodeChildDropdownPartial" model="@Model" />   @* recursion *@
+            </li>
+
+        }
+    }
+</ul>
+}
