@@ -13,11 +13,11 @@
                 if (! await Model.ShouldAllowView(node)) { continue; }
                 if (! await Model.HasVisibleChildren(node))
                 {
-                    <li class='nav-item'><a class='nav-link' href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@sr[Model.AdjustText(node)]</a></li>
+                    <li role="menuitem" class='nav-item'><a class='nav-link' href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@sr[Model.AdjustText(node)]</a></li>
                 }
                 else
                 {
-                    <li class='nav-item'>
+                    <li role="menuitem" aria-haspopup="menu" class='nav-item'>
                         <a class="nav-link" href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@sr[Model.AdjustText(node)]</a>
                         @Model.UpdateTempNode(node) <partial name="Bs4NavigationNodeChildTreePartial" model="@Model" />
                     </li>

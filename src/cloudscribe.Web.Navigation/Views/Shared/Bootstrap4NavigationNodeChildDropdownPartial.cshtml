@@ -15,11 +15,11 @@
             continue;
         }
         if (!await Model.HasVisibleChildren(childNode)) {
-            <li class='@Model.GetClass(childNode.Value, "")'><a class="dropdown-item" href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))@sr[Model.AdjustText(childNode)]</a></li>
+            <li role="menuitem" class='@Model.GetClass(childNode.Value, "")'><a class="dropdown-item" href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))@sr[Model.AdjustText(childNode)]</a></li>
         }
         else {
 
-            <li class='@Model.GetClass(childNode.Value, "dropdown ",  "active", true)'>
+            <li role="menuitem" aria-haspopup="menu" class='@Model.GetClass(childNode.Value, "dropdown ",  "active", true)'>
                 <a class="dropdown-item dropdown-toggle" href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))@sr[Model.AdjustText(childNode)] </a>
                 @Model.UpdateTempNode(childNode) <partial name="Bootstrap4NavigationNodeChildDropdownPartial" model="@Model" />   @* recursion *@
             </li>
