@@ -13,11 +13,11 @@
             if (! await Model.ShouldAllowView(node)) { continue; }
             if (! await Model.HasVisibleChildren(node))
             {
-                <li class='@Model.GetClass(node.Value)'><a href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@sr[Model.AdjustText(node)]</a></li>
+                <li role="menuitem" class='@Model.GetClass(node.Value)'><a href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@sr[Model.AdjustText(node)]</a></li>
             }
             else
             {
-                <li class='@Model.GetClass(node.Value)'>
+                <li role="menuitem" class='@Model.GetClass(node.Value)'>
                     <a href="@Url.Content(Model.AdjustUrl(node))">@Html.Raw(Model.GetIcon(node.Value))@sr[Model.AdjustText(node)]</a>
                     @Model.UpdateTempNode(node) <partial name="NavigationNodeChildTreePartial" model="@Model" />
                 </li>
