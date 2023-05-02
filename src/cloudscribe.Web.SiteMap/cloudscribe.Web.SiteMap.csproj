@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Description>ASP.NET Core controller and models for generating an xml sitemap for search indexes http://www.sitemaps.org</Description>
-    <Version>6.0.0</Version>
+    <Version>7.0.0</Version>
     <TargetFramework>net7.0</TargetFramework>
 
     <Authors>Joe Audette</Authors>
