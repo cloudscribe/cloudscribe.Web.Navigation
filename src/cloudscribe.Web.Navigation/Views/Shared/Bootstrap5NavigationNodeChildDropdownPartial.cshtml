@@ -6,7 +6,7 @@
 @inject IStringLocalizer<cloudscribe.Web.Navigation.MenuResources> sr
 @if ((Model.TempNode != null) && (await Model.HasVisibleChildren(Model.TempNode)))
 {
-<ul class="dropdown-menu" aria-labelledby="dropdown-@Model.TempNode.Value.Key">
+<ul role="menu" class="dropdown-menu" aria-labelledby="dropdown-@Model.TempNode.Value.Key">
     @foreach (var childNode in Model.TempNode.Children) {
         if (!await Model.ShouldAllowView(childNode)) { continue; }
 
@@ -15,12 +15,12 @@
             continue;
         }
         if (!await Model.HasVisibleChildren(childNode)) {
-            <li role="menuitem" class='@Model.GetClass(childNode.Value, "")'><a class="dropdown-item" href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))@sr[Model.AdjustText(childNode)]</a></li>
+            <li role="none" class='@Model.GetClass(childNode.Value, "")'><a role="menuitem" class="dropdown-item" href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))@sr[Model.AdjustText(childNode)]</a></li>
         }
         else {
 
-            <li role="menuitem" aria-haspopup="menu" class='@Model.GetClass(childNode.Value, "dropdown ",  "active", true)'>
-                <a class="dropdown-item dropdown-toggle" href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))@sr[Model.AdjustText(childNode)] </a>
+            <li role="none" class='@Model.GetClass(childNode.Value, "dropdown ",  "active", true)'>
+                    <a role="menuitem" class="dropdown-item dropdown-toggle" aria-haspopup="true" href="@Url.Content(Model.AdjustUrl(childNode))">@Html.Raw(Model.GetIcon(childNode.Value))@sr[Model.AdjustText(childNode)] </a>
                 @Model.UpdateTempNode(childNode) <partial name="Bootstrap5NavigationNodeChildDropdownPartial" model="@Model" />   @* recursion *@
             </li>
         }
