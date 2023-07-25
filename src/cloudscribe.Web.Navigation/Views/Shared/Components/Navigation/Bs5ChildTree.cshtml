@@ -7,7 +7,7 @@
 @if (await Model.HasVisibleChildren(Model.CurrentNode))
 {
     <nav>
-        <ul class="childtree list-unstyled">
+        <ul class="nav flex-column">
             @foreach (var node in Model.CurrentNode.Children)
             {
                 if (! await Model.ShouldAllowView(node)) { continue; }
