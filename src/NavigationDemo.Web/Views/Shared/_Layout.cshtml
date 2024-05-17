@@ -20,6 +20,7 @@
     </environment>
 </head>
 <body>
+
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -32,6 +33,13 @@
                 <a asp-controller="Home" asp-action="Index" asp-area="" class="navbar-brand">NavigationDemo.Web</a>
             </div>
             <div class="collapse navbar-collapse">
+                <p>caching version</p>
+                @await Component.InvokeAsync("CachingNavigation", new { viewName = "Bootstrap5TopNavWithDropdowns_Caching", 
+                                                                        filterName = NamedNavigationFilters.TopNav, 
+                                                                        startingNodeKey = "", 
+                                                                        expirationSeconds = 120, 
+                                                                        testMode = true })
+                <p>non cached version</p>
                 @await Component.InvokeAsync("Navigation", new { viewName = "Bootstrap5TopNavWithDropdowns", filterName = NamedNavigationFilters.TopNav, startingNodeKey= "" }) 
                 @await Html.PartialAsync("_LoginPartial")
             </div>

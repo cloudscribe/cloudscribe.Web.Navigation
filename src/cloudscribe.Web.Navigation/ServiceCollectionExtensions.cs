@@ -33,7 +33,10 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddDistributedMemoryCache();
 
             services.TryAddScoped<ITreeCache, DistributedTreeCache>();
-            
+            services.TryAddScoped<IDOMTreeCache, DOMTreeCache>();
+            services.AddScoped<NavViewRenderer>();
+
+
             services.TryAddScoped<INavigationTreeBuilder, XmlNavigationTreeBuilder>();
             services.TryAddScoped<NavigationTreeBuilderService, NavigationTreeBuilderService>();
             services.TryAddScoped<INodeUrlPrefixProvider, DefaultNodeUrlPrefixProvider>();
