@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <UserSecretsId>aspnet-RazorPages.WebApp-0BEB55BD-36A5-4CAC-A1C9-81104294AB20</UserSecretsId>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
 
