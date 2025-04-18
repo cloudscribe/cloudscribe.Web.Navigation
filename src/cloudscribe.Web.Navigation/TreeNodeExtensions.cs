@@ -32,7 +32,7 @@ namespace cloudscribe.Web.Navigation
 
                 if (!string.IsNullOrEmpty(n.Value.Url))
                 {
-                    if (n.Value.Url.Equals(urlToMatch, StringComparison.OrdinalIgnoreCase))
+                    if (n.Value.Url.Equals(urlToMatch.TrimEnd('/'), StringComparison.OrdinalIgnoreCase))
                     { return true; }
                 }
 
