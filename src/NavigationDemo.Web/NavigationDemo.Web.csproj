@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="cloudscribe.Web.Localization" Version="8.1.0" />
+    <PackageReference Include="cloudscribe.Web.Localization" Version="8.2.0" />
   </ItemGroup>
 
   <ItemGroup>
