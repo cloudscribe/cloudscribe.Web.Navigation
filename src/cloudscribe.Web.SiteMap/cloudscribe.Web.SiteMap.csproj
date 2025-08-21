@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Description>ASP.NET Core controller and models for generating an xml sitemap for search indexes http://www.sitemaps.org</Description>
-    <Version>8.3.0</Version>
+    <Version>8.4.0</Version>
     <TargetFramework>net8.0</TargetFramework>
 
     <Authors>Joe Audette</Authors>
@@ -15,7 +15,12 @@
     <RepositoryUrl>https://github.com/cloudscribe/cloudscribe.Web.Navigation.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Include="icon.png" Pack="true" PackagePath="\" />
