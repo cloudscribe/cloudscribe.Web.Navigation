@@ -9,5 +9,6 @@ namespace cloudscribe.Web.Navigation
     public static class Constants
     {
         public static readonly string TailCrumbsContexctKey = "navigationtailcrumbs";
+        public static readonly string NavigationSuppressContextKey = "navigation-suppress";
     }
 }

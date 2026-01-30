@@ -47,6 +47,11 @@ namespace cloudscribe.Web.Navigation
 
         public async Task<IViewComponentResult> InvokeAsync(string viewName, string filterName, string startingNodeKey)
         {
+            if (NavigationSuppressor.IsFilterSuppressed(Request.HttpContext, filterName))
+            {
+                return Content(string.Empty);
+            }
+
             var rootNode = await _builder.GetTree();
             var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccesor.ActionContext);
             NavigationViewModel model = new NavigationViewModel(
