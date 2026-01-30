@@ -64,12 +64,17 @@ namespace cloudscribe.Web.Navigation
         // In a simplecontent system I'd probably need to use the IHandlePageCreated (etc) 
         // hooks to clear a navcache of known name.
 
-        public async Task<IViewComponentResult> InvokeAsync(string viewName, 
-                                                            string filterName, 
-                                                            string startingNodeKey, 
+        public async Task<IViewComponentResult> InvokeAsync(string viewName,
+                                                            string filterName,
+                                                            string startingNodeKey,
                                                             int    expirationSeconds = 60,
                                                             bool   testMode = false)
         {
+            if (NavigationSuppressor.IsFilterSuppressed(Request.HttpContext, filterName))
+            {
+                return Content(string.Empty);
+            }
+
             NavigationViewModel model = null;
 
             string cacheKey = $"{viewName}_{filterName}_{startingNodeKey}";
