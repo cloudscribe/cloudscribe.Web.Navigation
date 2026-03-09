@@ -60,11 +60,7 @@ namespace NavigationDemo.Web
             services.AddMvc()
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                 .AddDataAnnotationsLocalization()
-                .AddRazorOptions(options =>
-            {
-
-            })
-            .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+                .AddRazorOptions(options => {})
             ;
 
             services.AddControllersWithViews();

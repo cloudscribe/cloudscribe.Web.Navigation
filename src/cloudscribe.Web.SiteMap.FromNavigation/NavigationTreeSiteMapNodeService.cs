@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Threading;
@@ -32,13 +33,11 @@ namespace cloudscribe.Web.SiteMap
             NavigationTreeBuilderService siteMapTreeBuilder,
             IEnumerable<INavigationNodePermissionResolver> permissionResolvers,
             IUrlHelperFactory urlHelperFactory,
-            IActionContextAccessor actionContextAccesor,
             IHttpContextAccessor contextAccessor,
             ILogger<NavigationTreeSiteMapNodeService> logger)
         {
             this.siteMapTreeBuilder = siteMapTreeBuilder;
             this.urlHelperFactory = urlHelperFactory;
-            this.actionContextAccesor = actionContextAccesor;
             this.contextAccessor = contextAccessor;
             this.permissionResolvers = permissionResolvers;
             log = logger;
@@ -46,7 +45,6 @@ namespace cloudscribe.Web.SiteMap
 
         private NavigationTreeBuilderService siteMapTreeBuilder;
         private IUrlHelperFactory urlHelperFactory;
-        private IActionContextAccessor actionContextAccesor;
         private ILogger log;
         private IHttpContextAccessor contextAccessor;
         private string baseUrl = string.Empty;
@@ -86,7 +84,8 @@ namespace cloudscribe.Web.SiteMap
         {
             var rootNode = await siteMapTreeBuilder.GetTree();
             var mapNodes = new List<SiteMapNode>();
-            var urlHelper = urlHelperFactory.GetUrlHelper(actionContextAccesor.ActionContext);
+            var actionContext = new ActionContext(contextAccessor.HttpContext, contextAccessor.HttpContext.GetRouteData(), new Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor());
+            var urlHelper = urlHelperFactory.GetUrlHelper(actionContext);
             foreach (var navNode in rootNode.Flatten())
             {
                 if (navNode.ExcludeFromSearchSiteMap) continue;
